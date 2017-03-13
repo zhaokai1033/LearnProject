@@ -1,4 +1,4 @@
-package com.zk.sample;
+package com.zk.sample.app;
 
 import com.zk.baselibrary.app.BaseApplication;
 import com.zk.baselibrary.skin.SkinConfig;

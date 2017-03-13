@@ -1,7 +1,6 @@
-package com.zk.sample;
+package com.zk.sample.data;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * ================================================

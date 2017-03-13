@@ -1,4 +1,4 @@
-package com.zk.sample;
+package com.zk.sample.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +12,9 @@ import com.zk.baselibrary.skin.loader.SkinManager;
 import com.zk.baselibrary.util.FileUtil;
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.ToastUtil;
+import com.zk.sample.R;
+import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.FragmentThemeBinding;
 
 import java.io.File;

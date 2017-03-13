@@ -1,4 +1,4 @@
-package com.zk.sample;
+package com.zk.sample.data;
 
 /**
  * ================================================

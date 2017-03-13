@@ -1,4 +1,4 @@
-package com.zk.sample;
+package com.zk.sample.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zk.baselibrary.app.BaseFra;
+import com.zk.sample.R;
+import com.zk.sample.ui.base.BaseActivity;
 import com.zk.sample.databinding.ActivityMainBinding;
 
 import java.util.HashMap;

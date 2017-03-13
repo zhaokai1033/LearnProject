@@ -1,8 +1,11 @@
-package com.zk.sample;
+package com.zk.sample.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+
+import com.zk.sample.R;
+import com.zk.sample.ui.base.BaseFragment;
 
 /**
  * ================================================

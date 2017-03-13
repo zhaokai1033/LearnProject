@@ -1,4 +1,4 @@
-package com.zk.sample;
+package com.zk.sample.ui.base;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -23,6 +23,7 @@ public abstract class BaseActivity<VDB extends ViewDataBinding> extends SkinBase
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, getLayoutResId());
     }
 }
