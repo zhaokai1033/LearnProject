@@ -6,7 +6,7 @@
     <data>
         <variable
             name="act"
-            type="com.zk.sample.MainActivity" />
+            type="com.zk.sample.ui.MainActivity" />
     </data>
 
     <FrameLayout

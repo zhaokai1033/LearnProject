@@ -73,7 +73,7 @@ public class UIController {
         }
         LogUtil.e(TAG, fragment.getClass().getSimpleName());
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.replace(layoutRes, fragment, fragment.getClass().getSimpleName());
+        transaction.replace(layoutRes, fragment, fragment.getClass().getName());
         transaction.commitAllowingStateLoss();
     }
 
@@ -96,7 +96,7 @@ public class UIController {
         if (target.isAdded()) {
             ta.show(target);
         } else {
-            ta.add(layoutRes, target);
+            ta.add(layoutRes, target, target.getClass().getName());
         }
 
         if (canBack) {

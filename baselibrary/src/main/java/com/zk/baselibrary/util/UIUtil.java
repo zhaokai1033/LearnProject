@@ -2,6 +2,8 @@ package com.zk.baselibrary.util;
 
 import android.content.Context;
 
+import com.zk.baselibrary.app.BaseFra;
+
 /**
  * ================================================
  * <p>
@@ -53,5 +55,29 @@ public class UIUtil {
 
     public static int sp2px(Context context, float spValue) {
         return (int) (spValue * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
+    }
+
+    /**
+     * 根据Class创建实例
+     *
+     * @param clazz the Fragment of create
+     * @return 实例
+     */
+    public static <T> T createInstance(Class<T> clazz) {
+        T Instance = null;
+        String className = clazz.getName();
+        try {
+            try {
+                Instance = (T) Class.forName(className).newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return Instance;
     }
 }

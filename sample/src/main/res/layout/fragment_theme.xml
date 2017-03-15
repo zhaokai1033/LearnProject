@@ -6,15 +6,15 @@
 
         <variable
             name="skin1"
-            type="com.zk.sample.SkinBean" />
+            type="com.zk.sample.data.SkinBean" />
 
         <variable
             name="skin2"
-            type="com.zk.sample.SkinBean" />
+            type="com.zk.sample.data.SkinBean" />
 
         <variable
             name="skin3"
-            type="com.zk.sample.SkinBean" />
+            type="com.zk.sample.data.SkinBean" />
     </data>
 
     <LinearLayout

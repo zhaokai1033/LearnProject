@@ -95,9 +95,10 @@ public abstract class BaseAct extends AppCompatActivity {
 //        if (current == null) {
 //            UIController.replaceFragment(this, layoutRes, target);
 //        } else {
-            UIController.changeFragment(this, current, target, layoutRes,canBack);
-            target.refresh();
+        UIController.changeFragment(this, current, target, layoutRes, canBack);
 //        }
+        if (isNeedRefresh)
+            target.refresh();
         return target;
     }
 

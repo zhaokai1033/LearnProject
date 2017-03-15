@@ -10,16 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zk.baselibrary.app.BaseFra;
+import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
-import com.zk.sample.ui.base.BaseActivity;
 import com.zk.sample.databinding.ActivityMainBinding;
-
-import java.util.HashMap;
+import com.zk.sample.ui.base.BaseActivity;
+import com.zk.sample.ui.base.BaseFragment;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String CURRENT_PAGE = "CURRENT_FRAGMENT";
     private BaseFra mCurrentFragment;
-    private HashMap<String, BaseFra> fragments = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         binding.navigationView.setNavigationItemSelectedListener(this);
         binding.navigationView.getMenu().getItem(0).setChecked(true);
-        replaceFragment(HomeFragment.newInstance(), R.id.frame_content, false);
+
+        switchFragment(null);
     }
 
     @Override
@@ -82,25 +83,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        BaseFra baseFragment = null;
+        Class clazz = null;
         if (id == R.id.nav_home) {
-            if (fragments.containsKey(HomeFragment.class.getSimpleName())) {
-                baseFragment = fragments.get(HomeFragment.class.getSimpleName());
-            } else {
-                baseFragment = HomeFragment.newInstance();
-            }
+            clazz = HomeFragment.class;
         } else if (id == R.id.nav_theme) {
-            if (fragments.containsKey(ThemeFragment.class.getSimpleName())) {
-                baseFragment = fragments.get(ThemeFragment.class.getSimpleName());
-            } else {
-                baseFragment = ThemeFragment.newInstance();
-            }
+            clazz = ThemeFragment.class;
         } else if (id == R.id.nav_me) {
-            if (fragments.containsKey(WebFragment.class.getSimpleName())) {
-                baseFragment = fragments.get(WebFragment.class.getSimpleName());
-            } else {
-                baseFragment = WebFragment.newInstance("https://github.com/zhaokai1033");
-            }
+            clazz = WebFragment.class;
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -109,13 +98,43 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         }
 
-        if(baseFragment!=null) {
-            fragments.put(baseFragment.getClass().getSimpleName(), baseFragment);
-            mCurrentFragment = changeFragment(mCurrentFragment, baseFragment, R.id.frame_content, false, false);
-        }
+        switchFragment(clazz);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    /**
+     * 切换选项
+     *
+     * @param clazz 指定页面的类文件
+     */
+    private void switchFragment(Class clazz) {
+        BaseFra baseFragment;
+        //默认为首页
+        if (clazz == null) {
+            clazz = HomeFragment.class;
+        }
+        //不重复切换
+        if (mCurrentFragment != null && clazz.equals(mCurrentFragment.getClass())) {
+            return;
+        }
+        baseFragment = ((BaseFragment) getSupportFragmentManager().findFragmentByTag(clazz.getName()));
+        if (baseFragment == null) {
+            baseFragment = ((BaseFragment) UIUtil.createInstance(clazz));
+        }
+        mCurrentFragment = changeFragment(mCurrentFragment, baseFragment, R.id.frame_content, false, false);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(CURRENT_PAGE, mCurrentFragment.getClass());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        switchFragment(((Class) savedInstanceState.getSerializable(CURRENT_PAGE)));
+    }
 }

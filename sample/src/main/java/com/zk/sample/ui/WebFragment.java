@@ -47,7 +47,7 @@ public class WebFragment extends BaseFragment<FragmentWebBinding> {
             url = getArguments().getString(URL);
         }
         if (TextUtils.isEmpty(url)) {
-            url = "https://www.baidu.com";
+            url = "https://github.com/zhaokai1033";
         }
         initImp(binding.web);
         binding.web.loadUrl(url);
