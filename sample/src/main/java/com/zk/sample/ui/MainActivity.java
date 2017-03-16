@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zk.baselibrary.app.BaseFra;
+import com.zk.baselibrary.util.NetUtil;
+import com.zk.baselibrary.util.SystemUtil;
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
 import com.zk.sample.databinding.ActivityMainBinding;
@@ -18,6 +20,7 @@ import com.zk.sample.ui.base.BaseFragment;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
     private static final String CURRENT_PAGE = "CURRENT_FRAGMENT";
     private BaseFra mCurrentFragment;
 
@@ -93,9 +96,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            SystemUtil.shareText(this, "https://github.com/zhaokai1033");
         } else if (id == R.id.nav_send) {
-
+//            LogUtil.d(TAG, NetUtil.getWifiAddress(this));
+            NetUtil.showNetSetDialog(this);
         }
 
         switchFragment(clazz);

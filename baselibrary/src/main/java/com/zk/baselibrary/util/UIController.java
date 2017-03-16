@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.zk.baselibrary.app.BaseFra;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
@@ -22,44 +20,7 @@ public class UIController {
 
     private static final String TAG = "UIController";
 
-    private static WeakHashMap<String, BaseFra> fragmentList = new WeakHashMap<>();
-
-    /**
-     * 根据Class创建Fragment
-     *
-     * @param clazz    the Fragment of create
-     * @param isObtain 是否加入缓存
-     * @return 创建的Fragment
-     */
-    @SuppressWarnings("TryWithIdenticalCatches")
-    public static BaseFra createFragment(Class<?> clazz, boolean isObtain) {
-        BaseFra resultFragment = null;
-        String className = clazz.getName();
-        if (fragmentList.containsKey(className)) {
-            resultFragment = fragmentList.get(className);
-        }
-        if (resultFragment == null) {
-            try {
-                try {
-                    resultFragment = (BaseFra) Class.forName(className).newInstance();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            if (isObtain)
-                fragmentList.put(className, resultFragment);
-        }
-
-        return resultFragment;
-    }
-
-    public static BaseFra createFragment(Class<?> clazz) {
-        return createFragment(clazz, true);
-    }
+//    private static WeakHashMap<String, BaseFra> fragmentList = new WeakHashMap<>();
 
     /**
      * 替换Fragment
