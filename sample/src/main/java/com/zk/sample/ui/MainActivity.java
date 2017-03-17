@@ -10,10 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zk.baselibrary.app.BaseFra;
+import com.zk.baselibrary.util.GsonUtil;
+import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.NetUtil;
 import com.zk.baselibrary.util.SystemUtil;
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
+import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.ActivityMainBinding;
 import com.zk.sample.ui.base.BaseActivity;
 import com.zk.sample.ui.base.BaseFragment;
@@ -99,7 +102,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             SystemUtil.shareText(this, "https://github.com/zhaokai1033");
         } else if (id == R.id.nav_send) {
 //            LogUtil.d(TAG, NetUtil.getWifiAddress(this));
-            NetUtil.showNetSetDialog(this);
+//            NetUtil.showNetSetDialog(this);
+            LogUtil.d(TAG, GsonUtil.toJson(DataManager.getSkin("black")));
         }
 
         switchFragment(clazz);

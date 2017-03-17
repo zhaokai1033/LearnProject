@@ -28,7 +28,7 @@ public class LogUtil {
     /**
      * 默认的文库日志Tag标签
      */
-    private static final String DEFAULT_TAG = "LogUtil";
+    private static final String DEFAULT_TAG = "_";
 
     //是否开启日志
     private static boolean mIsDebugOpen = true;
