@@ -4,6 +4,10 @@ import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -162,6 +166,30 @@ public class LogUtil {
 
         if (mIsNeedPrint) {
             print(4, tag, msg);
+        }
+    }
+
+    public static void json(String json) {
+        if (TextUtils.isEmpty(json)) {
+            return;
+        }
+        try {
+            json = json.trim();
+            if (json.startsWith("{")) {
+                JSONObject jsonObject = new JSONObject(json);
+                String message = jsonObject.toString(2);
+                d(DEFAULT_TAG, message);
+                return;
+            }
+            if (json.startsWith("[")) {
+                JSONArray jsonArray = new JSONArray(json);
+                String message = jsonArray.toString(2);
+                d(DEFAULT_TAG, message);
+                return;
+            }
+            e(DEFAULT_TAG, "Invalid Json");
+        } catch (JSONException e) {
+            e(DEFAULT_TAG, "Invalid Json");
         }
     }
 

@@ -3,13 +3,11 @@ package com.zk.baselibrary.data;
 import android.util.Log;
 import android.util.LruCache;
 
-import com.zk.baselibrary.app.BaseApplication;
-import com.zk.baselibrary.util.FileUtil;
 import com.zk.baselibrary.util.LogUtil;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.HashMap;
+
 
 /**
  * Created by zhaokai on 2016-06-06
@@ -17,27 +15,26 @@ import java.util.HashMap;
  * <p/>
  * 数据储存
  * 用于页面跳转大数据 或者复杂数据的 转接
- * 用于缓存数据到本地
  * 用于存储程序运行时常用数据
  * <p/>
  * 存储
  * DataCache.setToCache("123",456);
- * BeanUser user = new BeanUser();
- * user.setName("haha");
+ * User user = new User();
+ * user.setName("ha");
  * DataCache.setToCache("ev",user);
  * <p/>
  * 获取
  * Integer i = DataCache.getFromCache(123+"",Integer.class);
- * BeanUser user = (DataCache.getFromCache("ev",BeanUser.class));
+ * User user = (DataCache.getFromCache("ev",User.class));
  */
-@SuppressWarnings({"unused", "unchecked", "ResultOfMethodCallIgnored"})
+@SuppressWarnings({"unused", "unchecked", "ResultOfMethodCallIgnored", "WeakerAccess"})
 public class DataCache {
 
     /**
      * App 运行长久缓存
      */
     private static HashMap<String, Object> cacheLong = new HashMap<>();
-    private File cacheFile;
+//    private File cacheFile;
 
 
     /**
@@ -47,10 +44,6 @@ public class DataCache {
 
     private DataCache() {
         cache = new LruCache<>(50);
-        cacheFile = FileUtil.getRootDir(BaseApplication.getInstance());
-        if (!cacheFile.exists()) {
-            cacheFile.mkdirs();
-        }
     }
 
     private static DataCache dataCache;
@@ -59,9 +52,6 @@ public class DataCache {
         if (dataCache == null) {
             dataCache = new DataCache();
         }
-//        if(cacheLong == null){
-//            cacheLong = new HashMap<>();
-//        }
         return dataCache;
     }
 
@@ -203,20 +193,20 @@ public class DataCache {
         return null;
     }
 
-
-    /**
-     * 保存JSON 到本地
-     *
-     * @param key  文件索引
-     * @param json JSON数据
-     */
-    public static void saveToLocal(String key, String json) {
-        try {
-            getInstance().saveToLocalImp(key, json, dataCache.cacheFile);
-        } catch (Exception e) {
-            LogUtil.e("Data", "写数据报错：" + e.getMessage());
-        }
-    }
+//
+//    /**
+//     * 保存JSON 到本地
+//     *
+//     * @param key  文件索引
+//     * @param json JSON数据
+//     */
+//    public static void saveToLocal(String key, String json) {
+//        try {
+//            getInstance().saveToLocalImp(key, json, dataCache.cacheFile);
+//        } catch (Exception e) {
+//            LogUtil.e("Data", "写数据报错：" + e.getMessage());
+//        }
+//    }
 
     /**
      * 保存JSON 到本地
@@ -247,81 +237,6 @@ public class DataCache {
             LogUtil.e("ACache 创建报错", " error" + e.getLocalizedMessage());
         }
         return aCache;
-    }
-
-    /**
-     * 从本地获取缓存数据
-     *
-     * @param key       文件索引
-     * @param cacheFile 缓存目录
-     * @return 缓存数据
-     */
-    public static String getFromLocal(String key, File cacheFile) {
-        return getInstance().getFromLocalImp(key, cacheFile);
-    }
-
-    /**
-     * 从本地获取缓存数据
-     *
-     * @param key 文件索引
-     * @return 缓存数据
-     */
-    public static String getFromLocal(String key) {
-        return getInstance().getFromLocalImp(key, dataCache.cacheFile);
-    }
-
-    private String getFromLocalImp(String key, File cacheFile) {
-        ACache aCache = getACache(cacheFile);
-        if (aCache == null) {
-            return "";
-        }
-        return aCache.getAsString(key);
-    }
-
-
-    /**
-     * 缓存其他类型的数据到本地
-     *
-     * @param key   索引
-     * @param value 继承自Serializabe的module
-     */
-    public static <V extends Serializable> void saveToLocal(String key, V value) {
-        getInstance().saveToLocalImp(key, value);
-    }
-
-    private <V extends Serializable> void saveToLocalImp(String key, V value) {
-        ACache aCache = getACache(cacheFile);
-        if (aCache == null) {
-            return;
-        }
-        aCache.put(key, value);
-    }
-
-    /**
-     * 缓存其他类型的数据到本地
-     *
-     * @param key 索引
-     */
-    public static <T extends Serializable> T getFromLocal(String key, Class<T> clazz) {
-        return getInstance().getFromLocalImp(key, clazz);
-    }
-
-    private <T extends Serializable> T getFromLocalImp(String key, Class<T> clazz) {
-        ACache aCache = getACache(cacheFile);
-        if (aCache == null) {
-            return null;
-        }
-        Object obj;
-        obj = aCache.getAsObject(key);
-        Log.e("DataCache", "clazz = " + clazz.getSimpleName());
-        if (obj != null && clazz.getSimpleName().equals(obj.getClass().getSimpleName())) {
-            try {
-                return ((T) obj);
-            } catch (Exception e) {
-                Log.e("DataCache", "Exception = " + e.toString());
-            }
-        }
-        return null;
     }
 
 

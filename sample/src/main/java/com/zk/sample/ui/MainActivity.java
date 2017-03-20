@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zk.baselibrary.app.BaseFra;
+import com.zk.baselibrary.util.ClassUtil;
 import com.zk.baselibrary.util.GsonUtil;
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.NetUtil;
@@ -129,7 +130,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         }
         baseFragment = ((BaseFragment) getSupportFragmentManager().findFragmentByTag(clazz.getName()));
         if (baseFragment == null) {
-            baseFragment = ((BaseFragment) UIUtil.createInstance(clazz));
+            baseFragment = ((BaseFragment) ClassUtil.createInstance(clazz));
         }
         mCurrentFragment = changeFragment(mCurrentFragment, baseFragment, R.id.frame_content, false, false);
     }

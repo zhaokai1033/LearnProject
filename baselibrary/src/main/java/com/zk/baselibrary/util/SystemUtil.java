@@ -1,6 +1,7 @@
 package com.zk.baselibrary.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -13,6 +14,8 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -207,4 +210,5 @@ public class SystemUtil {
         Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
         vib.vibrate(pattern, isRepeat ? 1 : -1);
     }
+
 }
