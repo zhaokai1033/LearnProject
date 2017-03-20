@@ -1,9 +1,6 @@
 package com.zk.baselibrary.util.http;
 
-import java.io.IOException;
-
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
@@ -14,7 +11,7 @@ import okhttp3.Response;
  * ================================================
  */
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public interface HttpCallBack<T> {
 
     void code(int code);
