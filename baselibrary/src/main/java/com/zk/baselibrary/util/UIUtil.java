@@ -1,8 +1,7 @@
 package com.zk.baselibrary.util;
 
 import android.content.Context;
-
-import com.zk.baselibrary.app.BaseFra;
+import android.util.DisplayMetrics;
 
 /**
  * ================================================
@@ -35,6 +34,29 @@ public class UIUtil {
         return result;
     }
 
+
+    /**
+     * 获取屏幕的宽度
+     *
+     * @param context context
+     * @return width of screen
+     */
+    public static int getScreenWidth(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return displayMetrics.widthPixels;
+    }
+
+    /**
+     * 获取屏幕的高度
+     *
+     * @param context context
+     * @return height of screen
+     */
+    public static int getScreenHeight(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return displayMetrics.heightPixels;
+    }
+
     /**
      * 像素转化
      */
@@ -63,6 +85,7 @@ public class UIUtil {
      * @param clazz the Fragment of create
      * @return 实例
      */
+    @SuppressWarnings("TryWithIdenticalCatches")
     public static <T> T createInstance(Class<T> clazz) {
         T Instance = null;
         String className = clazz.getName();

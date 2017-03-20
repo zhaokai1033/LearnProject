@@ -1,13 +1,19 @@
 package com.zk.baselibrary.util;
 
+import android.annotation.SuppressLint;
+import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -19,10 +25,11 @@ import java.util.ArrayList;
  * ================================================
  */
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class SystemUtil {
 
     /**
-     * 系统自带的蚊子分享
+     * 系统自带的文字分享
      *
      * @param ctx  上下文
      * @param text 文本
@@ -93,7 +100,10 @@ public class SystemUtil {
 
     /**
      * 获取设备号
+     * Requires Permission:
+     * {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
      */
+    @SuppressLint("HardwareIds")
     public static String getDeviceIMEI(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager == null || TextUtils.isEmpty(telephonyManager.getDeviceId())) {
@@ -116,5 +126,85 @@ public class SystemUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    /**
+     * 获取剪切板的内容
+     */
+    public static CharSequence getText(Context context) {
+        ClipboardManager cmb = (ClipboardManager) context.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+
+        StringBuilder sb = new StringBuilder();
+        if (!cmb.hasPrimaryClip()) {
+            return sb.toString();
+        } else {
+            ClipData clipData = cmb.getPrimaryClip();
+            int count = clipData.getItemCount();
+
+            for (int i = 0; i < count; ++i) {
+
+                ClipData.Item item = clipData.getItemAt(i);
+                CharSequence str = item.coerceToText(context);
+                sb.append(str);
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * 为剪切板设置内容
+     *
+     * @param text 文本框
+     */
+    public static void copyText(TextView text) {
+        copyText(text.getContext(), text.getText().toString().trim(), null);
+    }
+
+    /**
+     * 为剪切板设置内容
+     *
+     * @param text  文本
+     * @param label 数据标签
+     */
+    public static void copyText(Context context, String text, String label) {
+        ClipboardManager cmb = (ClipboardManager) context.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        cmb.setPrimaryClip(ClipData.newPlainText(label, text));
+
+        ClipData clipData = cmb.getPrimaryClip();
+        int count = clipData.getItemCount();
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < count; ++i) {
+            ClipData.Item item = clipData.getItemAt(i);
+            CharSequence str = item.coerceToText(context.getApplicationContext());
+            builder.append(str);
+        }
+        LogUtil.e("UIUtil", builder.toString());
+    }
+
+    /**
+     * 调用震动器
+     *
+     * @param context      调用该方法的Context
+     * @param milliseconds 震动的时长，单位是毫秒
+     */
+    public static void vibrate(final Context context, long milliseconds) {
+        Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
+        vib.vibrate(milliseconds);
+    }
+
+    /**
+     * 调用震动器
+     *
+     * @param context  调用该方法的Context
+     * @param pattern  自定义震动模式 。数组中数字的含义依次是[静止时长，震动时长，静止时长，震动时长。。。]时长的单位是毫秒
+     * @param isRepeat 是否反复震动，如果是true，反复震动，如果是false，只震动一次
+     */
+    public static void vibrate(final Context context, long[] pattern, boolean isRepeat) {
+        Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
+        vib.vibrate(pattern, isRepeat ? 1 : -1);
     }
 }
