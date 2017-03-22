@@ -1,4 +1,4 @@
-package com.zk.sample.ui.base;
+package com.zk.sample.base;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.skin.SkinBaseActivity;
-import com.zk.sample.ui.dialog.LoginDialogFragment;
+import com.zk.sample.base.dialog.LoginDialogFragment;
 
 /**
  * ================================================

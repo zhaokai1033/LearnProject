@@ -1,9 +1,9 @@
-package com.zk.sample.ui.module.cardView;
+package com.zk.sample.module.cardView;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 
-import com.zk.sample.ui.module.cardView.adpater.CardAdapter;
+import com.zk.sample.module.cardView.adpater.CardAdapter;
 
 /**
  * ================================================

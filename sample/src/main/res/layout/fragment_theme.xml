@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:skin="http://schemas.android.com/android/skin">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
             name="skin1"
-            type="com.zk.sample.data.SkinBean" />
+            type="com.zk.sample.module.theme.model.SkinBean" />
 
         <variable
             name="skin2"
-            type="com.zk.sample.data.SkinBean" />
+            type="com.zk.sample.module.theme.model.SkinBean" />
 
         <variable
             name="skin3"
-            type="com.zk.sample.data.SkinBean" />
+            type="com.zk.sample.module.theme.model.SkinBean" />
     </data>
 
     <LinearLayout
@@ -22,8 +21,7 @@
         android:layout_height="match_parent"
         android:background="@color/windowBackground"
         android:orientation="horizontal"
-        android:padding="10dp"
-        skin:enabe="true">
+        android:padding="10dp">
 
         <LinearLayout
             android:id="@+id/ll_blue"

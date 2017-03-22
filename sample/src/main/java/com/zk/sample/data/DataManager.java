@@ -1,7 +1,8 @@
 package com.zk.sample.data;
 
 import com.zk.sample.R;
-import com.zk.sample.ui.module.cardView.model.CardItem;
+import com.zk.sample.module.cardView.model.CardItem;
+import com.zk.sample.module.theme.model.SkinBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.zk.sample.ui.module.cardView.view;
+package com.zk.sample.module.cardView.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zk.sample.R;
-import com.zk.sample.ui.module.cardView.adpater.CardAdapter;
+import com.zk.sample.module.cardView.adpater.CardAdapter;
 
 
 public class CardFragment extends Fragment {

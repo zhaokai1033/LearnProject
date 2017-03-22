@@ -1,4 +1,4 @@
-package com.zk.sample.ui.module.cardView.viewModel;
+package com.zk.sample.module.cardView.viewModel;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,10 +8,11 @@ import android.widget.CompoundButton;
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.FragmentCardDemoBinding;
-import com.zk.sample.ui.module.cardView.adpater.CardFragmentAdapter;
-import com.zk.sample.ui.module.cardView.CardPageChangeListener;
-import com.zk.sample.ui.module.cardView.adpater.CardViewAdapter;
-import com.zk.sample.ui.module.cardView.view.DemoCardFragment;
+import com.zk.sample.module.ViewHolderRefreshListener;
+import com.zk.sample.module.cardView.adpater.CardFragmentAdapter;
+import com.zk.sample.module.cardView.CardPageChangeListener;
+import com.zk.sample.module.cardView.adpater.CardViewAdapter;
+import com.zk.sample.module.cardView.view.DemoCardFragment;
 
 /**
  * ================================================

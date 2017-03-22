@@ -7,7 +7,7 @@
 
         <variable
             name="act"
-            type="com.zk.sample.ui.activity.CustomActivity" />
+            type="com.zk.sample.base.activity.CustomActivity" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

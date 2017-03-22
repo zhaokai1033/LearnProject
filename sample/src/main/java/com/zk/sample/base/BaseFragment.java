@@ -1,4 +1,4 @@
-package com.zk.sample.ui.base;
+package com.zk.sample.base;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;

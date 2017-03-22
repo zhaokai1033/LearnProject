@@ -1,4 +1,4 @@
-package com.zk.sample.ui.fragment;
+package com.zk.sample.base.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import com.zk.baselibrary.util.FileUtil;
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.R;
-import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.base.BaseFragment;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.FragmentThemeBinding;
 

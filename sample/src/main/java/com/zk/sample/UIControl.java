@@ -9,9 +9,9 @@ import android.util.Log;
 import com.zk.baselibrary.data.DataCache;
 import com.zk.baselibrary.util.FragmentController;
 import com.zk.sample.app.SampleApplication;
-import com.zk.sample.ui.activity.CustomActivity;
-import com.zk.sample.ui.base.BaseActivity;
-import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.base.activity.CustomActivity;
+import com.zk.sample.base.BaseActivity;
+import com.zk.sample.base.BaseFragment;
 
 /**
  * ================================================

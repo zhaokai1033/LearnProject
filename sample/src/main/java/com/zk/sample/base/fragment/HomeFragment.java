@@ -1,4 +1,4 @@
-package com.zk.sample.ui.fragment;
+package com.zk.sample.base.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,9 +7,9 @@ import android.view.View;
 import com.zk.sample.R;
 import com.zk.sample.UIControl;
 import com.zk.sample.databinding.FragmentHomeBinding;
-import com.zk.sample.ui.base.BaseActivity;
-import com.zk.sample.ui.base.BaseFragment;
-import com.zk.sample.ui.module.cardView.view.DemoCardFragment;
+import com.zk.sample.base.BaseActivity;
+import com.zk.sample.base.BaseFragment;
+import com.zk.sample.module.cardView.view.DemoCardFragment;
 
 /**
  * ================================================

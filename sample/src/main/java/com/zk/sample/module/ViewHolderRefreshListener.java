@@ -1,4 +1,4 @@
-package com.zk.sample.ui.module.cardView.viewModel;
+package com.zk.sample.module;
 
 import android.view.View;
 

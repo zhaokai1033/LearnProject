@@ -1,4 +1,4 @@
-package com.zk.sample.ui.activity;
+package com.zk.sample.base.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,11 +17,11 @@ import com.zk.baselibrary.util.SystemUtil;
 import com.zk.sample.R;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.ActivityMainBinding;
-import com.zk.sample.ui.fragment.HomeFragment;
-import com.zk.sample.ui.fragment.ThemeFragment;
-import com.zk.sample.ui.fragment.WebFragment;
-import com.zk.sample.ui.base.BaseActivity;
-import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.base.fragment.HomeFragment;
+import com.zk.sample.base.fragment.ThemeFragment;
+import com.zk.sample.base.fragment.WebFragment;
+import com.zk.sample.base.BaseActivity;
+import com.zk.sample.base.BaseFragment;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
 

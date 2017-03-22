@@ -1,4 +1,4 @@
-package com.zk.sample.ui.fragment;
+package com.zk.sample.base.fragment;
 
 import android.content.Context;
 import android.os.Build;
@@ -11,7 +11,7 @@ import android.webkit.WebView;
 
 import com.zk.sample.BuildConfig;
 import com.zk.sample.R;
-import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.base.BaseFragment;
 import com.zk.sample.databinding.FragmentWebBinding;
 
 /**

@@ -6,7 +6,7 @@
 
         <variable
             name="card"
-            type="com.zk.sample.ui.module.cardView.model.CardItem" />
+            type="com.zk.sample.module.cardView.model.CardItem" />
     </data>
 
     <android.support.v7.widget.CardView

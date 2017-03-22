@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.zk.sample.ui.module.cardView.view.DemoCardFragment.HolderFace" />
+            type="com.zk.sample.module.cardView.view.DemoCardFragment.HolderFace" />
 
         <variable
             name="card"
-            type="com.zk.sample.ui.module.cardView.view.DemoCardFragment" />
+            type="com.zk.sample.module.cardView.view.DemoCardFragment" />
     </data>
 
     <LinearLayout

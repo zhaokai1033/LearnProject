@@ -1,4 +1,4 @@
-package com.zk.sample.ui.module.cardView.adpater;
+package com.zk.sample.module.cardView.adpater;
 
 import android.support.v7.widget.CardView;
 

@@ -1,4 +1,4 @@
-package com.zk.sample.ui.module.cardView.adpater;
+package com.zk.sample.module.cardView.adpater;
 
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.PagerAdapter;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.zk.sample.R;
 import com.zk.sample.databinding.ViewCardBinding;
-import com.zk.sample.ui.module.cardView.model.CardItem;
+import com.zk.sample.module.cardView.model.CardItem;
 
 import java.util.ArrayList;
 import java.util.List;

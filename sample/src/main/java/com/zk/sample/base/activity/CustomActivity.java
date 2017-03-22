@@ -1,4 +1,4 @@
-package com.zk.sample.ui.activity;
+package com.zk.sample.base.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import com.zk.sample.R;
 import com.zk.sample.UIControl;
 import com.zk.sample.app.SampleApplication;
 import com.zk.sample.databinding.ActivityCustomBinding;
-import com.zk.sample.ui.base.BaseActivity;
-import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.base.BaseActivity;
+import com.zk.sample.base.BaseFragment;
 
 /**
  * ================================================
