@@ -4,15 +4,19 @@
     <data>
 
         <variable
-            name="skin1"
+            name="viewModel"
+            type="com.zk.sample.module.theme.view.ThemeFragment.DataBindingFace" />
+
+        <variable
+            name="skinBlue"
             type="com.zk.sample.module.theme.model.SkinBean" />
 
         <variable
-            name="skin2"
+            name="skinBlack"
             type="com.zk.sample.module.theme.model.SkinBean" />
 
         <variable
-            name="skin3"
+            name="skinBrown"
             type="com.zk.sample.module.theme.model.SkinBean" />
     </data>
 
@@ -28,6 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="@{viewModel.onClickListener}"
             android:orientation="vertical">
 
             <ImageView
@@ -39,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skin1.name}"
+                android:text="@{skinBlue.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -48,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="@{skinBlue.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -62,6 +67,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
+            android:onClick="@{viewModel.onClickListener}"
             android:orientation="vertical">
 
             <ImageView
@@ -73,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skin2.name}"
+                android:text="@{skinBrown.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -82,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="@{skinBrown.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -92,6 +98,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="@{viewModel.onClickListener}"
             android:orientation="vertical">
 
             <ImageView
@@ -103,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skin3.name}"
+                android:text="@{skinBlack.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -112,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="@{skinBlack.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>

@@ -1,5 +1,11 @@
 package com.zk.sample.module.theme.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.zk.sample.BR;
+
+
 /**
  * ================================================
  *
@@ -9,11 +15,32 @@ package com.zk.sample.module.theme.model;
  * ================================================
  */
 
-public class SkinBean {
+public class SkinBean extends BaseObservable {
 
     public String name;
 
+    @Bindable
+    public boolean current;
+
     public SkinBean(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Bindable
+    public boolean isCurrent() {
+        return current;
+    }
+
+    public void setCurrent(boolean current) {
+        this.current = current;
+        notifyPropertyChanged(BR.current);
     }
 }

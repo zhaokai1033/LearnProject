@@ -18,7 +18,7 @@ import com.zk.sample.R;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.ActivityMainBinding;
 import com.zk.sample.base.fragment.HomeFragment;
-import com.zk.sample.base.fragment.ThemeFragment;
+import com.zk.sample.module.theme.view.ThemeFragment;
 import com.zk.sample.base.fragment.WebFragment;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
