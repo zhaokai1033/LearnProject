@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.skin.SkinBaseActivity;
 import com.zk.sample.ui.dialog.LoginDialogFragment;
 
@@ -21,10 +22,6 @@ import com.zk.sample.ui.dialog.LoginDialogFragment;
 public abstract class BaseActivity<VDB extends ViewDataBinding> extends SkinBaseActivity implements LoginDialogFragment.LoginInputListener {
 
     protected VDB binding;
-
-    enum DIALOG {
-        DEMO
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,4 +40,16 @@ public abstract class BaseActivity<VDB extends ViewDataBinding> extends SkinBase
         LoginDialogFragment.newInstance(getSupportFragmentManager());
     }
 
+    /**
+     * 获取当前页可替换的FrameLayout 资源
+     */
+    @SuppressWarnings("unused")
+    public abstract int getFragmentContentId();
+
+    public BaseFra changeFragment(BaseFra current, BaseFra target, boolean isNeedRefresh, boolean canBack) {
+        if (getFragmentContentId() == 0) {
+            throw new IllegalArgumentException("FragmentContentId cannot be 0 ");
+        }
+        return changeFragment(current, target, getFragmentContentId(), isNeedRefresh, canBack);
+    }
 }

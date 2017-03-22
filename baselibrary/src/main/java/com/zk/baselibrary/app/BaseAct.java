@@ -9,8 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.zk.baselibrary.util.FragmentController;
 import com.zk.baselibrary.util.LogUtil;
-import com.zk.baselibrary.util.UIController;
 
 /**
  * ================================================
@@ -75,7 +75,7 @@ public abstract class BaseAct extends AppCompatActivity {
      */
     public void replaceFragment(BaseFra fragment, int layoutRes, boolean isNeedRefresh) {
         if (fragment == null) return;
-        UIController.replaceFragment(this, layoutRes, fragment);
+        FragmentController.replaceFragment(this, layoutRes, fragment);
         if (isNeedRefresh) {
             fragment.refresh();
         }
@@ -93,9 +93,9 @@ public abstract class BaseAct extends AppCompatActivity {
      */
     public BaseFra changeFragment(BaseFra current, BaseFra target, int layoutRes, boolean isNeedRefresh, boolean canBack) {
 //        if (current == null) {
-//            UIController.replaceFragment(this, layoutRes, target);
+//            FragmentController.replaceFragment(this, layoutRes, target);
 //        } else {
-        UIController.changeFragment(this, current, target, layoutRes, canBack);
+        FragmentController.changeFragment(this, current, target, layoutRes, canBack);
 //        }
         if (isNeedRefresh)
             target.refresh();

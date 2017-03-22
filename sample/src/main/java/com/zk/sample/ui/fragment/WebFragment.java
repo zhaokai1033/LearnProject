@@ -1,4 +1,4 @@
-package com.zk.sample.ui;
+package com.zk.sample.ui.fragment;
 
 import android.content.Context;
 import android.os.Build;

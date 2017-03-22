@@ -1,13 +1,15 @@
-package com.zk.sample.ui;
+package com.zk.sample.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.zk.sample.R;
+import com.zk.sample.UIControl;
 import com.zk.sample.databinding.FragmentHomeBinding;
 import com.zk.sample.ui.base.BaseActivity;
 import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.ui.module.cardView.view.DemoCardFragment;
 
 /**
  * ================================================
@@ -36,10 +38,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        binding.tvHome.setOnClickListener(new View.OnClickListener() {
+        binding.dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((BaseActivity) getActivity()).showDialog();
+            }
+        });
+        binding.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), DemoCardFragment.newInstance());
             }
         });
     }

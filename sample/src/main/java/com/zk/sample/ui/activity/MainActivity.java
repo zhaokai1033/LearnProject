@@ -1,4 +1,4 @@
-package com.zk.sample.ui;
+package com.zk.sample.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,12 +13,13 @@ import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.util.ClassUtil;
 import com.zk.baselibrary.util.GsonUtil;
 import com.zk.baselibrary.util.LogUtil;
-import com.zk.baselibrary.util.NetUtil;
 import com.zk.baselibrary.util.SystemUtil;
-import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.ActivityMainBinding;
+import com.zk.sample.ui.fragment.HomeFragment;
+import com.zk.sample.ui.fragment.ThemeFragment;
+import com.zk.sample.ui.fragment.WebFragment;
 import com.zk.sample.ui.base.BaseActivity;
 import com.zk.sample.ui.base.BaseFragment;
 
@@ -32,20 +33,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(binding.toolbar);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        binding.drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
         //添加要改变的控件属性
         dynamicAddView(binding.toolbar, "background", R.color.colorPrimary);
         dynamicAddView(binding.navigationView.getHeaderView(0), "background", R.color.colorPrimary);
         dynamicAddView(binding.navigationView, "navigationViewMenu", R.color.colorPrimary);
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         binding.navigationView.setNavigationItemSelectedListener(this);
         binding.navigationView.getMenu().getItem(0).setChecked(true);
 
         switchFragment(null);
+    }
+
+    @Override
+    public int getFragmentContentId() {
+        return R.id.frame_content;
     }
 
     @Override
@@ -132,7 +137,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         if (baseFragment == null) {
             baseFragment = ((BaseFragment) ClassUtil.createInstance(clazz));
         }
-        mCurrentFragment = changeFragment(mCurrentFragment, baseFragment, R.id.frame_content, false, false);
+        mCurrentFragment = changeFragment(mCurrentFragment, baseFragment,false, false);
     }
 
     @Override

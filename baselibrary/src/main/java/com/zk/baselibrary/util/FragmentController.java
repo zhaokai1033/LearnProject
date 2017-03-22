@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.zk.baselibrary.app.BaseFra;
 
-import java.util.WeakHashMap;
-
 /**
  * ================================================
  * Describe：
@@ -16,11 +14,9 @@ import java.util.WeakHashMap;
  */
 
 @SuppressWarnings({"unused"})
-public class UIController {
+public class FragmentController {
 
-    private static final String TAG = "UIController";
-
-//    private static WeakHashMap<String, BaseFra> fragmentList = new WeakHashMap<>();
+    private static final String TAG = "FragmentController";
 
     /**
      * 替换Fragment

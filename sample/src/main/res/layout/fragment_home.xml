@@ -7,13 +7,18 @@
         android:background="@color/windowBackground"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_home"
+        <Button
+            android:id="@+id/dialog"
+            style="@style/ButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:gravity="center"
-            android:text="主页面"
-            android:textSize="20sp" />
+            android:layout_height="wrap_content"
+            android:text="对话框" />
 
+        <Button
+            android:id="@+id/card"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="卡片" />
     </LinearLayout>
 </layout>
