@@ -6,18 +6,6 @@
         <variable
             name="viewModel"
             type="com.zk.sample.module.theme.view.ThemeFragment.DataBindingFace" />
-
-        <variable
-            name="skinBlue"
-            type="com.zk.sample.module.theme.model.SkinBean" />
-
-        <variable
-            name="skinBlack"
-            type="com.zk.sample.module.theme.model.SkinBean" />
-
-        <variable
-            name="skinBrown"
-            type="com.zk.sample.module.theme.model.SkinBean" />
     </data>
 
     <LinearLayout
@@ -44,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skinBlue.name}"
+                android:text="@{viewModel.skinBlue.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -53,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skinBlue.current?@string/used:@string/space}"
+                android:text="@{viewModel.skinBlue.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -79,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skinBrown.name}"
+                android:text="@{viewModel.skinBrown.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -88,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skinBrown.current?@string/used:@string/space}"
+                android:text="@{viewModel.skinBrown.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -110,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skinBlack.name}"
+                android:text="@{viewModel.skinBlack.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -119,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skinBlack.current?@string/used:@string/space}"
+                android:text="@{viewModel.skinBlack.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>

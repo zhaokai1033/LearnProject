@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.zk.sample.R;
 import com.zk.sample.base.BaseFragment;
-import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.FragmentThemeBinding;
 import com.zk.sample.module.theme.model.SkinBean;
 import com.zk.sample.module.theme.viewModel.ThemeHolder;
@@ -30,9 +29,6 @@ public class ThemeFragment extends BaseFragment<FragmentThemeBinding> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ThemeHolder holder = new ThemeHolder(this);
         binding.setViewModel(holder);
-        binding.setSkinBlack(holder.getSkinBlack());
-        binding.setSkinBlue(holder.getSkinBlue());
-        binding.setSkinBrown(holder.getSkinBrown());
     }
 
     public interface DataBindingFace {

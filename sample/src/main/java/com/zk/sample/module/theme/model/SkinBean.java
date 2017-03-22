@@ -20,7 +20,7 @@ public class SkinBean extends BaseObservable {
     public String name;
 
     @Bindable
-    public boolean current;
+    private boolean current;
 
     public SkinBean(String name) {
         this.name = name;

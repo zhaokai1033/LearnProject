@@ -53,8 +53,6 @@ public class DemoCardFragment extends BaseFragment<FragmentCardDemoBinding> impl
 
     /**
      * ViewHolder 刷新回调
-     *
-     * @param view
      */
     @Override
     public void refresh(View view) {

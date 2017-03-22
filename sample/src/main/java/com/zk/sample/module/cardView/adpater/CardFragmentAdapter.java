@@ -61,7 +61,7 @@ public class CardFragmentAdapter extends FragmentStatePagerAdapter implements Ca
         return fragment;
     }
 
-    public void addCardFragment(CardFragment fragment) {
+    private void addCardFragment(CardFragment fragment) {
         mFragments.add(fragment);
     }
 }

@@ -40,25 +40,13 @@ public class ThemeHolder extends BaseObservable implements ThemeFragment.DataBin
 
     public ThemeHolder(BaseFragment fragment) {
         this.fragment = fragment;
-        setBlack(DataManager.getSkin("black"));
-        setBlue(DataManager.getSkin("blue"));
-        setBrown(DataManager.getSkin("brown"));
+        this.black = DataManager.getSkin("black");
+        this.blue = DataManager.getSkin("blue");
+        this.brown = DataManager.getSkin("brown");
         initDefault();
     }
 
-    public void setBlue(SkinBean blue) {
-        this.blue = blue;
-    }
-
-    public void setBlack(SkinBean black) {
-        this.black = black;
-    }
-
-    public void setBrown(SkinBean brown) {
-        this.brown = brown;
-    }
-
-    public View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -145,7 +133,7 @@ public class ThemeHolder extends BaseObservable implements ThemeFragment.DataBin
         return listener;
     }
 
-    public void initDefault() {
+    private void initDefault() {
         String skin = SkinConfig.getCustomSkinPath(fragment.getContext());
         if (!TextUtils.isEmpty(skin)) {
             switch (new File(skin).getName()) {

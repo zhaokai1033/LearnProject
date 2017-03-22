@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.zk.baselibrary.util.UIUtil;
+import com.zk.sample.R;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.FragmentCardDemoBinding;
 import com.zk.sample.module.ViewHolderRefreshListener;
@@ -41,13 +42,13 @@ public class VM_DemoCardFragment implements DemoCardFragment.HolderFace {
         mCardAdapter.addCardItems(DataManager.getCards());
     }
 
-    public View.OnClickListener typeClickListener = new View.OnClickListener() {
+    private View.OnClickListener typeClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (!mShowingFragments) {
-                binding.cardTypeBtn.setText("Views");
+                binding.cardTypeBtn.setText(R.string.views);
             } else {
-                binding.cardTypeBtn.setText("Fragments");
+                binding.cardTypeBtn.setText(R.string.fragments);
             }
             mShowingFragments = !mShowingFragments;
             refreshListener.refresh(v);
@@ -57,7 +58,7 @@ public class VM_DemoCardFragment implements DemoCardFragment.HolderFace {
     /**
      * 选择框监听事件
      */
-    public CompoundButton.OnCheckedChangeListener checkListener = new CompoundButton.OnCheckedChangeListener() {
+    private CompoundButton.OnCheckedChangeListener checkListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             mCardPageListener.enableScaling(isChecked);
