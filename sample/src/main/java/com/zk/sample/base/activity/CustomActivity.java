@@ -11,9 +11,9 @@ import com.zk.baselibrary.data.DataCache;
 import com.zk.sample.R;
 import com.zk.sample.UIControl;
 import com.zk.sample.app.SampleApplication;
-import com.zk.sample.databinding.ActivityCustomBinding;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
+import com.zk.sample.databinding.ActivityCustomBinding;
 
 /**
  * ================================================

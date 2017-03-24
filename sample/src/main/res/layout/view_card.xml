@@ -5,8 +5,12 @@
     <data>
 
         <variable
+            name="cardHolder"
+            type="com.zk.sample.module.card.holder.CardHolder" />
+
+        <variable
             name="card"
-            type="com.zk.sample.module.cardView.model.CardItem" />
+            type="com.zk.sample.module.card.model.CardItem" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -52,6 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
+                        android:onClick="@{cardHolder.onClickListener}"
                         android:text="@{card.btName}" />
                 </LinearLayout>
 

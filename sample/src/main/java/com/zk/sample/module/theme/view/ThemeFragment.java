@@ -8,7 +8,7 @@ import com.zk.sample.R;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.databinding.FragmentThemeBinding;
 import com.zk.sample.module.theme.model.SkinBean;
-import com.zk.sample.module.theme.viewModel.ThemeHolder;
+import com.zk.sample.module.theme.holder.ThemeHolder;
 
 /**
  * ================================================

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.skin.SkinBaseActivity;
-import com.zk.sample.base.dialog.LoginDialogFragment;
+import com.zk.sample.module.binding.view.LoginDialogFragment;
 
 /**
  * ================================================

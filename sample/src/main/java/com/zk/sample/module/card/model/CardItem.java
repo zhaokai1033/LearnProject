@@ -1,4 +1,4 @@
-package com.zk.sample.module.cardView.model;
+package com.zk.sample.module.card.model;
 
 
 public class CardItem {

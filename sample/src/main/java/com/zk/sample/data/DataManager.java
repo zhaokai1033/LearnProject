@@ -1,12 +1,13 @@
 package com.zk.sample.data;
 
 import com.zk.sample.R;
-import com.zk.sample.module.cardView.model.CardItem;
+import com.zk.sample.module.card.model.CardItem;
 import com.zk.sample.module.theme.model.SkinBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * ================================================
@@ -65,6 +66,23 @@ public class DataManager {
         cardItems.add(new CardItem(R.string.title_3, R.string.text_3, "试试"));
         cardItems.add(new CardItem(R.string.title_4, R.string.text_4, "没天理"));
 
+    }
+
+    private final List<String> IMG_URLS = new ArrayList<>();
+
+    public static String getRandomUrl() {
+        return getInstance().getUrlRandom();
+    }
+
+    private String getUrlRandom() {
+        if (IMG_URLS.size() == 0) {
+            IMG_URLS.add("http://ww2.sinaimg.cn/large/7a8aed7bjw1ex8h4lnq3oj20hs0qoadj.jpg");
+            IMG_URLS.add("http://pic.meizitu.com/wp-content/uploads/2015a/10/24/01.jpg");
+            IMG_URLS.add("http://img3.duitang.com/uploads/item/201504/21/20150421H3510_daQSZ.jpeg");
+            IMG_URLS.add("http://pic.meizitu.com/wp-content/uploads/2015a/10/18/01.jpg");
+            IMG_URLS.add("http://upload.youzu.com/king/2015/0927/134113080.jpg");
+        }
+        return IMG_URLS.get(new Random().nextInt(IMG_URLS.size()));
     }
 
     public static SkinBean getSkin(String color) {

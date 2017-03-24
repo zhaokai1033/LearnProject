@@ -1,4 +1,4 @@
-package com.zk.sample.module.theme.viewModel;
+package com.zk.sample.module.theme.holder;
 
 import android.databinding.BaseObservable;
 import android.text.TextUtils;

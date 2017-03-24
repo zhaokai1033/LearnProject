@@ -6,11 +6,11 @@
 
         <variable
             name="viewModel"
-            type="com.zk.sample.module.cardView.view.DemoCardFragment.HolderFace" />
+            type="com.zk.sample.module.card.view.DemoCardFragment.HolderFace" />
 
         <variable
             name="card"
-            type="com.zk.sample.module.cardView.view.DemoCardFragment" />
+            type="com.zk.sample.module.card.view.DemoCardFragment" />
     </data>
 
     <LinearLayout

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="holder"
+            type="com.zk.sample.module.binding.view.DataBindingFragment.DataBindingFace" />
+
+        <variable
+            name="user"
+            type="com.zk.sample.module.binding.model.User" />
+
+        <variable
+            name="userObservable"
+            type="com.zk.sample.module.binding.model.UserObservable" />
+
+        <variable
+            name="userImp"
+            type="com.zk.sample.module.binding.model.UserObservableImp" />
+
+        <import type="android.databinding.ObservableMap" />
+
+        <variable
+            name="userMap"
+            type="ObservableMap&lt;String, String&gt;" />
+
+        <variable
+            name="imageUrl"
+            type="String" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
+                android:id="@+id/cb_observe_base"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:checked="true"
+                android:text="Base Observable" />
+
+            <TableLayout
+                android:id="@+id/tl_observe_base"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="用户名"
+                        android:text="@={user.name}" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="用户名"
+                        android:text="@{user.name}" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <Button
+                        style="@style/ButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="@{holder.cleanOnClickListener}"
+                        android:text="清空" />
+
+                    <TextView
+                        style="@style/ButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="@{holder.resetOnClickListener}"
+                        android:text="恢复" />
+                </TableRow>
+
+            </TableLayout>
+
+
+            <CheckBox
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
+                android:id="@+id/cb_observe_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:checked="true"
+                android:text="ObservableFields" />
+
+            <TableLayout
+                android:id="@+id/tl_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="密码"
+                        android:text="@={userObservable.password}" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="密码"
+                        android:text="@{userObservable.password}" />
+                </TableRow>
+            </TableLayout>
+
+            <CheckBox
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
+                android:id="@+id/cb_observe_able"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:checked="true"
+                android:text="Observable" />
+
+            <TableLayout
+                android:id="@+id/tl_observable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="用户名"
+                        android:text="@={userImp.password}" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="用户名"
+                        android:text="@{userImp.password}" />
+                </TableRow>
+            </TableLayout>
+
+            <CheckBox
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
+                android:id="@+id/cb_observe_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:checked="true"
+                android:text="ObservableCollection" />
+
+            <TableLayout
+                android:id="@+id/tl_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="用户名"
+                        android:text='@={userMap["name"]}' />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="用户名"
+                        android:text='@{userMap["name"]}' />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="密码"
+                        android:text='@={userMap["password"]}' />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="密码"
+                        android:text="@{userMap[`password`]}" />
+                </TableRow>
+            </TableLayout>
+
+            <CheckBox
+                android:id="@+id/cb_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:checked="true"
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
+                android:text="事件" />
+
+            <LinearLayout
+                android:id="@+id/ll_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+
+                <Button
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{holder.imageOnClickListener}"
+                    android:text="显示图片" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="fitCenter"
+                    app:error="@{@color/black}"
+                    app:imageUrl="@{imageUrl}"
+                    app:placeHolder="@{@color/holderColor}" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

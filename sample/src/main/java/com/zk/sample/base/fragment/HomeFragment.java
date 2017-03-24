@@ -9,7 +9,8 @@ import com.zk.sample.UIControl;
 import com.zk.sample.databinding.FragmentHomeBinding;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
-import com.zk.sample.module.cardView.view.DemoCardFragment;
+import com.zk.sample.module.binding.view.DataBindingFragment;
+import com.zk.sample.module.card.view.DemoCardFragment;
 
 /**
  * ================================================
@@ -41,7 +42,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         binding.dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((BaseActivity) getActivity()).showDialog();
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), DataBindingFragment.newInstance());
             }
         });
         binding.card.setOnClickListener(new View.OnClickListener() {

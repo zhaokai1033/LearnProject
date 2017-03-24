@@ -1,4 +1,4 @@
-package com.zk.sample.module.cardView.adpater;
+package com.zk.sample.module.card.adpater;
 
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.PagerAdapter;
@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 
 import com.zk.sample.R;
 import com.zk.sample.databinding.ViewCardBinding;
-import com.zk.sample.module.cardView.model.CardItem;
+import com.zk.sample.module.card.holder.CardHolder;
+import com.zk.sample.module.card.model.CardItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +72,13 @@ public class CardViewAdapter extends PagerAdapter implements CardAdapter {
         ViewCardBinding binding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext()), R.layout.view_card, container, true);
 
         binding.setCard(mData.get(position));
+        binding.setCardHolder(new CardHolder());
 
-        CardView cardView = (CardView) binding.getRoot().findViewById(R.id.cardView);
         if (mBaseElevation == 0) {
-            mBaseElevation = cardView.getCardElevation();
+            mBaseElevation = binding.cardView.getCardElevation();
         }
-        cardView.setMaxCardElevation(mBaseElevation * MAX_ELEVATION_FACTOR);
-        mViews.set(position, cardView);
+        binding.cardView.setMaxCardElevation(mBaseElevation * MAX_ELEVATION_FACTOR);
+        mViews.set(position, binding.cardView);
         return binding.getRoot();
     }
 
