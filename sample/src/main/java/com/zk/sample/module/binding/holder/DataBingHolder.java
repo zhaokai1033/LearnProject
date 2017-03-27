@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.R;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.FragmentDataBindingBinding;
@@ -48,14 +47,15 @@ public class DataBingHolder implements DataBindingFragment.DataBindingFace {
     }
 
     @Override
-    public View.OnClickListener getResetOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentDataBindingBinding binding = DataBindingUtil.findBinding(v);
-                binding.getUser().setName("用户名");
-            }
-        };
+    public void getOnResetClickListener(User user) {
+        user.setName("用户名");
+//        return new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentDataBindingBinding binding = DataBindingUtil.findBinding(v);
+//                binding.getUser().setName("用户名");
+//            }
+//        };
     }
 
     @Override

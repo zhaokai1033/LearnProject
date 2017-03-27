@@ -1,7 +1,7 @@
 package com.zk.baselibrary.util;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -12,10 +12,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.support.annotation.RequiresPermission;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class SystemUtil {
+
 
     /**
      * 系统自带的文字分享
@@ -51,6 +52,7 @@ public class SystemUtil {
      * @param ctx 上下文
      * @param uri 图片本地地址
      */
+
     public static void shareImage(Context ctx, Uri uri) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -73,6 +75,20 @@ public class SystemUtil {
         ctx.startActivity(Intent.createChooser(sendIntent, "分享至"));
     }
 
+    /**
+     * 调起系统发短信功能
+     *
+     * @param phoneNumber 收件人/手机号
+     * @param message     发送信息
+     */
+    @RequiresPermission(Manifest.permission.SEND_SMS)
+    public static void sendMSG(Context ctx, String phoneNumber, String message) {
+        if (PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
+            intent.putExtra("sms_body", message);
+            ctx.startActivity(intent);
+        }
+    }
 
     /**
      * 获取设备的制造商

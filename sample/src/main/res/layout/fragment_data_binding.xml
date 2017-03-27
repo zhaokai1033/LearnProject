@@ -28,6 +28,14 @@
         <variable
             name="imageUrl"
             type="String" />
+
+        <variable
+            name="event"
+            type="com.zk.sample.module.binding.BindingEvent" />
+
+        <variable
+            name="userImg"
+            type="com.zk.sample.module.binding.model.UserImg" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,13 +50,13 @@
             android:orientation="vertical">
 
             <CheckBox
-                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:id="@+id/cb_observe_base"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:checked="true"
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:text="Base Observable" />
 
             <TableLayout
@@ -57,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white">
 
-
+                <!---->
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,7 +105,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:onClick="@{holder.resetOnClickListener}"
+                        android:onClick="@{()->holder.getOnResetClickListener(user)}"
                         android:text="恢复" />
                 </TableRow>
 
@@ -105,13 +113,13 @@
 
 
             <CheckBox
-                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:id="@+id/cb_observe_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:checked="true"
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:text="ObservableFields" />
 
             <TableLayout
@@ -143,13 +151,13 @@
             </TableLayout>
 
             <CheckBox
-                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:id="@+id/cb_observe_able"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:checked="true"
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:text="Observable" />
 
             <TableLayout
@@ -181,13 +189,13 @@
             </TableLayout>
 
             <CheckBox
-                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:id="@+id/cb_observe_collection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:checked="true"
+                android:onCheckedChangeListener="@{holder.onCheckedChangeListener}"
                 android:text="ObservableCollection" />
 
             <TableLayout
@@ -261,18 +269,39 @@
                     style="@style/ButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="@{(theview)->event.getDataOnClick(theview,imageUrl)}"
+                    android:text="传参事件(获取图片网址)" />
+
+                <Button
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:onClick="@{holder.imageOnClickListener}"
-                    android:text="显示图片" />
+                    android:text="自定义事件(加载图片)" />
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="200dp"
                     android:scaleType="fitCenter"
                     app:error="@{@color/black}"
                     app:imageUrl="@{imageUrl}"
                     app:placeHolder="@{@color/holderColor}" />
 
 
+                <Button
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->event.setParamsOnClick(userImg)}"
+                    android:text="点击直接修改图片网址" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitCenter"
+                    app:error="@{@color/black}"
+                    app:imageUrl="@{userImg.url}"
+                    app:placeHolder="@{@color/holderColor}" />
             </LinearLayout>
 
         </LinearLayout>

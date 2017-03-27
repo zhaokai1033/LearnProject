@@ -1,5 +1,6 @@
 package com.zk.sample.module.binding.model;
 
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
 /**
@@ -14,4 +15,5 @@ public class UserObservable {
 
     public final ObservableField<String> name = new ObservableField<>();
     public final ObservableField<String> password = new ObservableField<>();
+
 }
