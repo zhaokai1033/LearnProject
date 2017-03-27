@@ -45,6 +45,15 @@ public class HttpUtils {
     private final Gson mGson;
     private RequestHeaderBuilder requestHeaderBuilder;
 
+    public static HttpUtils getInstance() {
+        isInit();
+        return mInstance;
+    }
+
+    public static HttpUtils newInstance(Context context, Config config) {
+        return new HttpUtils(context, config);
+    }
+
     private HttpUtils(Context context, Config config) {
         if (config == null) {
             config = new Config(10, 10, 30, false, "网络连接失败");
