@@ -1,4 +1,4 @@
-package com.zk.sample.ui.dialog;
+package com.zk.sample.module.binding.view;
 
 import android.app.Activity;
 import android.app.Dialog;

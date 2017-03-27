@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zk.sample.module.card.view.DemoCardFragment.HolderFace" />
+
+        <variable
+            name="card"
+            type="com.zk.sample.module.card.view.DemoCardFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            android:layout_gravity="bottom"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingBottom="30dp"
+            android:paddingEnd="60dp"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:paddingStart="60dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/cardTypeBtn"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{viewModel.onCardTypeBtnClickListener}"
+                android:text="Fragments" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:checked="true"
+                android:onCheckedChangeListener="@{viewModel.onCheckedChangeListener}"
+                android:text="Scale" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:skin="http://schemas.android.com/android/skin">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
-            name="skin1"
-            type="com.zk.sample.data.SkinBean" />
-
-        <variable
-            name="skin2"
-            type="com.zk.sample.data.SkinBean" />
-
-        <variable
-            name="skin3"
-            type="com.zk.sample.data.SkinBean" />
+            name="viewModel"
+            type="com.zk.sample.module.theme.view.ThemeFragment.DataBindingFace" />
     </data>
 
     <LinearLayout
@@ -22,14 +13,14 @@
         android:layout_height="match_parent"
         android:background="@color/windowBackground"
         android:orientation="horizontal"
-        android:padding="10dp"
-        skin:enabe="true">
+        android:padding="10dp">
 
         <LinearLayout
             android:id="@+id/ll_blue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="@{viewModel.onClickListener}"
             android:orientation="vertical">
 
             <ImageView
@@ -41,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skin1.name}"
+                android:text="@{viewModel.skinBlue.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -50,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="@{viewModel.skinBlue.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -64,6 +55,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
+            android:onClick="@{viewModel.onClickListener}"
             android:orientation="vertical">
 
             <ImageView
@@ -75,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skin2.name}"
+                android:text="@{viewModel.skinBrown.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -84,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="@{viewModel.skinBrown.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -94,6 +86,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="@{viewModel.onClickListener}"
             android:orientation="vertical">
 
             <ImageView
@@ -105,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{skin3.name}"
+                android:text="@{viewModel.skinBlack.name}"
                 android:textColor="#696969"
                 android:textSize="18sp" />
 
@@ -114,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="@{viewModel.skinBlack.current?@string/used:@string/space}"
                 android:textColor="#a0696969"
                 android:textSize="14sp" />
         </LinearLayout>

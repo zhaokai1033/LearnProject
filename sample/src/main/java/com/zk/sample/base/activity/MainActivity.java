@@ -1,8 +1,12 @@
-package com.zk.sample.ui;
+package com.zk.sample.base.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,41 +14,49 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zk.baselibrary.app.BaseFra;
-import com.zk.baselibrary.util.GsonUtil;
+import com.zk.baselibrary.util.ClassUtil;
 import com.zk.baselibrary.util.LogUtil;
-import com.zk.baselibrary.util.NetUtil;
 import com.zk.baselibrary.util.SystemUtil;
-import com.zk.baselibrary.util.UIUtil;
+import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.R;
-import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.ActivityMainBinding;
-import com.zk.sample.ui.base.BaseActivity;
-import com.zk.sample.ui.base.BaseFragment;
+import com.zk.sample.base.fragment.HomeFragment;
+import com.zk.sample.module.theme.view.ThemeFragment;
+import com.zk.sample.base.fragment.WebFragment;
+import com.zk.sample.base.BaseActivity;
+import com.zk.sample.base.BaseFragment;
+
+import java.util.Arrays;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
     private static final String CURRENT_PAGE = "CURRENT_FRAGMENT";
+    private static final int MSG_CODE = 1000;
     private BaseFra mCurrentFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(binding.toolbar);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        binding.drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
         //添加要改变的控件属性
         dynamicAddView(binding.toolbar, "background", R.color.colorPrimary);
         dynamicAddView(binding.navigationView.getHeaderView(0), "background", R.color.colorPrimary);
         dynamicAddView(binding.navigationView, "navigationViewMenu", R.color.colorPrimary);
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         binding.navigationView.setNavigationItemSelectedListener(this);
         binding.navigationView.getMenu().getItem(0).setChecked(true);
 
         switchFragment(null);
+    }
+
+    @Override
+    public int getFragmentContentId() {
+        return R.id.frame_content;
     }
 
     @Override
@@ -103,13 +115,37 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         } else if (id == R.id.nav_send) {
 //            LogUtil.d(TAG, NetUtil.getWifiAddress(this));
 //            NetUtil.showNetSetDialog(this);
-            LogUtil.d(TAG, GsonUtil.toJson(DataManager.getSkin("black")));
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.SEND_SMS}, MSG_CODE);
+                }
+                //                    ActivityCompat#requestPermissions
+//                 here to request the missing permissions, and then overriding
+//                   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                                          int[] grantResults)
+//                 to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+//                return TODO;
+            } else {
+                SystemUtil.sendMSG(this, "17312345678", "测试手机");
+            }
         }
 
         switchFragment(clazz);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MSG_CODE)
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                ToastUtil.showToast(this, "获取权限成功");
+                SystemUtil.sendMSG(this, "17312345678", "测试手机");
+            }
+        LogUtil.d(TAG, "p:" + Arrays.deepToString(permissions) + " code:" + requestCode);
     }
 
     /**
@@ -129,9 +165,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         }
         baseFragment = ((BaseFragment) getSupportFragmentManager().findFragmentByTag(clazz.getName()));
         if (baseFragment == null) {
-            baseFragment = ((BaseFragment) UIUtil.createInstance(clazz));
+            baseFragment = ((BaseFragment) ClassUtil.createInstance(clazz));
         }
-        mCurrentFragment = changeFragment(mCurrentFragment, baseFragment, R.id.frame_content, false, false);
+        mCurrentFragment = changeFragment(mCurrentFragment, baseFragment, false, false);
     }
 
     @Override

@@ -1,4 +1,9 @@
 # LearnProject
-这是一个调试用的项目，集成一些通用类库
+- Technology learning and trial
+- Integration of basic class libraries
 
 ## 一、换肤功能
+
+## 二、DataBinding
+
+## 三、CardView

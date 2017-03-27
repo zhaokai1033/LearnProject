@@ -1,4 +1,4 @@
-package com.zk.sample.ui.base;
+package com.zk.sample.base;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 public abstract class BaseFragment<VDB extends ViewDataBinding> extends SkinBaseFragment {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "BaseFragment";
     protected VDB binding;
 
@@ -47,7 +48,11 @@ public abstract class BaseFragment<VDB extends ViewDataBinding> extends SkinBase
 
     @Override
     public View onCreateView(ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, getLayoutRes(), null, false);
+        try {
+            binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+        } catch (Exception e) {
+            binding = null;
+        }
 
         View v;
         if (binding != null && binding.getRoot() != null) {

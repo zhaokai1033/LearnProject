@@ -1,28 +1,20 @@
 package com.zk.baselibrary.skin;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.zk.baselibrary.app.BaseAct;
-import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.skin.attr.base.DynamicAttr;
 import com.zk.baselibrary.skin.face.IDynamicNewView;
 import com.zk.baselibrary.skin.face.ISkinUpdate;
 import com.zk.baselibrary.skin.loader.SkinInflaterFactory;
 import com.zk.baselibrary.skin.loader.SkinManager;
 import com.zk.baselibrary.util.LogUtil;
-import com.zk.baselibrary.util.UIController;
 
 import java.util.List;
 

@@ -5,4 +5,22 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="used">使用中</string>
+    <string name="space" />
+
+    <string name="title_1">CardTitle1</string>
+    <string name="title_2">CardTitle2</string>
+    <string name="title_3">CardTitle3</string>
+    <string name="title_4">CardTitle4</string>
+    <string name="text_1">CardView是在安卓5.0提出的卡片式控件, A FrameLayout with a rounded corner background and shadow.</string>
+    <string name="text_2">CardView uses <code>elevation</code> property on Lollipop for shadows and falls back to a
+ * custom emulated shadow implementation on older platforms.</string>
+    <string name="text_3">Note that, if you specify exact dimensions for the CardView, because of the shadows, its content
+ * area will be different between platforms before Lollipop and after Lollipop. By using api version
+ * specific resource values, you can avoid these changes. Alternatively, If you want CardView to add
+ * inner padding on platforms Lollipop and after as well, you can call
+ * {@link #setUseCompatPadding(boolean)} and pass <code>true</code></string>
+    <string name="text_4">CardView是在安卓5.0提出的卡片式控件</string>
+    <string name="views">Views</string>
+    <string name="fragments">Fragments</string>
 </resources>
