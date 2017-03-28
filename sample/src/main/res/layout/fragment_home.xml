@@ -8,17 +8,25 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/dialog"
-            style="@style/ButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Data Binding" />
-
-        <Button
             android:id="@+id/card"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="卡片" />
+
+        <Button
+            android:id="@+id/observe"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DataBinding->Observe+event" />
+
+        <Button
+            android:id="@+id/recycle"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DataBinding->recycleView" />
+
     </LinearLayout>
 </layout>

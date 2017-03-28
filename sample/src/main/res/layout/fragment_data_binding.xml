@@ -36,6 +36,10 @@
         <variable
             name="userImg"
             type="com.zk.sample.module.binding.model.UserImg" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnLayoutChangeListener" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -282,10 +286,12 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:contentDescription="123"
                     android:scaleType="fitCenter"
                     app:error="@{@color/black}"
                     app:imageUrl="@{imageUrl}"
-                    app:placeHolder="@{@color/holderColor}" />
+                    app:placeHolder="@{@color/holderColor}"
+                    app:testUrl="@{imageUrl}" />
 
 
                 <Button
@@ -298,10 +304,14 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:contentDescription="234"
+                    android:onClick="@{event.getTestOnClick()}"
+                    android:onLayoutChange="@{listener}"
                     android:scaleType="fitCenter"
                     app:error="@{@color/black}"
                     app:imageUrl="@{userImg.url}"
                     app:placeHolder="@{@color/holderColor}" />
+                <!--app:testUrl="@{userImg.url}"-->
             </LinearLayout>
 
         </LinearLayout>

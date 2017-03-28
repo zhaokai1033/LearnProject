@@ -1,5 +1,6 @@
 package com.zk.sample.base;
 
+import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;

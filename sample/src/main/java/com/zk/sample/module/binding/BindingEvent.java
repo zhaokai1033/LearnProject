@@ -1,11 +1,14 @@
 package com.zk.sample.module.binding;
 
+import android.databinding.BindingAdapter;
+import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.view.View;
-import android.widget.Button;
 
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.data.DataManager;
+import com.zk.sample.databinding.FragmentDataBindingBinding;
 import com.zk.sample.module.binding.model.UserImg;
 
 /**
@@ -35,5 +38,45 @@ public class BindingEvent {
         String t = url.substring(url.length() - 10, url.length());
         LogUtil.d(TAG, "原标题:" + img.title + "\n现标题:" + t);
         img.setTitle(t);
+    }
+
+    public View.OnClickListener getTestOnClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.d(TAG, "getTestOnClick");
+                ((FragmentDataBindingBinding) DataBindingUtil.findBinding(v)).setListener(
+                        new View.OnLayoutChangeListener() {
+                            @Override
+                            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+                            }
+                        });
+            }
+        };
+    }
+
+
+    @BindingAdapter("testUrl")
+    public static void testName(View view, String oldValue, String newValue) {
+        LogUtil.d(TAG, "load image ->url：" + newValue + " old:" + oldValue);
+        if (view != null) {
+            LogUtil.d(TAG, "des = " + view.getContentDescription());
+        }
+    }
+
+    @BindingAdapter("android:onLayoutChange")
+    public static void setOnLayoutChangeListener(View view,
+                                                 View.OnLayoutChangeListener oldValue,
+                                                 View.OnLayoutChangeListener newValue) {
+        LogUtil.d(TAG, "load image ->url：" + newValue + " old:" + oldValue);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (oldValue != null) {
+                view.removeOnLayoutChangeListener(oldValue);
+            }
+            if (newValue != null) {
+                view.addOnLayoutChangeListener(newValue);
+            }
+        }
     }
 }

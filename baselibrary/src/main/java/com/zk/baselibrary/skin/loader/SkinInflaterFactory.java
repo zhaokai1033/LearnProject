@@ -74,11 +74,15 @@ public class SkinInflaterFactory implements LayoutInflaterFactory {
      */
     private void parseSkinAttr(Context context, AttributeSet attrs, View view) {
         List<SkinAttr> viewAttrs = new ArrayList<>();//存储View可更换皮肤属性的集合
-        LogUtil.i(TAG, "viewName:" + view.getClass().getSimpleName());
+        if (SkinConfig.isDebug()) {
+            LogUtil.i(TAG, "viewName:" + view.getClass().getSimpleName());
+        }
         for (int i = 0; i < attrs.getAttributeCount(); i++) {//遍历当前View的属性
             String attrName = attrs.getAttributeName(i);//属性名
             String attrValue = attrs.getAttributeValue(i);//属性值
-            LogUtil.i(TAG, "    AttributeName:" + attrName + "|attrValue:" + attrValue);
+            if (SkinConfig.isDebug()) {
+                LogUtil.i(TAG, "    AttributeName:" + attrName + "|attrValue:" + attrValue);
+            }
             //region  style
             if ("style".equals(attrName)) {//style theme
                 String styleName = attrValue.substring(attrValue.indexOf("/") + 1);
@@ -93,12 +97,13 @@ public class SkinInflaterFactory implements LayoutInflaterFactory {
                     String entryName = context.getResources().getResourceEntryName(textColorId);//入口名，例如text_color_selector
                     String typeName = context.getResources().getResourceTypeName(textColorId);
                     SkinAttr skinAttr = AttrFactory.get("textColor", textColorId, entryName, typeName);
-                    LogUtil.w(TAG, "    textColor in style is supported:" + "\n" +
-                            "    resource id:" + id + "\n" +
-                            "    attrName:" + attrName + "\n" +
-                            "    attrValue:" + attrValue + "\n" +
-                            "    entryName:" + entryName + "\n" +
-                            "    typeName:" + typeName);
+                    if (SkinConfig.isDebug())
+                        LogUtil.w(TAG, "    textColor in style is supported:" + "\n" +
+                                "    resource id:" + id + "\n" +
+                                "    attrName:" + attrName + "\n" +
+                                "    attrValue:" + attrValue + "\n" +
+                                "    entryName:" + entryName + "\n" +
+                                "    typeName:" + typeName);
                     if (skinAttr != null) {
                         viewAttrs.add(skinAttr);
                     }
@@ -107,12 +112,13 @@ public class SkinInflaterFactory implements LayoutInflaterFactory {
                     String entryName = context.getResources().getResourceEntryName(backgroundId);//入口名，例如text_color_selector
                     String typeName = context.getResources().getResourceTypeName(backgroundId);
                     SkinAttr skinAttr = AttrFactory.get("background", backgroundId, entryName, typeName);
-                    LogUtil.w(TAG, "    background in style is supported:" + "\n" +
-                            "    resource id:" + id + "\n" +
-                            "    attrName:" + attrName + "\n" +
-                            "    attrValue:" + attrValue + "\n" +
-                            "    entryName:" + entryName + "\n" +
-                            "    typeName:" + typeName);
+                    if (SkinConfig.isDebug())
+                        LogUtil.w(TAG, "    background in style is supported:" + "\n" +
+                                "    resource id:" + id + "\n" +
+                                "    attrName:" + attrName + "\n" +
+                                "    attrValue:" + attrValue + "\n" +
+                                "    entryName:" + entryName + "\n" +
+                                "    typeName:" + typeName);
                     if (skinAttr != null) {
                         viewAttrs.add(skinAttr);
                     }
@@ -128,13 +134,14 @@ public class SkinInflaterFactory implements LayoutInflaterFactory {
                     String entryName = context.getResources().getResourceEntryName(id);//入口名，例如text_color_selector
                     String typeName = context.getResources().getResourceTypeName(id);//类型名，例如color、drawable
                     SkinAttr mSkinAttr = AttrFactory.get(attrName, id, entryName, typeName);
-                    LogUtil.w(TAG, "    " + attrName + " is supported:" + "\n" +
-                            "    resource id:" + id + "\n" +
-                            "    attrName:" + attrName + "\n" +
-                            "    attrValue:" + attrValue + "\n" +
-                            "    entryName:" + entryName + "\n" +
-                            "    typeName:" + typeName
-                    );
+                    if (SkinConfig.isDebug())
+                        LogUtil.w(TAG, "    " + attrName + " is supported:" + "\n" +
+                                "    resource id:" + id + "\n" +
+                                "    attrName:" + attrName + "\n" +
+                                "    attrValue:" + attrValue + "\n" +
+                                "    entryName:" + entryName + "\n" +
+                                "    typeName:" + typeName
+                        );
                     if (mSkinAttr != null) {
                         viewAttrs.add(mSkinAttr);
                     }
@@ -227,9 +234,9 @@ public class SkinInflaterFactory implements LayoutInflaterFactory {
     /**
      * 动态添加那些有皮肤更改需求的View，及其对应的属性集合
      *
-     * @param context
-     * @param view
-     * @param attrs
+     * @param context context
+     * @param view    added view
+     * @param attrs   attribute name
      */
     public void dynamicAddSkinEnableView(Context context, View view, List<DynamicAttr> attrs) {
         List<SkinAttr> viewAttrs = new ArrayList<SkinAttr>();
