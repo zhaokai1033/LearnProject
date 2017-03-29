@@ -4,61 +4,70 @@
     xmlns:skin="http://schemas.android.com/android/skin">
 
     <data>
+
         <variable
             name="act"
             type="com.zk.sample.base.activity.MainActivity" />
     </data>
 
-    <FrameLayout
+    <!--<FrameLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:fitsSystemWindows="true">-->
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:background="@color/windowBackground"
+        android:fitsSystemWindows="true"
+        skin:enable="true">
 
-        <android.support.v4.widget.DrawerLayout
-            android:id="@+id/drawer_layout"
+        <!--内容区-->
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/windowBackground"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
             skin:enable="true">
 
-            <!--内容区-->
-            <android.support.design.widget.CoordinatorLayout
-                android:id="@+id/main_content"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/windowBackground"
-                android:fitsSystemWindows="true"
-                android:orientation="vertical"
-                skin:enable="true">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <android.support.design.widget.AppBarLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-                    <android.support.design.widget.AppBarLayout
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                        android:background="?attr/colorPrimary"
+                        app:layout_collapseMode="pin"
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                        app:titleTextColor="#ffffff" />
+                </android.support.design.widget.AppBarLayout>
 
-                        <android.support.v7.widget.Toolbar
-                            android:id="@+id/toolbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            android:background="?attr/colorPrimary"
-                            app:layout_collapseMode="pin"
-                            app:layout_scrollFlags="scroll|enterAlways"
-                            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                            app:titleTextColor="#ffffff" />
-                    </android.support.design.widget.AppBarLayout>
+                <FrameLayout
+                    android:id="@+id/frame_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
 
-                    <FrameLayout
-                        android:id="@+id/frame_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-                </LinearLayout>
-            </android.support.design.widget.CoordinatorLayout>
+        <android.support.design.internal.ScrimInsetsFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:appInsetForeground="#4000">
 
             <!--左侧导航菜单-->
             <android.support.design.widget.NavigationView
@@ -70,6 +79,7 @@
                 app:headerLayout="@layout/nav_header_main"
                 app:menu="@menu/activity_main_drawer"
                 skin:enable="true" />
-        </android.support.v4.widget.DrawerLayout>
-    </FrameLayout>
+        </android.support.design.internal.ScrimInsetsFrameLayout>
+    </android.support.v4.widget.DrawerLayout>
+    <!--</FrameLayout>-->
 </layout>

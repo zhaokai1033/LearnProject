@@ -261,8 +261,9 @@ public class HttpUtils {
         Response response;
         try {
             Call call = mInstance.mOkHttpClient.newCall(request);
-
             response = call.execute();
+        } catch (SecurityException s) {
+            throw new RuntimeException("You need to declare that you want to open the network");
         } catch (SocketTimeoutException w) {
             response = new Response.Builder()
                     .message("网络连接超时:" + w.getMessage())

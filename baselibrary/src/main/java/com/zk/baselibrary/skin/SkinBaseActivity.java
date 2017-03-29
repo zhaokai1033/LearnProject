@@ -14,7 +14,9 @@ import com.zk.baselibrary.skin.face.IDynamicNewView;
 import com.zk.baselibrary.skin.face.ISkinUpdate;
 import com.zk.baselibrary.skin.loader.SkinInflaterFactory;
 import com.zk.baselibrary.skin.loader.SkinManager;
+import com.zk.baselibrary.skin.utils.StatusBarCompat;
 import com.zk.baselibrary.util.LogUtil;
+import com.zk.baselibrary.util.StatusBarUtil;
 
 import java.util.List;
 
@@ -38,14 +40,14 @@ public abstract class SkinBaseActivity extends BaseAct implements ISkinUpdate, I
         mSkinInflaterFactory.setAppCompatActivity(this);
         LayoutInflaterCompat.setFactory(getLayoutInflater(), mSkinInflaterFactory);
         super.onCreate(savedInstanceState);
-//        binding = DataBindingUtil.setContentView(this, getLayoutResId());
-        changeStatusColor();
+        StatusBarCompat.compat(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         SkinManager.getInstance().attach(this);
+        changeStatusColor();
     }
 
     @Override
@@ -70,13 +72,9 @@ public abstract class SkinBaseActivity extends BaseAct implements ISkinUpdate, I
         if (!SkinConfig.isCanChangeStatusColor()) {
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int color = SkinManager.getInstance().getColorPrimaryDark();
-            if (color != -1) {
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(SkinManager.getInstance().getColorPrimaryDark());
-            }
+        int color = SkinManager.getInstance().getColorPrimaryDark();
+        if (color != -1) {
+            StatusBarUtil.setColor(this, color, 128);
         }
     }
 

@@ -54,20 +54,18 @@ public class RecycleHolder implements RecycleViewFragment.RecycleHolderFace {
     public void onSearchClick(View view, final String name) {
         ToastUtil.showToast(view.getContext(), name);
 //
-        Observable.create(
-                new ObservableOnSubscribe<GitSearch>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<GitSearch> e) throws Exception {
-
-                        GitSearch result = HttpUtils.getResult(baseUrl,
-                                RequestBodyBuilder
-                                        .newFormBody()
-                                        .add("q", name)
-                                , GitSearch.class);
-                        e.onNext(result);
-                        e.onComplete();
-                    }
-                })
+        Observable.create(new ObservableOnSubscribe<GitSearch>() {
+            @Override
+            public void subscribe(ObservableEmitter<GitSearch> e) throws Exception {
+                GitSearch result = HttpUtils.getResult(baseUrl,
+                        RequestBodyBuilder
+                                .newFormBody()
+                                .add("q", name)
+                        , GitSearch.class);
+                e.onNext(result);
+                e.onComplete();
+            }
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<GitSearch>() {

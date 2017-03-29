@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSwipeBackEnable(false);//取消侧滑返回
         setSupportActionBar(binding.toolbar);
         //添加要改变的控件属性
         dynamicAddView(binding.toolbar, "background", R.color.colorPrimary);
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         binding.navigationView.getMenu().getItem(0).setChecked(true);
 
         switchFragment(null);
+//        StatusBarUtil.setColorForDrawerLayoutDiff(this, binding.drawerLayout, SkinManager.getInstance().getColorPrimaryDark());
     }
 
     @Override

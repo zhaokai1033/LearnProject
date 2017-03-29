@@ -23,6 +23,6 @@
     <string name="text_4">CardView是在安卓5.0提出的卡片式控件</string>
     <string name="views">Views</string>
     <string name="fragments">Fragments</string>
-    <string name="query">查询</string>
+    <string name="query">搜索</string>
 
 </resources>

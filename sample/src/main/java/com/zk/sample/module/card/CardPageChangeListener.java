@@ -102,7 +102,11 @@ public class CardPageChangeListener implements ViewPager.OnPageChangeListener {
 
     @Override
     public void onPageSelected(int position) {
-
+//        if (position != 0) {
+//            mViewPager.getParent().requestDisallowInterceptTouchEvent(true);
+//        } else {
+//            mViewPager.getParent().requestDisallowInterceptTouchEvent(false);
+//        }
     }
 
     @Override

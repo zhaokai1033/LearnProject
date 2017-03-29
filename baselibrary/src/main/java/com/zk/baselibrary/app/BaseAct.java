@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.zk.baselibrary.util.FragmentController;
 import com.zk.baselibrary.util.LogUtil;
+import com.zk.baselibrary.widget.SwipeBackLayout;
+import com.zk.baselibrary.widget.Utils;
 
 /**
  * ================================================
@@ -18,12 +22,13 @@ import com.zk.baselibrary.util.LogUtil;
  * @Describe Activity 基类，包含一下功能
  * 1、退出全部页面
  * 2、替换 加载 指定的Fragment
+ * 3、支持侧滑返回 {@link BaseAct#setSwipeBackEnable(boolean)}
  * Created by zhaokai on 2017/3/3.
  * Email zhaokai1033@126.com
  * ================================================
  */
 @SuppressWarnings("unused")
-public abstract class BaseAct extends AppCompatActivity {
+public abstract class BaseAct extends AppCompatActivity implements SwipeBackActivityBase {
 
     private static final String TAG = "BaseAct";
     public static final String CLOSE_ACTION = "CLOSE_ACTIVITY";
@@ -37,15 +42,33 @@ public abstract class BaseAct extends AppCompatActivity {
             finish();
         }
     };
-
-//    protected VDB binding;
+    private SwipeBackActivityHelper mHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //  VDB binding = DataBindingUtil.setContentView(this, getLayoutResId());
         LocalBroadcastManager.getInstance(this).registerReceiver(closeReceiver, closeFilter);
+        mHelper = new SwipeBackActivityHelper(this);
+        mHelper.onActivityCreate();
     }
+
+    /**
+     * 创建完成时调用
+     */
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mHelper.onPostCreate();
+    }
+
+    @Override
+    public View findViewById(int id) {
+        View v = super.findViewById(id);
+        if (v == null && mHelper != null)
+            return mHelper.findViewById(id);
+        return v;
+    }
+
 
     /**
      * 获取布局资源Id
@@ -55,12 +78,40 @@ public abstract class BaseAct extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LogUtil.d(TAG, "onDestroy");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceiver);
     }
 
+    @Override
+    public SwipeBackLayout getSwipeBackLayout() {
+        return mHelper.getSwipeBackLayout();
+    }
+
+    /**
+     * 是否开启侧滑关闭
+     *
+     * @param enable true/false
+     */
+    @Override
+    public void setSwipeBackEnable(boolean enable) {
+        getSwipeBackLayout().setEnableGesture(enable);
+    }
+
+    /**
+     * 侧滑关闭Activity
+     */
+    @Override
+    public void scrollToFinishActivity() {
+        Utils.convertActivityToTranslucent(this);
+        getSwipeBackLayout().scrollToFinishActivity();
+    }
+
+
     /**
      * 关闭所有的Activity
+     * 通过发送应用内广播关闭退出所有的Activity
      */
+    @CallSuper
     public void exitApp() {
         LogUtil.d(CLOSE_ACTION, "发送 广播");
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(CLOSE_ACTION));
@@ -92,14 +143,9 @@ public abstract class BaseAct extends AppCompatActivity {
      * @return 最终显示的Fragment
      */
     public BaseFra changeFragment(BaseFra current, BaseFra target, int layoutRes, boolean isNeedRefresh, boolean canBack) {
-//        if (current == null) {
-//            FragmentController.replaceFragment(this, layoutRes, target);
-//        } else {
         FragmentController.changeFragment(this, current, target, layoutRes, canBack);
-//        }
         if (isNeedRefresh)
             target.refresh();
         return target;
     }
-
 }
