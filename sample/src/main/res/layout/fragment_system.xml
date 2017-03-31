@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.zk.sample.module.system.view.SystemFragment" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/windowBackground"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <CheckBox
+            android:id="@+id/cb_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checked="false"
+            android:onCheckedChangeListener="@{fragment.getOnCheckedChangeListener()}"
+            android:text="全屏" />
+
+        <CheckBox
+            android:id="@+id/cb_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checked="false"
+            android:onCheckedChangeListener="@{fragment.getOnCheckedChangeListener()}"
+            android:text="透明状态栏" />
+
+    </LinearLayout>
+</layout>

@@ -26,7 +26,6 @@ public abstract class BaseActivity<VDB extends ViewDataBinding> extends SkinBase
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, getLayoutResId());
     }
 
@@ -34,10 +33,6 @@ public abstract class BaseActivity<VDB extends ViewDataBinding> extends SkinBase
     public void onLoginInputComplete(String username, String password) {
         Toast.makeText(this, "帐号：" + username + ",  密码 :" + password,
                 Toast.LENGTH_SHORT).show();
-    }
-
-    public void showDialog() {
-        LoginDialogFragment.newInstance(getSupportFragmentManager());
     }
 
     /**

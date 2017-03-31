@@ -3,6 +3,7 @@ package com.zk.sample.app;
 import com.zk.baselibrary.app.BaseApplication;
 import com.zk.baselibrary.skin.SkinConfig;
 import com.zk.baselibrary.skin.loader.SkinManager;
+import com.zk.baselibrary.util.http.HttpUtils;
 
 /**
  * ================================================
@@ -20,12 +21,17 @@ public class SampleApplication extends BaseApplication {
         super.onCreate();
 
         initConfig();
+        initHttp();
+    }
+
+    private void initHttp() {
+        HttpUtils.init(getApplicationContext(), null);
     }
 
     private void initConfig() {
         SkinConfig.setCanChangeStatusColor(true);
         SkinConfig.setCanChangeFont(true);
-        SkinConfig.setDebug(true);
+        SkinConfig.setDebug(false);
         SkinConfig.setTransitionAnim(false);
         SkinManager.getInstance().init(this);
     }

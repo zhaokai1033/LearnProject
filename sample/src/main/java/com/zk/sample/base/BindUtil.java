@@ -3,6 +3,7 @@ package com.zk.sample.base;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,9 +29,9 @@ public class BindUtil {
     //    @BindingAdapter("imageUrl")
     //    @BindingAdapter({"imageUrl", "error", "placeHolder"})
     @BindingAdapter(value = {"imageUrl", "error", "placeHolder"}, requireAll = false)
-    public static void loadImage(ImageView view, String url, Drawable error, Drawable placeHolder) {
-        LogUtil.d(TAG, "load image ->url：" + url);
-        DrawableTypeRequest<String> request = Glide.with(view.getContext()).load(url);
+    public static void loadImage(ImageView view, String newValue, Drawable error, Drawable placeHolder) {
+        LogUtil.d(TAG, "load image ->url：" + newValue);
+        DrawableTypeRequest<String> request = Glide.with(view.getContext()).load(newValue);
 
         if (error != null) {
             request.error(error);

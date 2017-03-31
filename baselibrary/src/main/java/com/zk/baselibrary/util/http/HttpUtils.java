@@ -45,6 +45,15 @@ public class HttpUtils {
     private final Gson mGson;
     private RequestHeaderBuilder requestHeaderBuilder;
 
+    public static HttpUtils getInstance() {
+        isInit();
+        return mInstance;
+    }
+
+    public static HttpUtils newInstance(Context context, Config config) {
+        return new HttpUtils(context, config);
+    }
+
     private HttpUtils(Context context, Config config) {
         if (config == null) {
             config = new Config(10, 10, 30, false, "网络连接失败");
@@ -252,8 +261,9 @@ public class HttpUtils {
         Response response;
         try {
             Call call = mInstance.mOkHttpClient.newCall(request);
-
             response = call.execute();
+        } catch (SecurityException s) {
+            throw new RuntimeException("You need to declare that you want to open the network");
         } catch (SocketTimeoutException w) {
             response = new Response.Builder()
                     .message("网络连接超时:" + w.getMessage())

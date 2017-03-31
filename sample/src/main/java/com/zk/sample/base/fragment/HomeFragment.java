@@ -1,5 +1,6 @@
 package com.zk.sample.base.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -11,6 +12,8 @@ import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.module.binding.view.DataBindingFragment;
 import com.zk.sample.module.card.view.DemoCardFragment;
+import com.zk.sample.module.recycle.view.RecycleViewFragment;
+import com.zk.sample.module.system.view.SystemFragment;
 
 /**
  * ================================================
@@ -39,7 +42,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        binding.dialog.setOnClickListener(new View.OnClickListener() {
+        binding.observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UIControl.showCustomFragment(((BaseActivity) getActivity()), DataBindingFragment.newInstance());
@@ -49,6 +52,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             @Override
             public void onClick(View v) {
                 UIControl.showCustomFragment(((BaseActivity) getActivity()), DemoCardFragment.newInstance());
+            }
+        });
+        binding.recycle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), RecycleViewFragment.newInstance());
+            }
+        });
+        binding.system.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), SystemFragment.newInstance());
             }
         });
     }

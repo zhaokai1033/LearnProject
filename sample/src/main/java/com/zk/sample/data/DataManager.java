@@ -76,6 +76,10 @@ public class DataManager {
 
     private String getUrlRandom() {
         if (IMG_URLS.size() == 0) {
+            IMG_URLS.add("http://www.desktx.com/d/file/phone/fengjing/20170303/d4514df4a052c3570b8594aad53b9562.jpg");
+            IMG_URLS.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490967227006&di=bed2ee6e2b2848ba951aa2d9ff3f6108&imgtype=0&src=http%3A%2F%2Fimg1.2345.com%2Fzmimg%2Fimg%2FpaperList%2F22%2FSuoLue%2F1080_1920%2F2345LSPaper1415166612.jpeg%3FVendorID%3D2345%26ResourceID%3D10753%26ResourceName%3Ds%26ResourceIconUrl%3D2345%26ResourceType%3DWallpaper");
+            IMG_URLS.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1491561876&di=57a62dfd18669ca30a42ad05524592c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2015%2F035%2F21%2F797MCFI3X30Z.jpg");
+            IMG_URLS.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1491561786&di=22c93eaba1640be844637e85d59b0ce6&imgtype=jpg&er=1&src=http%3A%2F%2Fd.5857.com%2Fwszwwm_150203%2F008.jpg");
             IMG_URLS.add("http://ww2.sinaimg.cn/large/7a8aed7bjw1ex8h4lnq3oj20hs0qoadj.jpg");
             IMG_URLS.add("http://pic.meizitu.com/wp-content/uploads/2015a/10/24/01.jpg");
             IMG_URLS.add("http://img3.duitang.com/uploads/item/201504/21/20150421H3510_daQSZ.jpeg");
