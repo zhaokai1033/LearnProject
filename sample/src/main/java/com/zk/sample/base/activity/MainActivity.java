@@ -19,11 +19,13 @@ import com.zk.baselibrary.util.ClassUtil;
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.SystemUtil;
 import com.zk.baselibrary.util.ToastUtil;
+import com.zk.baselibrary.widget.SplashView;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.base.fragment.HomeFragment;
 import com.zk.sample.base.fragment.WebFragment;
+import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.ActivityMainBinding;
 import com.zk.sample.module.theme.view.ThemeFragment;
 
@@ -54,6 +56,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         binding.navigationView.getMenu().getItem(0).setChecked(true);
 
         switchFragment(null);
+        SplashView.showSplashView(this, 15, R.mipmap.a, new SplashView.OnSplashViewActionListener() {
+            @Override
+            public void onSplashImageClick() {
+                LogUtil.d("SplashView", "img clicked. actionUrl: ");
+                ToastUtil.showToast(getApplicationContext(), "img clicked");
+            }
+
+            @Override
+            public void onSplashViewDismiss(boolean initiativeDismiss) {
+                LogUtil.d("SplashView", "dismissed, initiativeDismiss: " + initiativeDismiss);
+            }
+        });
+
+        // call this method anywhere to update splash view data
+        SplashView.updateSplashData(this, DataManager.getRandomUrl());
     }
 
     @Override

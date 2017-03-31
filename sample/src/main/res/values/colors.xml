@@ -10,4 +10,6 @@
     <color name="black">#000000</color>
     <color name="holderColor">#808080</color>
     <color name="Translucent">#00ffffff</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

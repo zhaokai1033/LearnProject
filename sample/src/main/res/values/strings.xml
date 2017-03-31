@@ -25,4 +25,8 @@
     <string name="fragments">Fragments</string>
     <string name="query">搜索</string>
 
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Enter</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
