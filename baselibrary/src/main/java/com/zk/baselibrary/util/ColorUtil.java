@@ -3,6 +3,7 @@ package com.zk.baselibrary.util;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
@@ -111,4 +112,12 @@ public class ColorUtil {
         return Color.argb(alpha, red, green, blue);
     }
 
+    public static int getRandomColor() {
+        Random random = new Random();
+        int r, g, b;
+        r = random.nextInt(255);
+        g = random.nextInt(255);
+        b = random.nextInt(255);
+        return Color.argb(255, r, g, b);
+    }
 }

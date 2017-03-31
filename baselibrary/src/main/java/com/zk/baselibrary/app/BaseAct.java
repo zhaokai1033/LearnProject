@@ -4,17 +4,25 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
+import com.zk.baselibrary.util.ColorUtil;
 import com.zk.baselibrary.util.FragmentController;
 import com.zk.baselibrary.util.LogUtil;
+import com.zk.baselibrary.util.StatusBarUtil;
 import com.zk.baselibrary.widget.SwipeBackLayout;
 import com.zk.baselibrary.widget.Utils;
+import com.zk.baselibrary.widget.statusbar.StatusBarHelper;
 
 /**
  * ================================================
@@ -42,15 +50,74 @@ public abstract class BaseAct extends AppCompatActivity implements SwipeBackActi
             finish();
         }
     };
-    private SwipeBackActivityHelper mHelper;
+    protected SwipeBackActivityHelper mHelper;
+    protected StatusBarHelper mStatusBarHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         LocalBroadcastManager.getInstance(this).registerReceiver(closeReceiver, closeFilter);
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
+        onTintStatusBar();
     }
+
+    /**
+     * 确定状态栏样式
+     */
+    protected void onTintStatusBar() {
+        if (mStatusBarHelper == null) {
+            mStatusBarHelper = new StatusBarHelper(this, StatusBarHelper.LEVEL_19_TRANSLUCENT,
+                    StatusBarHelper.LEVEL_21_NORMAL);
+        }
+    }
+
+    /**
+     * 设置状态栏颜色
+     * 如果界面使用的DrawerLayout 则主界面需要矫正状态栏高度
+     * {@link #adjustStatusBarHeight(View)}
+     * 覆写{@link #getMainView()}
+     *
+     * @param color {@link android.graphics.Color#BLUE}
+     */
+    public void setStateBarColor(@ColorInt int color) {
+        color = ColorUtil.changeAlpha(color, 180);
+        if (mStatusBarHelper != null) {
+            mStatusBarHelper.setColor(color);
+        }
+        //调整 DrawerLayout 主界面的状态栏
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            adjustStatusBarHeight(getMainView());
+        }
+    }
+
+    /**
+     * 获取主界面的view 或者 DrawerLayout中的主页面
+     */
+    protected View getMainView() {
+        View v = null;
+        ViewGroup contentLayout = ((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content));
+        ViewGroup drawerLayout = ((ViewGroup) contentLayout.getChildAt(0));
+        if ("DrawerLayout".equals(drawerLayout.getClass().getSimpleName())) {
+            v = drawerLayout.getChildAt(0);
+        }
+        return v;
+    }
+
+    /**
+     * 给主界面view 增加padding 值
+     */
+    protected void adjustStatusBarHeight(View view) {
+
+        if (view != null)
+            view.setPadding(
+                    getMainView().getPaddingLeft()
+                    , StatusBarUtil.getStatusBarHeight(this)
+                    , getMainView().getPaddingRight()
+                    , getMainView().getPaddingBottom());
+    }
+
 
     /**
      * 创建完成时调用
@@ -81,6 +148,24 @@ public abstract class BaseAct extends AppCompatActivity implements SwipeBackActi
         LogUtil.d(TAG, "onDestroy");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceiver);
     }
+
+    /**
+     * 是否全屏
+     *
+     * @param isFull true/false
+     */
+    protected void setFullscreen(boolean isFull) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        if (isFull) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
 
     @Override
     public SwipeBackLayout getSwipeBackLayout() {

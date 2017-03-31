@@ -74,7 +74,7 @@ public abstract class SkinBaseActivity extends BaseAct implements ISkinUpdate, I
         }
         int color = SkinManager.getInstance().getColorPrimaryDark();
         if (color != -1) {
-            StatusBarUtil.setColor(this, color, 128);
+            setStateBarColor(color);
         }
     }
 

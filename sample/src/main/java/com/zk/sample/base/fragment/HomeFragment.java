@@ -1,10 +1,10 @@
 package com.zk.sample.base.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.zk.baselibrary.app.BaseAct;
 import com.zk.sample.R;
 import com.zk.sample.UIControl;
 import com.zk.sample.databinding.FragmentHomeBinding;
@@ -13,6 +13,7 @@ import com.zk.sample.base.BaseFragment;
 import com.zk.sample.module.binding.view.DataBindingFragment;
 import com.zk.sample.module.card.view.DemoCardFragment;
 import com.zk.sample.module.recycle.view.RecycleViewFragment;
+import com.zk.sample.module.system.view.SystemFragment;
 
 /**
  * ================================================
@@ -57,6 +58,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             @Override
             public void onClick(View v) {
                 UIControl.showCustomFragment(((BaseActivity) getActivity()), RecycleViewFragment.newInstance());
+            }
+        });
+        binding.system.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), SystemFragment.newInstance());
             }
         });
     }

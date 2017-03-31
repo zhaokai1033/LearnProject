@@ -2,6 +2,8 @@ package com.zk.baselibrary.util;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -10,12 +12,16 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.RequiresPermission;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -225,6 +231,62 @@ public class SystemUtil {
     public static void vibrate(final Context context, long[] pattern, boolean isRepeat) {
         Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
         vib.vibrate(pattern, isRepeat ? 1 : -1);
+    }
+
+    /**
+     * 设置页面全屏
+     *
+     * @param activity 当前窗口
+     * @param isFull   是否全屏
+     */
+    public static void setFullScreen(Activity activity, boolean isFull) {
+        if (isFull) {
+            activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            final WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
+            attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            activity.getWindow().setAttributes(attrs);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+    }
+
+    public static boolean isFullScreen(Activity activity) {
+        // 全屏 66816 - 非全屏 65792
+        final WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
+        return attrs.flags == 66816;//非全屏
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void setTranslucentStatus(Activity activity, boolean isTranslucent) {
+        Window win = activity.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (isTranslucent) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+//        translucentSystemBar(activity, isTranslucent, false);
+    }
+
+    public static Boolean translucentSystemBar(Activity mActivity, boolean translucent_status_bar, boolean translucent_navigation_bar) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = null;
+            if (mActivity != null)
+                window = mActivity.getWindow();            // Translucent status bar
+            if (translucent_status_bar) {
+                if (window != null)
+                    window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }            // Translucent navigation bar
+            if (translucent_navigation_bar) {
+                if (window != null)
+                    window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
+            return true;
+        }
+        return false;
     }
 
 }

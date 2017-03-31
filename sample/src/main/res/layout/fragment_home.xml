@@ -28,5 +28,12 @@
             android:layout_height="wrap_content"
             android:text="DataBinding->recycleView" />
 
+        <Button
+            android:id="@+id/system"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SystemUi" />
+
     </LinearLayout>
 </layout>

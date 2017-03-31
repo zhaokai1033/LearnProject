@@ -73,6 +73,9 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
         DataCache.removeFromCache(CUSTOM_FRAGMENT);
     }
 
+    /**
+     * 获取默认显示页
+     */
     private BaseFra getDefaultFragment() {
         //获取再次打开时 替换的 BaseFragment
         BaseFragment baseFragment = DataCache.getFromCache(DEFAULT_FRAGMENT, BaseFragment.class);

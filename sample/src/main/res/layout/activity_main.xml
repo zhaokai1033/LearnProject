@@ -10,11 +10,6 @@
             type="com.zk.sample.base.activity.MainActivity" />
     </data>
 
-    <!--<FrameLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:fitsSystemWindows="true">-->
-
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -39,6 +34,7 @@
                 android:orientation="vertical">
 
                 <android.support.design.widget.AppBarLayout
+                    android:id="@+id/toolbar_layout"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -62,10 +58,11 @@
             </LinearLayout>
         </android.support.design.widget.CoordinatorLayout>
 
-        <android.support.design.internal.ScrimInsetsFrameLayout
+        <com.zk.baselibrary.widget.ScrimInsetsFrameLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="@color/windowBackground"
             android:fitsSystemWindows="true"
             app:appInsetForeground="#4000">
 
@@ -75,11 +72,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:background="@color/windowBackground"
                 app:headerLayout="@layout/nav_header_main"
                 app:menu="@menu/activity_main_drawer"
                 skin:enable="true" />
-        </android.support.design.internal.ScrimInsetsFrameLayout>
+        </com.zk.baselibrary.widget.ScrimInsetsFrameLayout>
     </android.support.v4.widget.DrawerLayout>
-    <!--</FrameLayout>-->
 </layout>

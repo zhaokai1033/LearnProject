@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.util.ClassUtil;
@@ -19,12 +20,12 @@ import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.SystemUtil;
 import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.R;
-import com.zk.sample.databinding.ActivityMainBinding;
-import com.zk.sample.base.fragment.HomeFragment;
-import com.zk.sample.module.theme.view.ThemeFragment;
-import com.zk.sample.base.fragment.WebFragment;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
+import com.zk.sample.base.fragment.HomeFragment;
+import com.zk.sample.base.fragment.WebFragment;
+import com.zk.sample.databinding.ActivityMainBinding;
+import com.zk.sample.module.theme.view.ThemeFragment;
 
 import java.util.Arrays;
 
@@ -53,7 +54,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         binding.navigationView.getMenu().getItem(0).setChecked(true);
 
         switchFragment(null);
-//        StatusBarUtil.setColorForDrawerLayoutDiff(this, binding.drawerLayout, SkinManager.getInstance().getColorPrimaryDark());
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        //矫正navigationView 的高度
+        ((View) binding.navigationView.getParent()).setPadding(0, mStatusBarHelper.getStatusBarHeight(), 0, 0);
     }
 
     @Override
