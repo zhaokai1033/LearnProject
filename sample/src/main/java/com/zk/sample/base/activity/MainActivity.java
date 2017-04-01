@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         binding.navigationView.getMenu().getItem(0).setChecked(true);
 
         switchFragment(null);
-        SplashView.showSplashView(this, 15, R.mipmap.a, new SplashView.OnSplashViewActionListener() {
+        SplashView.showSplashView(this, 10, R.mipmap.a, new SplashView.OnSplashViewActionListener() {
             @Override
             public void onSplashImageClick() {
                 LogUtil.d("SplashView", "img clicked. actionUrl: ");
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         });
 
         // call this method anywhere to update splash view data
-        SplashView.updateSplashData(this, DataManager.getRandomUrl());
+        SplashView.updateSplashData(this, DataManager.getSplashUrl());
     }
 
     @Override

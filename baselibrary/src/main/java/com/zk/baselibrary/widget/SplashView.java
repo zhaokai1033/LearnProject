@@ -118,7 +118,7 @@ public class SplashView extends FrameLayout {
         skipButton.setGravity(Gravity.CENTER);
         skipButton.setTextColor(mActivity.getResources().getColor(android.R.color.white));
         skipButton.setProgressColor(Color.RED);
-        skipButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
+        skipButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 8);
         this.addView(skipButton, skipButtonLayoutParams);
         skipButton.setOnClickListener(new OnClickListener() {
             @Override
