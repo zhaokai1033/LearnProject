@@ -9,8 +9,8 @@
 
     <!--Caused by: libcore.io.GaiException: getaddrinfo failed: EAI_NODATA (No address associated with hostname)-->
     <!--<uses-library-->
-        <!--android:name="com.google.android.maps"-->
-        <!--android:required="false" />-->
+    <!--android:name="com.google.android.maps"-->
+    <!--android:required="false" />-->
     <application
         android:name=".app.SampleApplication"
         android:allowBackup="true"
@@ -20,12 +20,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".base.activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/ThemeMain">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -38,9 +39,9 @@
             android:label="@string/title_activity_splash"
             android:theme="@style/FullscreenTheme">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
     </application>

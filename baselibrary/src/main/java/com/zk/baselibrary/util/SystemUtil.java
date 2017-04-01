@@ -20,6 +20,7 @@ import android.support.annotation.RequiresPermission;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.Surface;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -250,10 +251,38 @@ public class SystemUtil {
         }
     }
 
+    /**
+     * 是否全屏
+     */
     public static boolean isFullScreen(Activity activity) {
         // 全屏 66816 - 非全屏 65792
         final WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         return attrs.flags == 66816;//非全屏
+    }
+
+    /**
+     * 获取当前屏幕旋转角度
+     *
+     * @param activity
+     * @return 0表示是竖屏; 90表示是左横屏; 180表示是反向竖屏; 270表示是右横屏
+     */
+    public static int getDisplayRotation(Activity activity) {
+        if (activity == null)
+            return 0;
+
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                return 0;
+            case Surface.ROTATION_90:
+                return 90;
+            case Surface.ROTATION_180:
+                return 180;
+            case Surface.ROTATION_270:
+                return 270;
+        }
+        return 0;
     }
 
 
