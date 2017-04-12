@@ -42,5 +42,11 @@
             android:layout_height="wrap_content"
             android:text="切换方向" />
 
+        <TextView
+            android:id="@+id/tv_text"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="示例文字" />
     </LinearLayout>
 </layout>

@@ -2,11 +2,15 @@ package com.zk.sample.base.fragment;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.SystemUtil;
@@ -90,6 +94,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                     } else {
                         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     }
+                }
+            }
+        });
+        binding.tvText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Shader shader = ((TextView) v).getPaint().getShader();
+                if (shader == null) {
+                    shader = new LinearGradient(0, 0, 0, 50, Color.parseColor("#a35726"), Color.parseColor("#d88f2d"), Shader.TileMode.CLAMP);
+                    ((TextView) v).getPaint().setShader(shader);
+                } else {
+                    ((TextView) v).getPaint().setShader(null);
+                    v.invalidate();
                 }
             }
         });
