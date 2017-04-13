@@ -2,10 +2,18 @@ package com.zk.sample.module.binding.view;
 
 import android.databinding.ObservableArrayMap;
 import android.databinding.ObservableMap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.view.ActionMode;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.zk.sample.R;
 import com.zk.sample.base.BaseFragment;
@@ -14,6 +22,9 @@ import com.zk.sample.module.binding.BindingEvent;
 import com.zk.sample.module.binding.holder.DataBingHolder;
 import com.zk.sample.module.binding.model.User;
 import com.zk.sample.module.binding.model.UserImg;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * ================================================
@@ -24,6 +35,10 @@ import com.zk.sample.module.binding.model.UserImg;
  */
 
 public class DataBindingFragment extends BaseFragment<FragmentDataBindingBinding> {
+
+    private static final String TAG = "DataBindingFragment";
+    private ActionMode mActionMode;
+
 
     public static DataBindingFragment newInstance() {
 
@@ -55,6 +70,13 @@ public class DataBindingFragment extends BaseFragment<FragmentDataBindingBinding
         binding.setUserMap(userMap);
         binding.setEvent(new BindingEvent());
         binding.setUserImg(new UserImg());
+
+        copyTest();
+    }
+
+    private void copyTest() {
+//        binding.etName.setCustomSelectionActionModeCallback(mActionModeCallback);
+//        binding.etName.setOnLongClickListener(longPressListener);
     }
 
     public interface DataBindingFace {
@@ -68,4 +90,7 @@ public class DataBindingFragment extends BaseFragment<FragmentDataBindingBinding
         CompoundButton.OnCheckedChangeListener getOnCheckedChangeListener();
 
     }
+
+
+
 }

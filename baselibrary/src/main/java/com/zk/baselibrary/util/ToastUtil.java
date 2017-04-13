@@ -12,7 +12,7 @@ import android.widget.Toast;
  * Email zhaokai1033@126.com
  * <p>
  * ================================================
- *
+ * <p>
  * 提示框工具类
  */
 
@@ -34,6 +34,13 @@ public class ToastUtil {
             }
         }
         return instance;
+    }
+
+    /**
+     * 默认
+     */
+    public static void showToast(Context context, String text) {
+        getInstance(context).toastSingle.implShowShortToast(text);
     }
 
     /**
