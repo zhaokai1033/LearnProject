@@ -1,4 +1,4 @@
-package com.zk.sample.base.fragment;
+package com.zk.sample.module.home;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.zk.baselibrary.util.ClassUtil;
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.SystemUtil;
 import com.zk.baselibrary.util.ToastUtil;
@@ -22,6 +23,8 @@ import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.module.binding.view.DataBindingFragment;
 import com.zk.sample.module.card.view.DemoCardFragment;
+import com.zk.sample.module.demo.ViewFragment;
+import com.zk.sample.module.permission.PermissionFragment;
 import com.zk.sample.module.recycle.view.RecycleViewFragment;
 import com.zk.sample.module.system.view.SystemFragment;
 
@@ -35,17 +38,6 @@ import com.zk.sample.module.system.view.SystemFragment;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
-    private static final String TAG = "HomeFragment";
-
-    public static HomeFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        HomeFragment fragment = new HomeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_home;
@@ -53,6 +45,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         binding.observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,39 +70,43 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 UIControl.showCustomFragment(((BaseActivity) getActivity()), SystemFragment.newInstance());
             }
         });
+        binding.tvView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), ClassUtil.createInstance(ViewFragment.class));
+            }
+        });
+        binding.tvPermission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), ClassUtil.createInstance(PermissionFragment.class));
+            }
+        });
         binding.video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int orientation = SystemUtil.getDisplayRotation(getActivity());
-                LogUtil.d(TAG, "ScreenOrientation:" + orientation);
-                if (orientation == 0 || orientation == 180) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-                    } else {
-                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    }
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-                    } else {
-                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    }
-                }
+                SystemUtil.changeDirection(getActivity());
             }
         });
         binding.tvText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Shader shader = ((TextView) v).getPaint().getShader();
-                if (shader == null) {
-                    shader = new LinearGradient(0, 0, 0, 50, Color.parseColor("#a35726"), Color.parseColor("#d88f2d"), Shader.TileMode.CLAMP);
-                    ((TextView) v).getPaint().setShader(shader);
-                } else {
-                    ((TextView) v).getPaint().setShader(null);
-                    v.invalidate();
-                }
+                shaderText((TextView) v);
+                getActivity().setTitle("测试标题");
             }
         });
+
+    }
+
+    private void shaderText(TextView v) {
+        Shader shader = v.getPaint().getShader();
+        if (shader == null) {
+            shader = new LinearGradient(0, 0, 0, 50, Color.parseColor("#a35726"), Color.parseColor("#d88f2d"), Shader.TileMode.CLAMP);
+            v.getPaint().setShader(shader);
+        } else {
+            v.getPaint().setShader(null);
+            v.invalidate();
+        }
     }
 
 }

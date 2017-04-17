@@ -47,6 +47,20 @@
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="示例文字" />
+            android:text="文字示例" />
+
+        <TextView
+            android:id="@+id/tv_view"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="控件示例" />
+
+        <Button
+            android:id="@+id/tv_permission"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="权限示例" />
     </LinearLayout>
 </layout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="holder"
+            type="com.zk.sample.module.demo.ViewDemoHolder" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.zk.baselibrary.widget.BadgeButton
+            android:id="@+id/bt_1"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:background="@mipmap/ic_skin_selected_indicator"
+            android:gravity="center_horizontal"
+            android:onClick="@{holder.onClickListener}"
+            android:text="@{holder.name}"
+            app:btnBadgeColorBack="@color/white"
+            app:btnBadgeColorText="@color/black"
+            app:btnBadgeVisible="true" />
+
+        <com.zk.baselibrary.widget.BadgeLayout
+            android:id="@+id/bt_2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/holderColor"
+            android:padding="10dp"
+            app:btnBadgeColorBack="@color/white"
+            app:btnBadgeColorText="@color/black"
+            app:btnBadgeVisible="true">
+
+            <TextView
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试布局" />
+
+        </com.zk.baselibrary.widget.BadgeLayout>
+
+    </LinearLayout>
+</layout>
