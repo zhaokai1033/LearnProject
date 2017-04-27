@@ -44,7 +44,7 @@ public class DemoCardFragment extends BaseFragment<FragmentCardDemoBinding> impl
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
+        addSwipeSpecialView(binding.viewPager);
         model = new VM_DemoCardFragment(this, binding, this);
         binding.setViewModel(model);
         binding.viewPager.addOnPageChangeListener(model.getOnPageChangeListener());
