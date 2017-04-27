@@ -1,11 +1,15 @@
 package com.zk.sample.base.activity;
 
 import android.Manifest;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,8 +27,8 @@ import com.zk.baselibrary.widget.SplashView;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
-import com.zk.sample.base.fragment.HomeFragment;
-import com.zk.sample.base.fragment.WebFragment;
+import com.zk.sample.module.home.HomeFragment;
+import com.zk.sample.module.home.WebFragment;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.ActivityMainBinding;
 import com.zk.sample.module.theme.view.ThemeFragment;
@@ -39,8 +43,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private BaseFra mCurrentFragment;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onActivityCreate(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        //开启手机屏幕自动旋转
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
         setSwipeBackEnable(false);//取消侧滑返回
         setSupportActionBar(binding.toolbar);
         //添加要改变的控件属性
@@ -56,7 +67,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         binding.navigationView.getMenu().getItem(0).setChecked(true);
 
         switchFragment(null);
-        SplashView.showSplashView(this, 15, R.mipmap.a, new SplashView.OnSplashViewActionListener() {
+        SplashView.showSplashView(this, 10, R.mipmap.a, new SplashView.OnSplashViewActionListener() {
             @Override
             public void onSplashImageClick() {
                 LogUtil.d("SplashView", "img clicked. actionUrl: ");
@@ -70,7 +81,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         });
 
         // call this method anywhere to update splash view data
-        SplashView.updateSplashData(this, DataManager.getRandomUrl());
+        SplashView.updateSplashData(this, DataManager.getSplashUrl());
+    }
+
+    @Override
+    protected void onHandleMessage(Message msg) {
+    }
+
+    @Override
+    protected int getStateContentView() {
+        return 0;
     }
 
     @Override
@@ -102,16 +122,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -139,19 +155,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         } else if (id == R.id.nav_share) {
             SystemUtil.shareText(this, "https://github.com/zhaokai1033");
         } else if (id == R.id.nav_send) {
-//            LogUtil.d(TAG, NetUtil.getWifiAddress(this));
-//            NetUtil.showNetSetDialog(this);
+
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     requestPermissions(new String[]{Manifest.permission.SEND_SMS}, MSG_CODE);
                 }
-                //                    ActivityCompat#requestPermissions
-//                 here to request the missing permissions, and then overriding
-//                   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                                                          int[] grantResults)
-//                 to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-//                return TODO;
             } else {
                 SystemUtil.sendMSG(this, "17312345678", "测试手机");
             }
@@ -206,5 +214,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         switchFragment(((Class) savedInstanceState.getSerializable(CURRENT_PAGE)));
+    }
+
+    /**
+     * 屏幕旋转时调用此方法
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //newConfig.orientation获得当前屏幕状态是横向或者竖向
+        //Configuration.ORIENTATION_PORTRAIT 表示竖向
+        //Configuration.ORIENTATION_LANDSCAPE 表示横屏
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ToastUtil.showToast(this, "现在是竖屏");
+        }
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ToastUtil.showToast(this, "现在是横屏");
+            Snackbar.make(binding.frameContent, "点击测试", Snackbar.LENGTH_SHORT).setAction("点击转屏", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
+            }).show();
+        }
     }
 }

@@ -2,6 +2,8 @@ package com.zk.baselibrary.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,7 +19,7 @@ import android.view.inputmethod.InputMethodManager;
  * 视图工具类
  */
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class UIUtil {
 
     private UIUtil() {
@@ -157,5 +159,34 @@ public class UIUtil {
                 hideKeyboard(activity);
             }
         }
+    }
+
+    /**
+     * 锁定屏幕方向 并根据重力感应确保合适的方向
+     *
+     * @param activity    activity
+     * @param isLandscape true 竖屏 |false 横屏
+     */
+    public static void screenOrientation(Activity activity, boolean isLandscape) {
+        if (isLandscape) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            } else {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            } else {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
+    }
+
+    /**
+     * 开启手机自动转向
+     */
+    public static void openScreenAuto(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 }

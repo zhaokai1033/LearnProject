@@ -72,6 +72,7 @@ public class ProgressTextView extends AppCompatTextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         getDrawingRect(mBounds); //找到view的边界
 
         int mCenterX = mBounds.centerX();
@@ -104,7 +105,6 @@ public class ProgressTextView extends AppCompatTextView {
         mArcRectF.set(mBounds.left + mProgressLineWidth, mBounds.top + mProgressLineWidth,
                 mBounds.right - mProgressLineWidth, mBounds.bottom - mProgressLineWidth);
         canvas.drawArc(mArcRectF, -90, 360 * mProgress / mMax, false, mPaint);
-        super.onDraw(canvas);
     }
 
     public void setText(String text) {

@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -20,8 +24,7 @@ import com.zk.baselibrary.util.ColorUtil;
 import com.zk.baselibrary.util.FragmentController;
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.StatusBarUtil;
-import com.zk.baselibrary.widget.SwipeBackLayout;
-import com.zk.baselibrary.widget.Utils;
+import com.zk.baselibrary.widget.SwipeCloseLayout;
 import com.zk.baselibrary.widget.statusbar.StatusBarHelper;
 
 /**
@@ -36,10 +39,22 @@ import com.zk.baselibrary.widget.statusbar.StatusBarHelper;
  * ================================================
  */
 @SuppressWarnings("unused")
-public abstract class BaseAct extends AppCompatActivity implements SwipeBackActivityBase {
+public abstract class BaseAct extends AppCompatActivity {
+
+    private SwipeCloseLayout mSwipeClose;
+
+
+    /**
+     * 状态
+     */
+    public enum State {
+        LOADING, EMPTY, ERROR
+    }
 
     private static final String TAG = "BaseAct";
     public static final String CLOSE_ACTION = "CLOSE_ACTIVITY";
+    private View[] mStateViews = new View[3];//状态页容器
+    private View mStateView;//状态页
     //注册广播
     IntentFilter closeFilter = new IntentFilter(CLOSE_ACTION);
     //广播接受者
@@ -50,17 +65,160 @@ public abstract class BaseAct extends AppCompatActivity implements SwipeBackActi
             finish();
         }
     };
-    protected SwipeBackActivityHelper mHelper;
     protected StatusBarHelper mStatusBarHelper;
+    public Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            onHandleMessage(msg);
+        }
+    };
+
+    /**
+     * 消息处理回调
+     */
+    protected abstract void onHandleMessage(Message msg);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         LocalBroadcastManager.getInstance(this).registerReceiver(closeReceiver, closeFilter);
-        mHelper = new SwipeBackActivityHelper(this);
-        mHelper.onActivityCreate();
+        mSwipeClose = new SwipeCloseLayout(this);
         onTintStatusBar();
+    }
+
+    @Override
+    public final void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
+    }
+
+    /**
+     * 添加状态页
+     */
+    protected void addStateView() {
+        mStateView = (findViewById(getStateContentView()));
+        if (mStateView instanceof ViewGroup) {
+            ((ViewGroup) mStateView).removeAllViews();
+            mStateViews[State.LOADING.ordinal()] = getLoadingView();
+            if (mStateViews[State.LOADING.ordinal()] != null) {
+                ((ViewGroup) mStateView).addView(mStateViews[State.LOADING.ordinal()]);
+                mStateViews[State.LOADING.ordinal()].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onStateClick(v, State.LOADING);
+                    }
+                });
+                mStateViews[State.LOADING.ordinal()].setVisibility(View.GONE);
+            }
+            mStateViews[State.ERROR.ordinal()] = getErrorView();
+            if (mStateViews[State.ERROR.ordinal()] != null) {
+                ((ViewGroup) mStateView).addView(mStateViews[State.ERROR.ordinal()]);
+                mStateViews[State.ERROR.ordinal()].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onStateClick(v, State.ERROR);
+                    }
+                });
+                mStateViews[State.ERROR.ordinal()].setVisibility(View.GONE);
+            }
+            mStateViews[State.EMPTY.ordinal()] = getEmptyView();
+            if (mStateViews[State.EMPTY.ordinal()] != null) {
+                ((ViewGroup) mStateView).addView(mStateViews[State.EMPTY.ordinal()]);
+                mStateViews[State.EMPTY.ordinal()].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onStateClick(v, State.EMPTY);
+                    }
+                });
+                mStateViews[State.EMPTY.ordinal()].setVisibility(View.GONE);
+            }
+            mStateView.setVisibility(View.GONE);
+        } else {
+            throw new IllegalArgumentException("StateView should be ViewGroup");
+        }
+    }
+
+    /**
+     * 获取状态页容器
+     */
+    protected abstract int getStateContentView();
+
+    /**
+     * 显示指定状态页
+     *
+     * @param stateCode {@link State#EMPTY}    空白页
+     *                  {@link State#ERROR}    错误页
+     *                  {@link State#LOADING}  加载页
+     */
+    public void showStateView(State stateCode) {
+        if (mStateView == null || mStateViews[stateCode.ordinal()] == null) {
+            return;
+        }
+        for (View view : mStateViews) {
+            if (view != null) {
+                view.setVisibility(View.GONE);
+            }
+        }
+        mStateView.setVisibility(View.VISIBLE);
+        mStateViews[stateCode.ordinal()].setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 隐藏所有状态页显示主页面
+     */
+    public void hideStateView() {
+        if (mStateView == null) {
+            return;
+        }
+        for (View view : mStateViews) {
+            if (view != null) {
+                view.setVisibility(View.GONE);
+            }
+        }
+        mStateView.setVisibility(View.GONE);
+    }
+
+    /**
+     * 隐藏指定状态页
+     *
+     * @param state {@link State}
+     */
+    public void hideStateView(State state) {
+        if (mStateViews[state.ordinal()] != null)
+            mStateViews[state.ordinal()].setVisibility(View.GONE);
+    }
+
+    /**
+     * 状态页点击事件
+     *
+     * @param state {@link State#EMPTY}    空白页
+     *              {@link State#ERROR}    错误页
+     *              {@link State#LOADING}  加载页
+     */
+    protected void onStateClick(View view, State state) {
+
+    }
+
+    /**
+     * "空"状态页
+     */
+    protected View getEmptyView() {
+        return null;
+    }
+
+    /**
+     * "错误"状态页
+     */
+    protected View getErrorView() {
+        return null;
+    }
+
+    /**
+     * "加载中"状态页
+     */
+    protected View getLoadingView() {
+        return null;
     }
 
     /**
@@ -125,17 +283,17 @@ public abstract class BaseAct extends AppCompatActivity implements SwipeBackActi
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mHelper.onPostCreate();
+        mSwipeClose.injectWindow();
+        if (getStateContentView() != 0) {
+            addStateView();
+        }
+        onActivityCreated(savedInstanceState);
     }
 
-    @Override
-    public View findViewById(int id) {
-        View v = super.findViewById(id);
-        if (v == null && mHelper != null)
-            return mHelper.findViewById(id);
-        return v;
-    }
-
+    /**
+     * Activity 被创建完成
+     */
+    protected abstract void onActivityCreated(Bundle savedInstanceState);
 
     /**
      * 获取布局资源Id
@@ -166,31 +324,30 @@ public abstract class BaseAct extends AppCompatActivity implements SwipeBackActi
         win.setAttributes(winParams);
     }
 
-
-    @Override
-    public SwipeBackLayout getSwipeBackLayout() {
-        return mHelper.getSwipeBackLayout();
-    }
-
     /**
      * 是否开启侧滑关闭
      *
      * @param enable true/false
      */
-    @Override
+//    @Override
     public void setSwipeBackEnable(boolean enable) {
-        getSwipeBackLayout().setEnableGesture(enable);
+        if (mSwipeClose != null) {
+            mSwipeClose.setSwipeEnabled(enable);
+        }
     }
 
     /**
-     * 侧滑关闭Activity
+     * 增加特殊View 防止滑动冲突
      */
-    @Override
-    public void scrollToFinishActivity() {
-        Utils.convertActivityToTranslucent(this);
-        getSwipeBackLayout().scrollToFinishActivity();
+    public void addSwipeSpecialView(View view) {
+        if (mSwipeClose != null) {
+            mSwipeClose.addSpecialView(view);
+        }
     }
 
+    public SwipeCloseLayout getSwipeClose() {
+        return mSwipeClose;
+    }
 
     /**
      * 关闭所有的Activity
@@ -232,5 +389,9 @@ public abstract class BaseAct extends AppCompatActivity implements SwipeBackActi
         if (isNeedRefresh)
             target.refresh();
         return target;
+    }
+
+    private ViewGroup.LayoutParams getDefaultParams() {
+        return new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 }

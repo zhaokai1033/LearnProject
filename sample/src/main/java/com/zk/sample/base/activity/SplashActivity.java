@@ -8,9 +8,6 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.zk.baselibrary.util.LogUtil;
-import com.zk.baselibrary.util.ToastUtil;
-import com.zk.baselibrary.widget.SplashView;
 import com.zk.sample.R;
 
 /**

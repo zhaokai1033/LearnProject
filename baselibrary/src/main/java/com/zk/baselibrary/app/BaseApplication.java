@@ -1,7 +1,6 @@
 package com.zk.baselibrary.app;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
 /**

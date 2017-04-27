@@ -7,9 +7,10 @@ import android.widget.CompoundButton;
 
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
+import com.zk.sample.base.BaseActivity;
 import com.zk.sample.data.DataManager;
 import com.zk.sample.databinding.FragmentCardDemoBinding;
-import com.zk.sample.module.ViewHolderRefreshListener;
+import com.zk.sample.module.card.ViewHolderRefreshListener;
 import com.zk.sample.module.card.adpater.CardFragmentAdapter;
 import com.zk.sample.module.card.CardPageChangeListener;
 import com.zk.sample.module.card.adpater.CardViewAdapter;
@@ -32,13 +33,24 @@ public class VM_DemoCardFragment implements DemoCardFragment.HolderFace {
     private boolean mShowingFragments;
     private FragmentCardDemoBinding binding;
 
-    public VM_DemoCardFragment(DemoCardFragment fragment, FragmentCardDemoBinding binding, ViewHolderRefreshListener refreshListener) {
+    public VM_DemoCardFragment(final DemoCardFragment fragment, FragmentCardDemoBinding binding, ViewHolderRefreshListener refreshListener) {
         mShowingFragments = false;
         this.refreshListener = refreshListener;
         this.binding = binding;
-        mCardPageListener = new CardPageChangeListener(binding.viewPager);
-        mFragmentAdapter = new CardFragmentAdapter(fragment.getChildFragmentManager(), UIUtil.dip2px(fragment.getContext(), 2));
-        mCardAdapter = new CardViewAdapter();
+        mCardPageListener = new CardPageChangeListener(binding.viewPager) {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+        };
+        mFragmentAdapter = new
+
+                CardFragmentAdapter(fragment.getChildFragmentManager(), UIUtil.
+
+                dip2px(fragment.getContext(), 2));
+        mCardAdapter = new
+
+                CardViewAdapter();
         mCardAdapter.addCardItems(DataManager.getCards());
     }
 

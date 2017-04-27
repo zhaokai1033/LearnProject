@@ -4,6 +4,7 @@ import android.databinding.ObservableArrayMap;
 import android.databinding.ObservableMap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.ActionMode;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -24,6 +25,10 @@ import com.zk.sample.module.binding.model.UserImg;
  */
 
 public class DataBindingFragment extends BaseFragment<FragmentDataBindingBinding> {
+
+    private static final String TAG = "DataBindingFragment";
+    private ActionMode mActionMode;
+
 
     public static DataBindingFragment newInstance() {
 
@@ -55,6 +60,13 @@ public class DataBindingFragment extends BaseFragment<FragmentDataBindingBinding
         binding.setUserMap(userMap);
         binding.setEvent(new BindingEvent());
         binding.setUserImg(new UserImg());
+
+        copyTest();
+    }
+
+    private void copyTest() {
+//        binding.etName.setCustomSelectionActionModeCallback(mActionModeCallback);
+//        binding.etName.setOnLongClickListener(longPressListener);
     }
 
     public interface DataBindingFace {
@@ -68,4 +80,7 @@ public class DataBindingFragment extends BaseFragment<FragmentDataBindingBinding
         CompoundButton.OnCheckedChangeListener getOnCheckedChangeListener();
 
     }
+
+
+
 }

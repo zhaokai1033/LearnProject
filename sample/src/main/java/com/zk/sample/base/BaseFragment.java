@@ -49,7 +49,7 @@ public abstract class BaseFragment<VDB extends ViewDataBinding> extends BaseFra 
     @Override
     public View onCreateView(ViewGroup container, @Nullable Bundle savedInstanceState) {
         try {
-            binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+            binding = DataBindingUtil.inflate(mInflater, getLayoutRes(), container, false);
         } catch (Exception e) {
             binding = null;
         }
@@ -58,7 +58,7 @@ public abstract class BaseFragment<VDB extends ViewDataBinding> extends BaseFra 
         if (binding != null && binding.getRoot() != null) {
             v = binding.getRoot();
         } else {
-            v = inflater.inflate(getLayoutRes(), container, false);
+            v = mInflater.inflate(getLayoutRes(), container, false);
         }
         return v;
     }

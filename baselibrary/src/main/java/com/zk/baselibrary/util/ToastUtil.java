@@ -1,9 +1,9 @@
 package com.zk.baselibrary.util;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
-
-import com.zk.baselibrary.app.BaseApplication;
 
 /**
  * ================================================
@@ -12,49 +12,114 @@ import com.zk.baselibrary.app.BaseApplication;
  * Email zhaokai1033@126.com
  * <p>
  * ================================================
- *
+ * <p>
  * 提示框工具类
  */
 
 @SuppressWarnings("unused")
 public class ToastUtil {
+    private static ToastUtil instance;
+    private final ToastSingle toastSingle;
 
-    private ToastUtil mInstance;
-    private Toast mToast;
-    private static ToastUtil t;
-
-    private ToastUtil() {
+    private ToastUtil(Context applicationContext) {
+        this.toastSingle = new ToastSingle(applicationContext);
     }
 
-    private static ToastUtil getToastUtil(Context c) {
-        if (t == null) {
-            t = new ToastUtil();
+    private static ToastUtil getInstance(Context context) {
+        if (instance == null) {
+            if (context != null) {
+                instance = new ToastUtil(context.getApplicationContext());
+            } else {
+                throw new RuntimeException("can't tip without context");
+            }
         }
-        return t;
+        return instance;
     }
 
-    public static void showToast(Context c, String msg) {
-        if (c != null) {
-            getToastUtil(c).showToastImp(c, msg);
-        } else {
-            getToastUtil(BaseApplication.getInstance())
-                    .showToastImp(BaseApplication.getInstance().getApplicationContext(), msg);
+    /**
+     * 默认
+     */
+    public static void showToast(Context context, String text) {
+        getInstance(context).toastSingle.implShowShortToast(text);
+    }
+
+    /**
+     * 短提示
+     */
+    @SuppressWarnings("unused")
+    public static void showShortToast(Context context, String text) {
+        getInstance(context).toastSingle.implShowShortToast(text);
+    }
+
+    /**
+     * 长提示
+     */
+    @SuppressWarnings("unused")
+    public static void showLongToast(Context context, String text) {
+        getInstance(context).toastSingle.implShowLongToast(text);
+    }
+
+    private static class ToastSingle {
+
+        private final Context mApplicationContext;
+        private Handler mUiHandler = new Handler(Looper.getMainLooper());
+        private static final Object mLock = new Object();
+
+        private Toast mToast;
+        private Toast mLongToast;
+
+        ToastSingle(Context applicationContext) {
+            this.mApplicationContext = applicationContext;
         }
-    }
 
-    private void showToastImp(Context c, String text) {
-        if (mToast == null) {
-            mToast = Toast.makeText(c, text, Toast.LENGTH_SHORT);
-        } else {
-            mToast.setText(text);
-            mToast.setDuration(Toast.LENGTH_LONG);
+        private void implShowShortToast(final String text) {
+            mUiHandler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    synchronized (mLock) {
+                        if (mToast == null) {
+                            mToast = Toast.makeText(mApplicationContext, text,
+                                    Toast.LENGTH_SHORT);
+//                            int xOffset = mToast.getXOffset();
+//                            int yOffset = mToast.getYOffset() + Y_OFFSET;
+//                            mToast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM,
+//                                    xOffset, yOffset);
+                        } else {
+                            mToast.setText(text);
+                        }
+                        if (mLongToast != null)
+                            mLongToast.cancel();
+
+                        mToast.show();
+                    }
+                }
+            });
         }
-        mToast.show();
-    }
 
-    public void cancelToastImp() {
-        if (mToast != null) {
-            mToast.cancel();
+        private void implShowLongToast(final String text) {
+            mUiHandler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    synchronized (mLock) {
+                        if (mLongToast == null) {
+                            mLongToast = Toast.makeText(mApplicationContext, text,
+                                    Toast.LENGTH_LONG);
+//                            int xOffset = mLongToast.getXOffset();
+//                            int yOffset = mLongToast.getYOffset() + Y_OFFSET;
+//                            mLongToast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM,
+//                                    xOffset, yOffset);
+                        } else {
+                            // mLongToast.cancel();
+                            mLongToast.setText(text);
+                        }
+                        if (mToast != null)
+                            mToast.cancel();
+                        mLongToast.show();
+                    }
+                }
+            });
         }
     }
 }

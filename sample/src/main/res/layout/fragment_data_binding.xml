@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:weightSum="2">
 
-                    <EditText
+                    <com.zk.baselibrary.widget.CustomEditText
                         android:id="@+id/et_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

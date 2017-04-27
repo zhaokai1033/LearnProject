@@ -35,5 +35,54 @@
             android:layout_height="wrap_content"
             android:text="SystemUi" />
 
+        <Button
+            android:id="@+id/video"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="切换方向" />
+
+        <TextView
+            android:id="@+id/tv_text"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="文字示例" />
+
+        <TextView
+            android:id="@+id/tv_view"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="控件示例" />
+
+        <Button
+            android:id="@+id/tv_permission"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="权限示例" />
+
+        <Button
+            android:id="@+id/tv_file"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="文件管理" />
+
+        <Button
+            android:id="@+id/bt_dialog"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="对话框" />
+
+        <Button
+            android:id="@+id/bt_back"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="侧滑返回" />
+
     </LinearLayout>
 </layout>

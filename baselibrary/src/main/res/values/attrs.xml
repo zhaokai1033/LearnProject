@@ -5,18 +5,25 @@
         <attr name="appConsumeInsets" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="SwipeBackLayout">
-        <attr name="edge_size" format="dimension" />
-        <attr name="edge_flag">
-            <enum name="left" value="0" />
-            <enum name="right" value="1" />
-            <enum name="bottom" value="2" />
-            <enum name="all" value="3" />
-        </attr>
-        <attr name="shadow_left" format="reference" />
-        <attr name="shadow_right" format="reference" />
-        <attr name="shadow_bottom" format="reference" />
+    <declare-styleable name="BadgeButton">
+        <!-- 徽标文本，为空时显示一个小红点 -->
+        <attr name="btnBadgeText" format="string" />
+        <!-- 徽标高度，宽度自适应 -->
+        <attr name="btnBadgeHeight" format="dimension" />
+        <!-- 徽标背景色，默认红色 -->
+        <attr name="btnBadgeColorBack" format="color" />
+        <!-- 徽标文本色，默认白色 -->
+        <attr name="btnBadgeColorText" format="color" />
+        <!-- 徽标是否可见 -->
+        <attr name="btnBadgeVisible" format="boolean" />
     </declare-styleable>
 
     <attr name="SwipeBackLayoutStyle" format="reference" />
+
+    <declare-styleable name="WaitingDots">
+        <attr name="dotsColor" format="color" />
+        <attr name="period" format="integer" />
+        <attr name="jumpHeight" format="integer" />
+        <attr name="autoplay" format="boolean" />
+    </declare-styleable>
 </resources>

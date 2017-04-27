@@ -21,7 +21,9 @@ import java.util.Locale;
 public class DateUtils {
 
     private static final String TAG = "DateUtils";
-    private static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String YYYY_MM_DD = "yyyy/MM/dd";
+    public static final String DD_HH_MM = "dd HH:mm";
+    public static final String YYYY_MM_DD_HH_MM = "yyyy/MM/dd HH:mm";
 
     private static final long ONE_MINUTE = 60;
     private static final long FIVE_MIN = 300;
@@ -45,7 +47,7 @@ public class DateUtils {
     }
 
     /**
-     * 时间转日期 格式  yyyy-MM-dd HH:mm
+     * 时间转日期 格式  yyyy/MM/dd HH:mm
      * 当输入 0时 返回当前日期
      *
      * @param date 秒数
@@ -55,7 +57,7 @@ public class DateUtils {
     }
 
     /**
-     * 时间转日期 格式  默认格式 yyyy-MM-dd
+     * 时间转日期 格式  默认格式 yyyy/MM/dd
      * 当输入 0时 返回当前日期
      *
      * @param date 秒数
@@ -76,7 +78,7 @@ public class DateUtils {
     /**
      * 返回日期的秒数
      *
-     * @param time 默认格式字符串格式 yyyy-MM-dd
+     * @param time 默认格式字符串格式 yyyy/MM/dd
      */
     public static long time2mill(String time) {
         return time2mill(time, null);
@@ -85,7 +87,7 @@ public class DateUtils {
     /**
      * 返回日期的秒数
      *
-     * @param time          默认格式字符串格式 yyyy-MM-dd
+     * @param time          默认格式字符串格式 yyyy/MM/dd
      * @param defaultFormat 字符串格式
      */
     public static long time2mill(String time, String defaultFormat) {
@@ -106,7 +108,7 @@ public class DateUtils {
     /**
      * 获取 某个日期上个月的最大天数
      *
-     * @param time 字符串格式 yyyy-MM-dd
+     * @param time 字符串格式 yyyy/MM/dd
      */
     public static int getLastDayByDate(String time) {
         //获取Calendar对象
@@ -122,7 +124,7 @@ public class DateUtils {
      *
      * @param first  基准
      * @param second 测试的日期
-     *               字符串格式 yyyy-MM-dd
+     *               字符串格式 yyyy/MM/dd
      */
     public static int getDiffDays(String first, String second) {
         Calendar cal = Calendar.getInstance();
@@ -169,6 +171,33 @@ public class DateUtils {
             SimpleDateFormat simple = new SimpleDateFormat("yy - MM", locale);
             return simple.format(calendar.getTime());
         }
+    }
+
+    /**
+     * 时长
+     *
+     * @param time mill
+     * @return
+     */
+    /**
+     * 格式化下载剩余时间
+     */
+    public static String timeFormat(long second) {
+        long dd = second / (60 * 60 * 24);
+        long hh = second / 3600;
+        long mm = second % 3600 / 60;
+        long ss = second % 60;
+        String strTemp;
+        if (0 != dd) {
+            strTemp = String.format(locale, "%d天%02d小时%02d分%02d秒", dd, hh, mm, ss);
+        } else if (0 != hh) {
+            strTemp = String.format(locale, "%02d小时%02d分%02d秒", hh, mm, ss);
+        } else if (0 != mm) {
+            strTemp = String.format(locale, "%02d分%02d秒", mm, ss);
+        } else {
+            strTemp = String.format(locale, "%02d秒", ss);
+        }
+        return strTemp;
     }
 
     /**

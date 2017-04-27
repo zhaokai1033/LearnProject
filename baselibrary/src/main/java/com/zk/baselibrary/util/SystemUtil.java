@@ -2,13 +2,15 @@ package com.zk.baselibrary.util;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Service;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -20,11 +22,15 @@ import android.support.annotation.RequiresPermission;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.Surface;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.zk.baselibrary.app.BaseApplication;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ================================================
@@ -37,6 +43,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class SystemUtil {
 
+    private static final String TAG = "SystemUtil";
 
     /**
      * 系统自带的文字分享
@@ -250,10 +257,37 @@ public class SystemUtil {
         }
     }
 
+    /**
+     * 是否全屏
+     */
     public static boolean isFullScreen(Activity activity) {
         // 全屏 66816 - 非全屏 65792
         final WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         return attrs.flags == 66816;//非全屏
+    }
+
+    /**
+     * 获取当前屏幕旋转角度
+     *
+     * @return 0表示是竖屏; 90表示是左横屏; 180表示是反向竖屏; 270表示是右横屏
+     */
+    public static int getDisplayRotation(Activity activity) {
+        if (activity == null)
+            return 0;
+
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                return 0;
+            case Surface.ROTATION_90:
+                return 90;
+            case Surface.ROTATION_180:
+                return 180;
+            case Surface.ROTATION_270:
+                return 270;
+        }
+        return 0;
     }
 
 
@@ -271,11 +305,18 @@ public class SystemUtil {
 //        translucentSystemBar(activity, isTranslucent, false);
     }
 
-    public static Boolean translucentSystemBar(Activity mActivity, boolean translucent_status_bar, boolean translucent_navigation_bar) {
+    /**
+     * 透明SystemBar
+     *
+     * @param translucent_status_bar     是否透明状态栏
+     * @param translucent_navigation_bar 是否透明navigation_bar
+     * @return 是否成功
+     */
+    public static Boolean translucentSystemBar(Activity activity, boolean translucent_status_bar, boolean translucent_navigation_bar) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = null;
-            if (mActivity != null)
-                window = mActivity.getWindow();            // Translucent status bar
+            if (activity != null)
+                window = activity.getWindow();            // Translucent status bar
             if (translucent_status_bar) {
                 if (window != null)
                     window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -289,4 +330,63 @@ public class SystemUtil {
         return false;
     }
 
+    /**
+     * 切换横竖屏
+     */
+    public static void changeDirection(Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("activity ==null");
+        }
+        int orientation = SystemUtil.getDisplayRotation(activity);
+        LogUtil.d(TAG, "ScreenOrientation:" + orientation);
+        if (orientation == 0 || orientation == 180) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            } else {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            } else {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
+    }
+
+    /**
+     * 获取指定时间段内 应用的使用情况
+     *
+     * @return 使用情况列表 或者null
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+    public static ArrayList<String> getUsageState(Context context, long start, long end) {
+        UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+        //获取一个月内的信息
+        List<UsageStats> list = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, start, end);
+        return logList(list);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static ArrayList<String> logList(List<UsageStats> list) {
+        ArrayList<String> stringList = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        if (list != null) {
+            for (UsageStats s : list) {
+                String name = ApkUtil.getAppName(BaseApplication.getInstance(), s.getPackageName());
+                String b = "-------------------------------\n" +
+                        "AppName:\t" + name + "\n" +
+                        "PackName:\t" + s.getPackageName() + "\n" +
+                        "TotalTime:\t" + DateUtils.timeFormat(s.getTotalTimeInForeground() / 1000) + "\n" +
+                        "FirstTimeStamp:\t" + DateUtils.mill2time(s.getFirstTimeStamp() / 1000, DateUtils.YYYY_MM_DD_HH_MM) + "\n" +
+                        "LastTimeStamp\t" + DateUtils.mill2time(s.getLastTimeStamp() / 1000, DateUtils.YYYY_MM_DD_HH_MM) + "\n" +
+                        "LastTimeUsed\t" + DateUtils.mill2time(s.getLastTimeUsed() / 1000, DateUtils.YYYY_MM_DD_HH_MM) + "\n";
+                LogUtil.d(TAG, b);
+                builder.append(b);
+                stringList.add(b);
+            }
+        }
+        stringList.add(builder.toString());
+        return stringList;
+    }
 }
