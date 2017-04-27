@@ -43,6 +43,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private BaseFra mCurrentFragment;
 
     @Override
+    protected void onActivityCreate(Bundle savedInstanceState) {
+
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         //开启手机屏幕自动旋转
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);

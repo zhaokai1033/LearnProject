@@ -50,7 +50,7 @@ public class LoginDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
+        // Get the layout mInflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_demo, null);
         mUsername = (EditText) view.findViewById(R.id.id_txt_username);

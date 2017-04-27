@@ -37,9 +37,18 @@ public abstract class BaseActivity<VDB extends ViewDataBinding> extends SkinBase
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, getLayoutResId());
+        onActivityCreate(savedInstanceState);
     }
 
+    /**
+     * Activity 创建时调用
+     */
+    protected abstract void onActivityCreate(Bundle savedInstanceState);
 
+    @Override
+    protected void onActivityCreated(Bundle savedInstanceState) {
+
+    }
     @Override
     public final void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);

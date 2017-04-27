@@ -43,6 +43,7 @@ public abstract class BaseAct extends AppCompatActivity {
 
     private SwipeCloseLayout mSwipeClose;
 
+
     /**
      * 状态
      */
@@ -335,6 +336,9 @@ public abstract class BaseAct extends AppCompatActivity {
         }
     }
 
+    /**
+     * 增加特殊View 防止滑动冲突
+     */
     public void addSwipeSpecialView(View view) {
         if (mSwipeClose != null) {
             mSwipeClose.addSpecialView(view);

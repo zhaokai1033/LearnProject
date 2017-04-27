@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.zk.baselibrary.widget.SwipeCloseLayout;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,44 +28,57 @@ public abstract class BaseFra extends Fragment {
 
     protected View mainView;
     private HashMap<String, View> stateView = new HashMap<>();
-    protected LayoutInflater inflater;
+    protected LayoutInflater mInflater;
     public static final String NORMAL = "normal";
+    private SwipeCloseLayout mSwipeClose;
 
     @Nullable
     @Override
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //创建之前做一些准备工作
         readyBeforeCreate();
-        this.inflater = inflater;
+        this.mInflater = inflater == null ? LayoutInflater.from(getContext()) : inflater;
 
         if (isAddToFrameLayout() || isShowTitle()) {
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-            if (isShowTitle() && getTitleView() != null) {
-                linearLayout.addView(getTitleView());
-            }
+            FrameLayout frameLayout = null;
+            LinearLayout linearLayout = null;
             if (isAddToFrameLayout()) {
-                FrameLayout frameLayout = new FrameLayout(getContext());
+                frameLayout = new FrameLayout(getContext());
                 for (Map.Entry<String, View> entry : getStatesViews().entrySet()) {
                     frameLayout.addView(entry.getValue());
                     stateView.put(entry.getKey(), entry.getValue());
                 }
                 stateView.put(NORMAL, mainView);
-                mainView = onCreateView(frameLayout, savedInstanceState);
-                frameLayout.addView(mainView);
-                linearLayout.addView(frameLayout);
-            } else {
-                mainView = onCreateView(linearLayout, savedInstanceState);
-                linearLayout.addView(mainView);
+                frameLayout.addView(onCreateView(frameLayout, savedInstanceState));
             }
-            return linearLayout;
+
+            if (isShowTitle() && getTitleView() != null) {
+                linearLayout = new LinearLayout(getContext());
+                linearLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                linearLayout.addView(getTitleView());
+                if (frameLayout != null) {
+                    linearLayout.addView(frameLayout);
+                } else {
+                    linearLayout.addView(onCreateView(linearLayout, savedInstanceState));
+                }
+            }
+            if (linearLayout != null && frameLayout != null) {
+                mainView = linearLayout;
+            } else if (frameLayout != null) {
+                mainView = frameLayout;
+            }
+        } else {
+            mainView = onCreateView(container, savedInstanceState);
         }
-        mainView = onCreateView(container, savedInstanceState);
-        return mainView;
+        if (mainView == null) {
+            throw new IllegalArgumentException("mainView Can not be null");
+        }
+        mSwipeClose = new SwipeCloseLayout(getActivity(), this);
+        mSwipeClose.injectFragmentWindow(mainView);
+        return mSwipeClose;
     }
 
     /**
@@ -163,6 +178,27 @@ public abstract class BaseFra extends Fragment {
             childFragmentManager.set(this, null);
         } catch (Throwable e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 是否开启侧滑关闭
+     *
+     * @param enable true/false
+     */
+//    @Override
+    public void setSwipeBackEnable(boolean enable) {
+        if (mSwipeClose != null) {
+            mSwipeClose.setSwipeEnabled(enable);
+        }
+    }
+
+    /**
+     * 增加特殊View 防止滑动冲突
+     */
+    public void addSwipeSpecialView(View view) {
+        if (mSwipeClose != null) {
+            mSwipeClose.addSpecialView(view);
         }
     }
 }

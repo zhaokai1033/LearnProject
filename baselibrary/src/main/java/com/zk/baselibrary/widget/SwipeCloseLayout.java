@@ -20,10 +20,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.zk.baselibrary.R;
+import com.zk.baselibrary.app.BaseAct;
+import com.zk.baselibrary.app.BaseFra;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -49,19 +48,20 @@ public class SwipeCloseLayout extends FrameLayout {
     private boolean mIgnoreSwipe = false;
     private boolean mHasIgnoreFirstMove;
 
-    private Activity mActivity;
-    private VelocityTracker tracker;
-    private ObjectAnimator mAnimator;
-    private Drawable mLeftShadow;
-    private View mContent;
-    private int mScreenWidth;
-    private int touchSlopLength;
-    private float mDownX;
-    private float mDownY;
-    private float mLastX;
-    private float mCurrentX;
-    private int mPullMaxLength;
-    private boolean mIsInjected;
+    protected BaseFra fragment;
+    protected BaseAct mActivity;
+    protected VelocityTracker tracker;
+    protected ObjectAnimator mAnimator;
+    protected Drawable mLeftShadow;
+    protected View mContent;
+    protected int mScreenWidth;
+    protected int touchSlopLength;
+    protected float mDownX;
+    protected float mDownY;
+    protected float mLastX;
+    protected float mCurrentX;
+    protected int mPullMaxLength;
+    protected boolean mIsInjected;
 
     //    private List<WeakReference<View>> spcialView = new ArrayList<>();
     private WeakHashMap<Integer, View> specialView = new WeakHashMap<>();
@@ -76,7 +76,7 @@ public class SwipeCloseLayout extends FrameLayout {
 
     public SwipeCloseLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mActivity = (Activity) context;
+        mActivity = (BaseAct) context;
         mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
         mLeftShadow = context.getResources().getDrawable(R.drawable.shadow_left);
@@ -86,6 +86,11 @@ public class SwipeCloseLayout extends FrameLayout {
         mScreenWidth = displayMetrics.widthPixels;
         mPullMaxLength = (int) (mScreenWidth * 0.33f);
         setClickable(true);
+    }
+
+    public SwipeCloseLayout(Activity activity, BaseFra baseFra) {
+        this(activity, null, 0);
+        this.fragment = baseFra;
     }
 
     /**
@@ -101,6 +106,14 @@ public class SwipeCloseLayout extends FrameLayout {
         root.removeView(mContent);
         this.addView(mContent, new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         root.addView(this);
+        mIsInjected = true;
+    }
+
+    public void injectFragmentWindow(View view) {
+        if (mIsInjected)
+            return;
+        mContent = view;
+        addView(view);
         mIsInjected = true;
     }
 
@@ -283,10 +296,7 @@ public class SwipeCloseLayout extends FrameLayout {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mIsAnimationFinished = true;
-                if (!mActivity.isFinishing()) {
-                    mActivity.finish();
-                    mActivity.overridePendingTransition(0, 0);
-                }
+                backImp();
             }
 
             @Override
@@ -297,6 +307,18 @@ public class SwipeCloseLayout extends FrameLayout {
         mAnimator.start();
     }
 
+    public void backImp() {
+        if (fragment != null) {
+            if (mActivity.getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                mActivity.getSupportFragmentManager().popBackStackImmediate();
+                return;
+            }
+        }
+        if (!mActivity.isFinishing()) {
+            mActivity.finish();
+            mActivity.overridePendingTransition(0, 0);
+        }
+    }
 
     private void animateFromVelocity(float v) {
         int currentX = (int) getContentX();
@@ -325,7 +347,6 @@ public class SwipeCloseLayout extends FrameLayout {
      * 添加特殊view 防止错划
      */
     public void addSpecialView(View view) {
-//        spcialView.add(new WeakReference<>(view));
         specialView.put(view.hashCode(), view);
     }
 

@@ -43,7 +43,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
+        setSwipeBackEnable(false);
         binding.observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

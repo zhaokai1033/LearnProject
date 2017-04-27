@@ -64,6 +64,7 @@ public class WebFragment extends BaseFragment<FragmentWebBinding> {
         initImp(binding.web);
         setClient(binding.web);
         binding.web.loadUrl(url);
+        setSwipeBackEnable(false);
     }
 
     private final Set<String> offlineResources = new HashSet<>();

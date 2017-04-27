@@ -55,7 +55,9 @@
         <activity
             android:name=".module.dialog.DemoDialog"
             android:theme="@style/AppTheme.Dialog" />
-        <activity android:name=".base.activity.TestActivity"></activity>
+        <activity
+            android:name=".base.activity.TestActivity"
+            android:theme="@style/ThemeCustom" />
     </application>
 
 </manifest>

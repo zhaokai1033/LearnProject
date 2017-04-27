@@ -46,6 +46,11 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
     }
 
     @Override
+    protected void onActivityCreate(Bundle savedInstanceState) {
+
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         showStateView(State.LOADING);
         mHandler.postDelayed(new Runnable() {
