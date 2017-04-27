@@ -1,4 +1,4 @@
-package com.zk.sample.module.demo;
+package com.zk.sample.module.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,5 +33,6 @@ public class ViewFragment extends BaseFragment<FragmentViewDemoBinding> {
         binding.setHolder(holder);
         binding.bt1.setBadgeText("123");
         binding.bt2.setBadgeText("223aqwe");
+        binding.wave.startWave();
     }
 }

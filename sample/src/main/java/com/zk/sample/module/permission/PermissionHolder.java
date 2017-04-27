@@ -1,12 +1,10 @@
 package com.zk.sample.module.permission;
 
 import android.app.Activity;
-import android.app.usage.UsageStats;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
@@ -16,7 +14,6 @@ import com.zk.baselibrary.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -62,7 +59,7 @@ public class PermissionHolder {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                             Calendar calender = Calendar.getInstance(Locale.SIMPLIFIED_CHINESE);
                             long end = calender.getTimeInMillis();
-                            calender.add(Calendar.DATE, -3);
+                            calender.add(Calendar.DATE, -1);
                             long start = calender.getTimeInMillis();
                             ArrayList<String> list = SystemUtil.getUsageState(activity, start, end);
                             if (showText != null && list.size() > 1) {

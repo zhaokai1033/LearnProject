@@ -1,5 +1,12 @@
 <resources>
 
+    <style name="AppTheme" parent="AppThemeBase">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <!-- 主界面 主题 无返回 背景部位透明 -->
     <style name="ThemeMain" parent="AppTheme">
         <item name="android:windowIsTranslucent">false</item>
@@ -8,13 +15,6 @@
     <style name="ThemeCustom" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/Translucent</item>
-    </style>
-
-    <style name="AppTheme" parent="AppThemeBase">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
@@ -48,5 +48,24 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <!--设置dialog的背景，此处为系统给定的透明值-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--Dialog的windowFrame框为无-->
+        <item name="android:windowFrame">@null</item>
+        <!--　　　　　　　 是否显示标题-->
+        <item name="android:windowNoTitle">true</item>　
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否半透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--是否有覆盖-->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--设置Activity出现方式-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <!--背景是否模糊显示-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 
 </resources>

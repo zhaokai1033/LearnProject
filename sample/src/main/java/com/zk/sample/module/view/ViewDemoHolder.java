@@ -1,4 +1,4 @@
-package com.zk.sample.module.demo;
+package com.zk.sample.module.view;
 
 import android.view.View;
 

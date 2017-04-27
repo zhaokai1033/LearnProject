@@ -3,6 +3,7 @@ package com.zk.sample.base.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
@@ -30,13 +31,29 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
     public final static String CUSTOM_FRAGMENT = "CUSTOM_FRAGMENT";
 
     @Override
+    protected void onHandleMessage(Message msg) {
+
+    }
+
+    @Override
+    protected int getStateContentView() {
+        return R.id.state_content;
+    }
+
+    @Override
     protected int getLayoutResId() {
         return R.layout.activity_custom;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        showStateView(State.LOADING);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideStateView();
+            }
+        }, 1000);
         setSupportActionBar(binding.toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,7 +74,7 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
         }
         Intent intent = new Intent(c, CustomActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        UIControl.startActivity(c,intent);
+        UIControl.startActivity(c, intent);
     }
 
     /**
@@ -83,6 +100,7 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
         DataCache.removeFromCache(CUSTOM_FRAGMENT);
         return baseFragment;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

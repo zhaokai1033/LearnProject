@@ -1,18 +1,30 @@
 package com.zk.sample.module.home;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.zk.sample.BuildConfig;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.databinding.FragmentWebBinding;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ================================================
@@ -50,7 +62,71 @@ public class WebFragment extends BaseFragment<FragmentWebBinding> {
             url = "https://github.com/zhaokai1033";
         }
         initImp(binding.web);
+        setClient(binding.web);
         binding.web.loadUrl(url);
+    }
+
+    private final Set<String> offlineResources = new HashSet<>();
+
+    private void fetchOfflineResources() {
+        AssetManager am = getActivity().getAssets();
+        try {
+            String[] res = am.list("offline_res");
+            if (res != null) {
+                Collections.addAll(offlineResources, res);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setClient(WebView web) {
+        fetchOfflineResources();
+        web.setWebViewClient(new WebViewClient() {
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                Log.d("WebViewActivity", "shouldInterceptRequest thread id: " + Thread.currentThread().getId());
+                int lastSlash = url.lastIndexOf("/");
+                if (lastSlash != -1) {
+                    String suffix = url.substring(lastSlash + 1);
+                    if (offlineResources.contains(suffix)) {
+                        String mimeType;
+                        if (suffix.endsWith(".js")) {
+                            mimeType = "application/x-javascript";
+                        } else if (suffix.endsWith(".css")) {
+                            mimeType = "text/css";
+                        } else {
+                            mimeType = "text/html";
+                        }
+                        try {
+                            InputStream is = getActivity().getAssets().open("offline_res/" + suffix);
+                            Log.i("shouldInterceptRequest", "use offline resource for: " + url);
+                            return new WebResourceResponse(mimeType, "UTF-8", is);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("shouldInterceptRequest", "load resource from internet, url: " + url);
+                return super.shouldInterceptRequest(view, url);
+            }
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                WebResourceResponse response;
+                response = super.shouldInterceptRequest(view, request);
+                if (url.contains("123icon.png")) {
+                    try {
+                        response = new WebResourceResponse("image/png", "UTF-8", getActivity().getAssets().open("icon.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return response;
+            }
+        });
     }
 
 

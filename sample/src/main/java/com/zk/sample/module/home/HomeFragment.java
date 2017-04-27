@@ -1,29 +1,27 @@
 package com.zk.sample.module.home;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.zk.baselibrary.util.ClassUtil;
-import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.SystemUtil;
-import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.R;
 import com.zk.sample.UIControl;
+import com.zk.sample.base.activity.TestActivity;
 import com.zk.sample.databinding.FragmentHomeBinding;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.module.binding.view.DataBindingFragment;
 import com.zk.sample.module.card.view.DemoCardFragment;
-import com.zk.sample.module.demo.ViewFragment;
+import com.zk.sample.module.view.ViewFragment;
+import com.zk.sample.module.dialog.DialogFragment;
+import com.zk.sample.module.file.FileListFragment;
 import com.zk.sample.module.permission.PermissionFragment;
 import com.zk.sample.module.recycle.view.RecycleViewFragment;
 import com.zk.sample.module.system.view.SystemFragment;
@@ -82,10 +80,28 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 UIControl.showCustomFragment(((BaseActivity) getActivity()), ClassUtil.createInstance(PermissionFragment.class));
             }
         });
+        binding.tvFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), ClassUtil.createInstance(FileListFragment.class));
+            }
+        });
         binding.video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SystemUtil.changeDirection(getActivity());
+            }
+        });
+        binding.btDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), ClassUtil.createInstance(DialogFragment.class));
+            }
+        });
+        binding.btBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIControl.startActivity(getActivity(), new Intent(getContext(), TestActivity.class));
             }
         });
         binding.tvText.setOnClickListener(new View.OnClickListener() {

@@ -5,7 +5,7 @@
 
         <variable
             name="holder"
-            type="com.zk.sample.module.demo.ViewDemoHolder" />
+            type="com.zk.sample.module.view.ViewDemoHolder" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,5 +43,16 @@
 
         </com.zk.baselibrary.widget.BadgeLayout>
 
+        <com.zk.baselibrary.widget.WaveTextView
+            android:id="@+id/wave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="加载中……"
+            android:textColor="#212121"
+            android:textSize="70sp" />
     </LinearLayout>
 </layout>

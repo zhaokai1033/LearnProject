@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -42,8 +43,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private BaseFra mCurrentFragment;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
         //开启手机屏幕自动旋转
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
@@ -77,6 +77,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         // call this method anywhere to update splash view data
         SplashView.updateSplashData(this, DataManager.getSplashUrl());
+    }
+
+    @Override
+    protected void onHandleMessage(Message msg) {
+    }
+
+    @Override
+    protected int getStateContentView() {
+        return 0;
     }
 
     @Override
