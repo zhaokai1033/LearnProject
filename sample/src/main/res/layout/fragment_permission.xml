@@ -26,6 +26,7 @@
                 android:focusableInTouchMode="true"
                 android:lineSpacingMultiplier="1.2"
                 android:scrollHorizontally="true"
+                android:text="@{holder.content}"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </ScrollView>
@@ -35,7 +36,16 @@
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="检测权限" />
+            android:onClick="@{holder.onClickListener}"
+            android:text="权限->应用监听权限" />
+
+        <Button
+            android:id="@+id/bt_over"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{holder.onClickListener}"
+            android:text="权限->应用弹窗权限" />
 
     </LinearLayout>
 </layout>

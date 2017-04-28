@@ -28,7 +28,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    protected void onActivityCreate(Bundle savedInstanceState) {
+    protected void onCreated(Bundle savedInstanceState) {
         setSwipeBackEnable(false);
         findViewById(R.id.bt_next1).setOnClickListener(this);
         findViewById(R.id.bt_next2).setOnClickListener(this);

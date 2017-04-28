@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.databinding.FragmentPermissionBinding;
@@ -18,6 +19,8 @@ import com.zk.sample.databinding.FragmentPermissionBinding;
 
 public class PermissionFragment extends BaseFragment<FragmentPermissionBinding> {
 
+    private PermissionHolder holder;
+
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_permission;
@@ -25,14 +28,19 @@ public class PermissionFragment extends BaseFragment<FragmentPermissionBinding> 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        final PermissionHolder holder = new PermissionHolder();
+        holder = new PermissionHolder(getActivity());
         binding.setHolder(holder);
-        holder.setShowText(binding.tvDes);
         binding.btState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.showDialog(getActivity());
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        holder.resume(getActivity());
     }
 }

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.skin.SkinBaseActivity;
 import com.zk.baselibrary.util.ToastUtil;
-import com.zk.baselibrary.widget.DotsTextView;
 import com.zk.baselibrary.widget.WaveTextView;
 import com.zk.sample.R;
 import com.zk.sample.module.binding.view.LoginDialogFragment;
@@ -37,18 +36,19 @@ public abstract class BaseActivity<VDB extends ViewDataBinding> extends SkinBase
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, getLayoutResId());
-        onActivityCreate(savedInstanceState);
+        onCreated(savedInstanceState);
     }
 
     /**
      * Activity 创建时调用
      */
-    protected abstract void onActivityCreate(Bundle savedInstanceState);
+    protected abstract void onCreated(Bundle savedInstanceState);
 
     @Override
-    protected void onActivityCreated(Bundle savedInstanceState) {
+    protected void onPostCreated(Bundle savedInstanceState) {
 
     }
+
     @Override
     public final void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);

@@ -48,12 +48,12 @@ public class DemoDialog extends BaseActivity<ActivityDialogBinding> {
     }
 
     @Override
-    protected void onActivityCreate(Bundle savedInstanceState) {
+    protected void onCreated(Bundle savedInstanceState) {
 
     }
 
     @Override
-    protected void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    protected void onPostCreated(@Nullable Bundle savedInstanceState) {
         binding.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

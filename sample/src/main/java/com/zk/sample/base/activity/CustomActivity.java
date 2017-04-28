@@ -46,12 +46,12 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
     }
 
     @Override
-    protected void onActivityCreate(Bundle savedInstanceState) {
+    protected void onCreated(Bundle savedInstanceState) {
 
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onPostCreated(@Nullable Bundle savedInstanceState) {
         showStateView(State.LOADING);
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -65,6 +65,7 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
         //添加要改变的控件属性
         dynamicAddView(binding.toolbar, "background", R.color.colorPrimary);
         changeFragment(null, getDefaultFragment(), false, false);
+        setSwipeBackEnable(true);
     }
 
     /**

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -42,6 +41,7 @@ import com.zk.baselibrary.widget.statusbar.StatusBarHelper;
 public abstract class BaseAct extends AppCompatActivity {
 
     private SwipeCloseLayout mSwipeClose;
+    private State mStateNeed = null;
 
 
     /**
@@ -88,11 +88,6 @@ public abstract class BaseAct extends AppCompatActivity {
         onTintStatusBar();
     }
 
-    @Override
-    public final void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
-    }
-
     /**
      * 添加状态页
      */
@@ -134,6 +129,9 @@ public abstract class BaseAct extends AppCompatActivity {
                 mStateViews[State.EMPTY.ordinal()].setVisibility(View.GONE);
             }
             mStateView.setVisibility(View.GONE);
+            if(mStateNeed !=null){
+                showStateView(mStateNeed);
+            }
         } else {
             throw new IllegalArgumentException("StateView should be ViewGroup");
         }
@@ -153,6 +151,7 @@ public abstract class BaseAct extends AppCompatActivity {
      */
     public void showStateView(State stateCode) {
         if (mStateView == null || mStateViews[stateCode.ordinal()] == null) {
+            mStateNeed = stateCode;
             return;
         }
         for (View view : mStateViews) {
@@ -287,13 +286,13 @@ public abstract class BaseAct extends AppCompatActivity {
         if (getStateContentView() != 0) {
             addStateView();
         }
-        onActivityCreated(savedInstanceState);
+        onPostCreated(savedInstanceState);
     }
 
     /**
      * Activity 被创建完成
      */
-    protected abstract void onActivityCreated(Bundle savedInstanceState);
+    protected abstract void onPostCreated(Bundle savedInstanceState);
 
     /**
      * 获取布局资源Id
