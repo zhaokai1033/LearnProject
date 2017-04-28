@@ -42,7 +42,7 @@ public class SwipeCloseLayout extends FrameLayout {
     /**
      * 是否可以滑动关闭页面
      */
-    private boolean mSwipeEnabled = true;
+    private boolean mSwipeEnabled = false;
     private boolean mIsAnimationFinished = true;
     private boolean mCanSwipe = false;
     private boolean mIgnoreSwipe = false;

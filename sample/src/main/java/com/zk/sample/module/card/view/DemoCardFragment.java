@@ -7,12 +7,11 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.zk.baselibrary.app.BaseAct;
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseActivity;
-import com.zk.sample.databinding.FragmentCardDemoBinding;
 import com.zk.sample.base.BaseFragment;
+import com.zk.sample.databinding.FragmentCardDemoBinding;
 import com.zk.sample.module.card.ViewHolderRefreshListener;
 import com.zk.sample.module.card.holder.VM_DemoCardFragment;
 
@@ -44,7 +43,6 @@ public class DemoCardFragment extends BaseFragment<FragmentCardDemoBinding> impl
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        addSwipeSpecialView(binding.viewPager);
         model = new VM_DemoCardFragment(this, binding, this);
         binding.setViewModel(model);
         binding.viewPager.addOnPageChangeListener(model.getOnPageChangeListener());
