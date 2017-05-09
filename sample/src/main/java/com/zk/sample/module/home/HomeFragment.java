@@ -11,20 +11,26 @@ import android.widget.TextView;
 
 import com.zk.baselibrary.util.ClassUtil;
 import com.zk.baselibrary.util.SystemUtil;
+import com.zk.baselibrary.util.ToastUtil;
 import com.zk.sample.R;
 import com.zk.sample.UIControl;
 import com.zk.sample.base.activity.TestActivity;
 import com.zk.sample.databinding.FragmentHomeBinding;
 import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
+import com.zk.sample.module.behavior.BehaviorActivity;
 import com.zk.sample.module.binding.view.DataBindingFragment;
 import com.zk.sample.module.card.view.DemoCardFragment;
+import com.zk.sample.module.refresh.PhotoActivity;
 import com.zk.sample.module.view.ViewFragment;
 import com.zk.sample.module.dialog.DialogFragment;
 import com.zk.sample.module.file.FileListFragment;
 import com.zk.sample.module.permission.PermissionFragment;
 import com.zk.sample.module.recycle.view.RecycleViewFragment;
 import com.zk.sample.module.system.view.SystemFragment;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * ================================================
@@ -111,6 +117,36 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 getActivity().setTitle("测试标题");
             }
         });
+        binding.btReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RejectTest test = new RejectTest();
+                try {
+                    Method method = RejectTest.class.getMethod("method", String.class);
+                    method.invoke(test, "参数123");
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        binding.btBehavior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BehaviorActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.btRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PhotoActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -122,6 +158,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         } else {
             v.getPaint().setShader(null);
             v.invalidate();
+        }
+    }
+
+    public class RejectTest {
+        public void method(String arg) {
+            ToastUtil.showToast(getActivity(), "成功调用" + arg);
         }
     }
 

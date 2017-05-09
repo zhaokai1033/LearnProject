@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseActivity;
@@ -26,6 +27,7 @@ import com.zk.sample.module.card.holder.VM_DemoCardFragment;
 public class DemoCardFragment extends BaseFragment<FragmentCardDemoBinding> implements ViewHolderRefreshListener {
 
     private HolderFace model;
+    private static final String TAG = "DemoCardFragment";
 
     public static DemoCardFragment newInstance() {
 
@@ -49,7 +51,8 @@ public class DemoCardFragment extends BaseFragment<FragmentCardDemoBinding> impl
         binding.viewPager.setAdapter(model.getAdapter());
         binding.viewPager.setPageMargin(UIUtil.dip2px(getContext(), 5));
         binding.viewPager.setOffscreenPageLimit(3);
-        ((BaseActivity) getActivity()).addSwipeSpecialView(binding.viewPager);
+        addSwipeSpecialView(binding.viewPager);
+        setSwipeBackEnable(false);
     }
 
     /**

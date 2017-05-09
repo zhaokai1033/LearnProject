@@ -58,6 +58,8 @@
         <activity
             android:name=".base.activity.TestActivity"
             android:theme="@style/ThemeCustom" />
+        <activity android:name=".module.behavior.BehaviorActivity" />
+        <activity android:name=".module.refresh.PhotoActivity" />
     </application>
 
 </manifest>

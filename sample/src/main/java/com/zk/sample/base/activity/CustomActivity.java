@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.zk.baselibrary.app.BaseFra;
 import com.zk.baselibrary.data.DataCache;
+import com.zk.baselibrary.util.LogUtil;
 import com.zk.sample.R;
 import com.zk.sample.UIControl;
 import com.zk.sample.app.SampleApplication;
@@ -29,6 +31,8 @@ public class CustomActivity extends BaseActivity<ActivityCustomBinding> {
 
     public final static String DEFAULT_FRAGMENT = "DEFAULT_FRAGMENT";
     public final static String CUSTOM_FRAGMENT = "CUSTOM_FRAGMENT";
+
+    private static final String TAG = "CustomActivity";
 
     @Override
     protected void onHandleMessage(Message msg) {

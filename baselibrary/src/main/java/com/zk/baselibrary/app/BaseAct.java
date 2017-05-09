@@ -40,7 +40,7 @@ import com.zk.baselibrary.widget.statusbar.StatusBarHelper;
 @SuppressWarnings("unused")
 public abstract class BaseAct extends AppCompatActivity {
 
-    private SwipeCloseLayout mSwipeClose;
+    public SwipeCloseLayout mSwipeClose;
     private State mStateNeed = null;
 
 
@@ -340,6 +340,7 @@ public abstract class BaseAct extends AppCompatActivity {
      */
     public void addSwipeSpecialView(View view) {
         if (mSwipeClose != null) {
+            LogUtil.d(TAG,"addSwipeSpecialView");
             mSwipeClose.addSpecialView(view);
         }
     }

@@ -54,5 +54,18 @@
             android:text="加载中……"
             android:textColor="#212121"
             android:textSize="70sp" />
+
+        <com.zk.sample.module.view.MyLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@color/colorAccent">
+
+            <com.zk.sample.module.view.MyView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="30dp"
+                android:background="@color/white" />
+
+        </com.zk.sample.module.view.MyLayout>
     </LinearLayout>
 </layout>

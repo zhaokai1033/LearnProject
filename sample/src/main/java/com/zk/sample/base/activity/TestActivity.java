@@ -2,11 +2,13 @@ package com.zk.sample.base.activity;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.zk.baselibrary.util.ClassUtil;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseActivity;
+import com.zk.sample.module.card.view.CardFragment;
 import com.zk.sample.module.permission.PermissionFragment;
 import com.zk.sample.module.view.ViewFragment;
 
@@ -29,7 +31,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreated(Bundle savedInstanceState) {
-        setSwipeBackEnable(false);
+        setSwipeBackEnable(true);
         findViewById(R.id.bt_next1).setOnClickListener(this);
         findViewById(R.id.bt_next2).setOnClickListener(this);
     }
@@ -46,7 +48,10 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                 replaceFragment(ClassUtil.createInstance(PermissionFragment.class), R.id.content_main, false);
                 break;
             case R.id.bt_next2:
-                replaceFragment(ClassUtil.createInstance(ViewFragment.class), R.id.content_main, false);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_main, ClassUtil.createInstance(CardFragment.class), CardFragment.class.getName());
+                transaction.commitAllowingStateLoss();
+//                replaceFragment(ClassUtil.createInstance(ViewFragment.class), R.id.content_main, false);
                 break;
         }
     }

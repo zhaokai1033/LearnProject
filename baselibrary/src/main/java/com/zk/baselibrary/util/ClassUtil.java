@@ -19,16 +19,11 @@ public class ClassUtil {
     @SuppressWarnings("TryWithIdenticalCatches")
     public static <T> T createInstance(Class<T> clazz) {
         T Instance = null;
-        String className = clazz.getName();
         try {
-            try {
-                Instance = (T) Class.forName(className).newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        } catch (ClassNotFoundException e) {
+            Instance = clazz.newInstance();
+        } catch (InstantiationException w) {
+            w.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 

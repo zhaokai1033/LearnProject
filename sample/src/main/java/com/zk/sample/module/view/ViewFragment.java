@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.zk.baselibrary.app.BaseAct;
 import com.zk.sample.R;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.databinding.FragmentViewDemoBinding;
@@ -34,5 +35,7 @@ public class ViewFragment extends BaseFragment<FragmentViewDemoBinding> {
         binding.bt1.setBadgeText("123");
         binding.bt2.setBadgeText("223aqwe");
         binding.wave.startWave();
+        setSwipeBackEnable(false);
+        ((BaseAct) getActivity()).setSwipeBackEnable(false);
     }
 }

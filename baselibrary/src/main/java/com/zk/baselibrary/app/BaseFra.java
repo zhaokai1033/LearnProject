@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.widget.SwipeCloseLayout;
 
 import java.lang.reflect.Field;
@@ -25,7 +26,7 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 public abstract class BaseFra extends Fragment {
-
+    private static final String TAG = "BaseFra";
     protected View mainView;
     private HashMap<String, View> stateView = new HashMap<>();
     protected LayoutInflater mInflater;
@@ -198,7 +199,9 @@ public abstract class BaseFra extends Fragment {
      */
     public void addSwipeSpecialView(View view) {
         if (mSwipeClose != null) {
+            LogUtil.d(TAG,"addSwipeSpecialView");
             mSwipeClose.addSpecialView(view);
+            ((BaseAct) getActivity()).addSwipeSpecialView(view);
         }
     }
 }

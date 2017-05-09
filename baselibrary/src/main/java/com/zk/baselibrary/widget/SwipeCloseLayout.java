@@ -22,7 +22,9 @@ import android.widget.FrameLayout;
 import com.zk.baselibrary.R;
 import com.zk.baselibrary.app.BaseAct;
 import com.zk.baselibrary.app.BaseFra;
+import com.zk.baselibrary.util.LogUtil;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -38,7 +40,7 @@ import java.util.WeakHashMap;
  */
 public class SwipeCloseLayout extends FrameLayout {
     private static final int ANIMATION_DURATION = 200;
-
+    private static final String TAG = "SwipeCloseLayout";
     /**
      * 是否可以滑动关闭页面
      */
@@ -64,7 +66,7 @@ public class SwipeCloseLayout extends FrameLayout {
     protected boolean mIsInjected;
 
     //    private List<WeakReference<View>> spcialView = new ArrayList<>();
-    private WeakHashMap<Integer, View> specialView = new WeakHashMap<>();
+    private HashMap<Integer, View> specialView = new HashMap<>();
 
     public SwipeCloseLayout(Context context) {
         this(context, null, 0);
@@ -137,6 +139,8 @@ public class SwipeCloseLayout extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
+//        shouldIntercept(ev);
+//        LogUtil.d(TAG, "mCanSwipe:" + mCanSwipe);
         return shouldIntercept(ev) || super.dispatchTouchEvent(ev);
     }
 
@@ -149,7 +153,9 @@ public class SwipeCloseLayout extends FrameLayout {
      * 是否需要拦截
      */
     private boolean shouldIntercept(@NonNull MotionEvent ev) {
-        if (!isTouchOnSpecialView(ev)) {
+        boolean isSpecial = isTouchOnSpecialView(ev);
+        LogUtil.d(TAG, "isSpecial:" + isSpecial);
+        if (!isSpecial) {
             if (mSwipeEnabled && !mCanSwipe && !mIgnoreSwipe) {
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_DOWN:
@@ -161,7 +167,7 @@ public class SwipeCloseLayout extends FrameLayout {
                     case MotionEvent.ACTION_MOVE:
                         float dx = ev.getX() - mDownX;
                         float dy = ev.getY() - mDownY;
-                        if (dx * dx + dy * dy > touchSlopLength) {
+                        if (dx > 0 && dx * dx + dy * dy > touchSlopLength) {
                             if (dy == 0f || Math.abs(dx / dy) > 1) {
                                 mDownX = ev.getX();
                                 mDownY = ev.getY();
@@ -180,6 +186,8 @@ public class SwipeCloseLayout extends FrameLayout {
             if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
                 mIgnoreSwipe = false;
             }
+        } else {
+            mCanSwipe = false;
         }
         return false;
     }
@@ -360,6 +368,7 @@ public class SwipeCloseLayout extends FrameLayout {
     }
 
     private boolean isTouchOnSpecialView(MotionEvent ev) {
+        LogUtil.d(TAG, "size:" + specialView.size());
         for (Map.Entry<Integer, View> entry : specialView.entrySet()) {
             if (inRangeOfView(entry.getValue(), ev)) {
                 return true;
@@ -373,6 +382,7 @@ public class SwipeCloseLayout extends FrameLayout {
         view.getLocationOnScreen(location);
         int x = location[0];
         int y = location[1];
-        return !(ev.getX() < x || ev.getX() > (x + view.getWidth()) || ev.getY() < y || ev.getY() > (y + view.getHeight()));
+        LogUtil.d(TAG, "\nx:" + x + " y:" + y + "\nX:" + ev.getX() + " Y:" + ev.getY() + "\nx:" + ev.getRawX() + " y:" + ev.getRawY());
+        return !(ev.getRawX() < x || ev.getRawX() > (x + view.getWidth()) || ev.getRawY() < y || ev.getRawY() > (y + view.getHeight()));
     }
 }

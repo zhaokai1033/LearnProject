@@ -109,6 +109,15 @@ public class LogUtil {
     /**
      * 打印info级别的log
      *
+     * @param msg 内容
+     */
+    public static void i(String msg) {
+        i(DEFAULT_TAG, msg);
+    }
+
+    /**
+     * 打印info级别的log
+     *
      * @param tag tag标签
      * @param msg 内容
      */
