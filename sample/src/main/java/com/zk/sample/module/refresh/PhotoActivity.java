@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.zk.baselibrary.widget.refresh.RefreshListener;
 import com.zk.baselibrary.widget.refresh.RefreshLayout;
+import com.zk.baselibrary.widget.refresh.game.FunGameHeader;
 import com.zk.sample.R;
 
 import java.util.ArrayList;
@@ -46,14 +47,19 @@ public class PhotoActivity extends AppCompatActivity {
 //        ProgressLayout headerView = new ProgressLayout(this);
 //        BezierLayout headerView = new BezierLayout(this);
 //        refreshLayout.setRefreshHeader(headerView);
-        refreshLayout.setMaxHeadHeight(140);
+//        refreshLayout.setHeaderHeight(140);
 //        refreshLayout.setFloatRefresh(true);
 //        refreshLayout.setPureScrollModeOn(true);
         refreshLayout.setOverScrollBottomShow(false);
         refreshLayout.setAutoLoadMore(true);
-        TextView textView = new TextView(this);
-        textView.setText("这是一个固定的头部");
-        refreshLayout.addHeader(textView);
+//        refreshLayout.setEnableKeepIView(false);
+        refreshLayout.setRefreshHeader(new FunGameHeader(this));
+
+//        refreshLayout.setPureScrollModeOn();
+
+//        TextView textView = new TextView(this);
+//        textView.setText("这是一个固定的头部");
+//        refreshLayout.addHeader(textView);
 
 //        addHeader();
         refreshCard();
@@ -73,7 +79,7 @@ public class PhotoActivity extends AppCompatActivity {
                         refreshCard();
                         refreshLayout.finishRefreshing();
                     }
-                }, 2000);
+                }, 10000);
             }
 
             @Override

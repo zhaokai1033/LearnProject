@@ -8,6 +8,7 @@ import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -15,10 +16,12 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.zk.baselibrary.R;
+import com.zk.baselibrary.util.ToastUtil;
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.baselibrary.widget.refresh.core.IHeaderView;
 import com.zk.baselibrary.widget.refresh.core.OnAnimEndListener;
@@ -118,6 +121,12 @@ public class RefreshLayout extends RelativeLayout implements PullListener, Neste
     private PullListener pullListener = this;
 
     private final NestedScrollingChildHelper mChildHelper;
+    private int screenWidth, screenHeight;
+
+    protected void initBaseConfigParams(Context context) {
+        screenWidth = getScreenMetrics(context).widthPixels;
+        screenHeight = getScreenMetrics(context).heightPixels;
+    }
 
     public RefreshLayout(Context context) {
         this(context, null, 0);
@@ -129,13 +138,15 @@ public class RefreshLayout extends RelativeLayout implements PullListener, Neste
 
     public RefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initBaseConfigParams(context);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RefreshLayout, defStyleAttr, 0);
         try {
-            mMaxHeadHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_max_head_height, (int) UIUtil.dip2px(context, 120));
-            mHeadHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_head_height, (int) UIUtil.dip2px(context, 80));
-            mMaxBottomHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_max_bottom_height, (int) UIUtil.dip2px(context, 120));
-            mBottomHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_bottom_height, (int) UIUtil.dip2px(context, 60));
+
+            mMaxHeadHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_max_head_height, UIUtil.dip2px(context, 200));
+            mHeadHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_head_height, ((int) (screenHeight * 0.161f)));
+            mMaxBottomHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_max_bottom_height, UIUtil.dip2px(context, 120));
+            mBottomHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_bottom_height, UIUtil.dip2px(context, 60));
             mOverScrollHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_tr_overscroll_height, (int) mHeadHeight);
             enableRefresh = a.getBoolean(R.styleable.RefreshLayout_tr_enable_refresh, true);
             enableLoadmore = a.getBoolean(R.styleable.RefreshLayout_tr_enable_loadmore, true);
@@ -195,6 +206,8 @@ public class RefreshLayout extends RelativeLayout implements PullListener, Neste
                 setRefreshHeader(new DefaultHeaderView(getContext()));
             }
         }
+//        mMaxHeadHeight = mHeadView.getView().getHeight() * 2;
+//        mHeadHeight = mHeadView.getView().getHeight();
     }
 
     private void addFooter() {
@@ -220,15 +233,16 @@ public class RefreshLayout extends RelativeLayout implements PullListener, Neste
                 setRefreshBottom(new DefaultBottomView(getContext()));
             }
         }
+//        mMaxBottomHeight = mBottomView.getView().getHeight();
+//        mBottomHeight = mBottomView.getView().getHeight();
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         //获得子控件
-        //onAttachedToWindow方法中mChildView始终是第0个child，把header、footer放到构造函数中，mChildView最后被inflate
+        //onAttachedToWindow 方法中mChildView始终是第0个child，把header、footer放到构造函数中，mChildView最后被inflate
         mChildView = getChildAt(3);
-
         cp.init();
         decorator = new OverScrollDecorator(cp, new RefreshProcessor(cp));
         initGestureDetector();
@@ -1188,5 +1202,18 @@ public class RefreshLayout extends RelativeLayout implements PullListener, Neste
         public void setPrepareFinishLoadMore(boolean prepareFinishLoadMore) {
             this.prepareFinishLoadMore = prepareFinishLoadMore;
         }
+    }
+
+    /**
+     * 获取屏幕尺寸
+     *
+     * @param context context
+     * @return 手机屏幕尺寸
+     */
+    private DisplayMetrics getScreenMetrics(Context context) {
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(dm);
+        return dm;
     }
 }
