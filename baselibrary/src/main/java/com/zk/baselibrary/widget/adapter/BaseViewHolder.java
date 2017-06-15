@@ -38,5 +38,6 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
     @SuppressWarnings("WeakerAccess")
     public void setOnItemClickListener(View.OnClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+        itemView.setOnClickListener(onItemClickListener);
     }
 }
