@@ -10,23 +10,24 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+
 
 import com.zk.baselibrary.R;
 import com.zk.baselibrary.app.BaseAct;
 import com.zk.baselibrary.app.BaseFra;
-import com.zk.baselibrary.util.LogUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * ================================================
@@ -40,7 +41,7 @@ import java.util.WeakHashMap;
  */
 public class SwipeCloseLayout extends FrameLayout {
     private static final int ANIMATION_DURATION = 200;
-    private static final String TAG = "SwipeCloseLayout";
+
     /**
      * 是否可以滑动关闭页面
      */
@@ -50,22 +51,21 @@ public class SwipeCloseLayout extends FrameLayout {
     private boolean mIgnoreSwipe = false;
     private boolean mHasIgnoreFirstMove;
 
-    protected BaseFra fragment;
-    protected BaseAct mActivity;
-    protected VelocityTracker tracker;
-    protected ObjectAnimator mAnimator;
-    protected Drawable mLeftShadow;
-    protected View mContent;
-    protected int mScreenWidth;
-    protected int touchSlopLength;
-    protected float mDownX;
-    protected float mDownY;
-    protected float mLastX;
-    protected float mCurrentX;
-    protected int mPullMaxLength;
-    protected boolean mIsInjected;
+    private BaseFra mFragment;
+    private BaseAct mActivity;
+    private VelocityTracker tracker;
+    private ObjectAnimator mAnimator;
+    private Drawable mLeftShadow;
+    private View mContent;
+    private int mScreenWidth;
+    private int touchSlopLength;
+    private float mDownX;
+    private float mDownY;
+    private float mLastX;
+    private float mCurrentX;
+    private int mPullMaxLength;
+    private boolean mIsInjected;
 
-    //    private List<WeakReference<View>> spcialView = new ArrayList<>();
     private HashMap<Integer, View> specialView = new HashMap<>();
 
     public SwipeCloseLayout(Context context) {
@@ -92,7 +92,7 @@ public class SwipeCloseLayout extends FrameLayout {
 
     public SwipeCloseLayout(Activity activity, BaseFra baseFra) {
         this(activity, null, 0);
-        this.fragment = baseFra;
+        this.mFragment = baseFra;
     }
 
     /**
@@ -102,22 +102,19 @@ public class SwipeCloseLayout extends FrameLayout {
     public void injectWindow() {
         if (mIsInjected)
             return;
-
-        final ViewGroup root = (ViewGroup) mActivity.getWindow().getDecorView();
-        mContent = root.getChildAt(0);
-        root.removeView(mContent);
-        this.addView(mContent, new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        root.addView(this);
+        if (mFragment != null) {
+            mContent = mFragment.getMainView();
+            addView(mFragment.getMainView());
+        } else {
+            final ViewGroup root = (ViewGroup) mActivity.getWindow().getDecorView();
+            mContent = root.getChildAt(0);
+            root.removeView(mContent);
+            this.addView(mContent, new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            root.addView(this);
+        }
         mIsInjected = true;
     }
 
-    public void injectFragmentWindow(View view) {
-        if (mIsInjected)
-            return;
-        mContent = view;
-        addView(view);
-        mIsInjected = true;
-    }
 
     public boolean isSwipeEnabled() {
         return mSwipeEnabled;
@@ -139,8 +136,6 @@ public class SwipeCloseLayout extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
-//        shouldIntercept(ev);
-//        LogUtil.d(TAG, "mCanSwipe:" + mCanSwipe);
         return shouldIntercept(ev) || super.dispatchTouchEvent(ev);
     }
 
@@ -153,9 +148,7 @@ public class SwipeCloseLayout extends FrameLayout {
      * 是否需要拦截
      */
     private boolean shouldIntercept(@NonNull MotionEvent ev) {
-        boolean isSpecial = isTouchOnSpecialView(ev);
-        LogUtil.d(TAG, "isSpecial:" + isSpecial);
-        if (!isSpecial) {
+        if (!isTouchOnSpecialView(ev)) {
             if (mSwipeEnabled && !mCanSwipe && !mIgnoreSwipe) {
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_DOWN:
@@ -167,8 +160,8 @@ public class SwipeCloseLayout extends FrameLayout {
                     case MotionEvent.ACTION_MOVE:
                         float dx = ev.getX() - mDownX;
                         float dy = ev.getY() - mDownY;
-                        if (dx > 0 && dx * dx + dy * dy > touchSlopLength) {
-                            if (dy == 0f || Math.abs(dx / dy) > 1) {
+                        if (dx * dx + dy * dy > touchSlopLength) {
+                            if ((dy == 0f || Math.abs(dx / dy) > 1) && (mCanSwipe || dx > 0)) {
                                 mDownX = ev.getX();
                                 mDownY = ev.getY();
                                 mCurrentX = mDownX;
@@ -186,8 +179,6 @@ public class SwipeCloseLayout extends FrameLayout {
             if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
                 mIgnoreSwipe = false;
             }
-        } else {
-            mCanSwipe = false;
         }
         return false;
     }
@@ -315,8 +306,11 @@ public class SwipeCloseLayout extends FrameLayout {
         mAnimator.start();
     }
 
+    /**
+     * 覆盖此方法 可重写最红关闭效果
+     */
     public void backImp() {
-        if (fragment != null) {
+        if (mFragment != null) {
             if (mActivity.getSupportFragmentManager().getBackStackEntryCount() > 1) {
                 mActivity.getSupportFragmentManager().popBackStackImmediate();
                 return;
@@ -324,9 +318,10 @@ public class SwipeCloseLayout extends FrameLayout {
         }
         if (!mActivity.isFinishing()) {
             mActivity.finish();
-            mActivity.overridePendingTransition(0, 0);
+            mActivity.overridePendingTransition(0, 0);//取消默认关闭动画
         }
     }
+
 
     private void animateFromVelocity(float v) {
         int currentX = (int) getContentX();
@@ -355,6 +350,7 @@ public class SwipeCloseLayout extends FrameLayout {
      * 添加特殊view 防止错划
      */
     public void addSpecialView(View view) {
+        if (view == null) return;
         specialView.put(view.hashCode(), view);
     }
 
@@ -362,18 +358,23 @@ public class SwipeCloseLayout extends FrameLayout {
      * 移出特殊view
      */
     public void removeSpecialView(View view) {
-        if (specialView.containsKey(view.hashCode())) {
+        if (view != null && specialView.containsKey(view.hashCode())) {
             specialView.remove(view.hashCode());
         }
     }
 
     private boolean isTouchOnSpecialView(MotionEvent ev) {
-        LogUtil.d(TAG, "size:" + specialView.size());
-        for (Map.Entry<Integer, View> entry : specialView.entrySet()) {
-            if (inRangeOfView(entry.getValue(), ev)) {
-                return true;
-            }
+//        if (MotionEvent.ACTION_DOWN == ev.getAction()) {
+        View scrollTouchTarget = getScrollTouchTarget(this, ((int) ev.getRawX()), ((int) ev.getRawY()));
+        if (scrollTouchTarget != null) {
+            return true;
         }
+//        }
+//        for (Map.Entry<Integer, View> entry : specialView.entrySet()) {
+//            if (inRangeOfView(entry.getValue(), ev)) {
+//                return true;
+//            }
+//        }
         return false;
     }
 
@@ -382,7 +383,61 @@ public class SwipeCloseLayout extends FrameLayout {
         view.getLocationOnScreen(location);
         int x = location[0];
         int y = location[1];
-        LogUtil.d(TAG, "\nx:" + x + " y:" + y + "\nX:" + ev.getX() + " Y:" + ev.getY() + "\nx:" + ev.getRawX() + " y:" + ev.getRawY());
         return !(ev.getRawX() < x || ev.getRawX() > (x + view.getWidth()) || ev.getRawY() < y || ev.getRawY() > (y + view.getHeight()));
+    }
+
+    /**
+     * 获取可以向 左侧滑的控件
+     *
+     * @param view 当前容器
+     * @param x    落点 X轴
+     * @param y    落点 Y轴
+     * @return 可以向左侧滑的控件
+     */
+    private View getScrollTouchTarget(View view, int x, int y) {
+        View target = null;
+        ArrayList<View> TouchableViews = view.getTouchables();
+        for (View child : TouchableViews) {
+
+            if (target != null) {
+                break;
+            }
+            //判断当前可触摸的控件是否在点击范围内
+            //当前控件是否可以向右侧滑
+            if (child.canScrollHorizontally(-1) && isTouchPointInView(child, x, y)) {
+                target = child;
+                break;
+            } else {
+                //检查父控件是否可以滑动
+                //父控件不为空且父控件不等于view
+                while (child.getParent() != null) {
+                    ViewParent viewParent = child.getParent();
+                    if (viewParent instanceof View) {
+                        child = ((View) viewParent);
+                        if (child.canScrollHorizontally(-1) && isTouchPointInView(child, x, y)) {
+                            target = child;
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        return target;
+    }
+
+    private boolean isTouchPointInView(View view, int x, int y) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getMeasuredWidth();
+        int bottom = top + view.getMeasuredHeight();
+        if (y >= top && y <= bottom
+                && x >= left && x <= right) {
+            return true;
+        }
+        return false;
     }
 }

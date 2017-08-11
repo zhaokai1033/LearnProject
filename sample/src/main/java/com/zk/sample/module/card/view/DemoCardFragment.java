@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.zk.baselibrary.app.BaseAct;
 import com.zk.baselibrary.util.LogUtil;
 import com.zk.baselibrary.util.UIUtil;
 import com.zk.sample.R;
@@ -52,7 +53,7 @@ public class DemoCardFragment extends BaseFragment<FragmentCardDemoBinding> impl
         binding.viewPager.setPageMargin(UIUtil.dip2px(getContext(), 5));
         binding.viewPager.setOffscreenPageLimit(3);
         addSwipeSpecialView(binding.viewPager);
-        setSwipeBackEnable(false);
+        setSwipeBackEnable(true);
     }
 
     /**

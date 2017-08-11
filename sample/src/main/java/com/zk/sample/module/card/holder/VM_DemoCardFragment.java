@@ -43,14 +43,9 @@ public class VM_DemoCardFragment implements DemoCardFragment.HolderFace {
                 super.onPageSelected(position);
             }
         };
-        mFragmentAdapter = new
-
-                CardFragmentAdapter(fragment.getChildFragmentManager(), UIUtil.
-
-                dip2px(fragment.getContext(), 2));
-        mCardAdapter = new
-
-                CardViewAdapter();
+        mFragmentAdapter = new CardFragmentAdapter(fragment.getChildFragmentManager(),
+                UIUtil.dip2px(fragment.getContext(), 2));
+        mCardAdapter = new CardViewAdapter();
         mCardAdapter.addCardItems(DataManager.getCards());
     }
 

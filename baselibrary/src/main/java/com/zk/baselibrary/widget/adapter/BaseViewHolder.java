@@ -35,6 +35,9 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         return onItemClickListener;
     }
 
+    /**
+     * 直接由适配器 添加的itemClick 类似list
+     */
     @SuppressWarnings("WeakerAccess")
     public void setOnItemClickListener(View.OnClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;

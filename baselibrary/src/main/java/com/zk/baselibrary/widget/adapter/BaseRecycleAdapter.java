@@ -36,7 +36,9 @@ abstract class BaseRecycleAdapter<T, VH extends BaseViewHolder<T>> extends Recyc
 
     /**
      * 条目点击事件
+     * 建议在条目中实现点击效果
      */
+    @Deprecated
     @SuppressWarnings("WeakerAccess")
     protected View.OnClickListener getOnItemClick() {
         return null;
