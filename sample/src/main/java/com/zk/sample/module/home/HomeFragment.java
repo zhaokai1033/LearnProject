@@ -21,6 +21,7 @@ import com.zk.sample.base.BaseActivity;
 import com.zk.sample.base.BaseFragment;
 import com.zk.sample.base.activity.TestActivity;
 import com.zk.sample.databinding.FragmentHomeBinding;
+import com.zk.sample.module.aidl.AidlFragment;
 import com.zk.sample.module.behavior.BehaviorActivity;
 import com.zk.sample.module.binding.view.DataBindingFragment;
 import com.zk.sample.module.card.view.DemoCardFragment;
@@ -49,7 +50,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
     public static final String[] items = new String[]{
             "卡片", "DataBinding->Observe+event", "DataBinding->recycleView", "SystemUi",
             "切换方向", "文字示例", "控件示例", "权限示例", "文件管理", "对话框", "侧滑返回", "反射调用",
-            "滑动行为", "列表刷新"
+            "滑动行为", "列表刷新","AIDL"
     };
 
     @Override
@@ -144,6 +145,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 break;
             case "列表刷新":
                 startActivity(new Intent(getActivity(), PhotoActivity.class));
+                break;
+            case "AIDL":
+                UIControl.showCustomFragment(((BaseActivity) getActivity()), ClassUtil.createInstance(AidlFragment.class));
                 break;
         }
     }

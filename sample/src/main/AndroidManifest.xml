@@ -60,6 +60,17 @@
             android:theme="@style/ThemeCustom" />
         <activity android:name=".module.behavior.BehaviorActivity" />
         <activity android:name=".module.refresh.PhotoActivity" />
+
+
+        <service
+            android:name=".module.aidl.BackService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.zk.sample.module.aidl.BackService" />
+            </intent-filter>
+
+        </service>
     </application>
 
 </manifest>

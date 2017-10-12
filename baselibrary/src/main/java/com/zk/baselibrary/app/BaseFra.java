@@ -339,4 +339,11 @@ public abstract class BaseFra extends Fragment {
     protected void onStateClick(View view, StatePage state) {
 
     }
+
+    /**
+     * 查找控件
+     */
+    protected View findViewById(int id) {
+        return getMainView().findViewById(id);
+    }
 }
